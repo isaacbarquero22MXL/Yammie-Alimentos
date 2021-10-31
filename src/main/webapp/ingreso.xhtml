@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <h:head>
+        <meta charset="UTF-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <!-- =================== Box icons ================= -->
+        <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'/>
+        <link rel="shortcut icon" href="images/YammieLogoIcon.png" type="image/x-icon"/>
+        <!-- ============= main css ========= -->
+        <link rel="stylesheet" href="css/style.css"/>
+        <link rel="stylesheet" href="css/ingreso.css"/>
+
+        <title>Yammie - Ingreso</title>
+    </h:head>
+    <h:body>
+        <h:form>
+            <main class="section" id="main">
+                <div class="login_logo" onclick="animation()">
+                    <img src="images/YammieLogo.png" alt="logo" class="login_logo-img"/>
+                </div>
+                <div class="login_content">
+                    <a href="index.xhtml" class="login_back"><i class='bx bx-arrow-back go_back'></i>Regresar</a>
+                    <h1 class="login_title">Iniciar Sesión</h1>
+                    <div class="login_form section">
+                        <div class="login_section">
+                            <div class="login_icon">
+                                <i class='bx bxs-user user_icon'></i>
+                            </div>
+                            <div class="login_inputs">
+                                <h5>Correo Electrónico</h5>
+                                <h:inputText class="input"></h:inputText>
+                            </div>
+                        </div>
+                        <div class="login_section">
+                            <div class="login_icon">
+                                <i class='bx bxs-lock-alt lock_icon'></i>
+                            </div>
+                            <div class="login_inputs">
+                                <h5>Contraseña</h5>
+                                <h:inputSecret class="input"></h:inputSecret>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="login_btn">
+                        <h:commandButton class="button" value="Iniciar Sesión"></h:commandButton>
+                    </div>
+                    <div class="login_links section">
+                        <a href="#" class="login_link">Ayuda</a>
+                        <a href="#" class="login_link">¿Olvidó su contraseña?</a>
+                    </div>
+                    <hr/>
+                        <div class="login_register section">
+                            <p class="login_register-p">
+                                ¿No tiene una cuenta? 
+                                <a href="#" class="register">Regístrese</a>
+                            </p>
+                        </div>
+                </div>
+            </main>
+            <!-- Scroll reveal JS -->
+            <script src="js/scrollreveal.min.js"></script>
+            <!-- Ingreso JS  -->
+            <script src="js/ingreso.js"></script>
+        </h:form>
+    </h:body>
+</html>
+
