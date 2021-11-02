@@ -24,7 +24,7 @@
                 </div>
                 <div class="login_content">
                     <a href="index.xhtml" class="login_back"><i class='bx bx-arrow-back go_back'></i>Regresar</a>
-                    <h1 class="login_title">Crear una cuenta</h1>
+                    <h1 class="login_title">Crear una cuenta <br/> Datos personales</h1>
                     <div class="login_content-container container_one">
                         <div class="login_form section">
                             <div class="login_section">
@@ -157,6 +157,29 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="login_form section horario">
+                            <div class="login_section">
+                                <div class="login_icon">
+                                    <i class='bx bxs-location-plus' ></i>
+                                </div>
+                                <div class="login_inputs">
+                                    <h5 class="login_location">Horario de Entrega (Desde)</h5>
+                                    <select name="comboProv" class="input combo">
+                                        <option value="Seleccionar">Seleccione</option>
+                                    </select>
+                                </div>
+                            </div><div class="login_section">
+                                <div class="login_icon">
+                                    <i class='bx bxs-location-plus' ></i>
+                                </div>
+                                <div class="login_inputs">
+                                    <h5 class="login_location">Horario de Entrega (Hasta)</h5>
+                                    <select name="comboProv" class="input combo">
+                                        <option value="Seleccionar">Seleccione</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="login_register section">
                         <p class="login_register-p">
@@ -170,13 +193,13 @@
                         <h:commandButton type="button" class="button btn" onclick="moverPanel()" value="Retroceder"></h:commandButton>
                     </div>
                     <hr/>
-                        <div class="login_links section">
-                            <a href="#" class="login_link">Ayuda</a>
-                            <p class="login_register-p"> 
-                                ¿Ya tiene una cuenta?
-                                <a href="ingreso.xhtml" class="register">Iniciar Sesión</a>
-                            </p>
-                        </div>
+                    <div class="login_links section">
+                        <a href="#" class="login_link">Ayuda</a>
+                        <p class="login_register-p"> 
+                            ¿Ya tiene una cuenta?
+                            <a href="ingreso.xhtml" class="register">Iniciar Sesión</a>
+                        </p>
+                    </div>
                 </div>
             </main>
             <!-- Scroll reveal JS -->

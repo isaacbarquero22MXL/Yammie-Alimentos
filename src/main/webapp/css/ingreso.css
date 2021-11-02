@@ -68,9 +68,10 @@ body{
 .login_title{
     margin: 0 auto;
     margin-top: 2.5rem;
+    text-align: center;
 }
 
-
+  
 /* =============== login section =========== */
 
 .login_section{
@@ -186,6 +187,10 @@ body{
     display: initial;
 }
 
+.horario{
+    padding: 0 1rem;
+}
+
 
 
 /* animacion logo */
@@ -235,6 +240,10 @@ body{
         grid-template-columns: repeat(1, 1fr) !important;
     }
 
+    .horario h5 {
+        font-size: .6rem;
+    }
+
 }
 
 /* dispositivos medianos */
@@ -272,10 +281,6 @@ body{
         display: grid;
         grid-template-columns: repeat(2, 1fr);
     }
-    
-    .sign_in{
-        grid-template-columns: repeat(1, 1fr);
-    }
 
 } 
 
@@ -286,6 +291,9 @@ body{
         margin: 0 auto ;
     }
 
+    .sign_in{
+        grid-template-columns: repeat(1, 1fr);
+    }
 } 
 
 @media screen and (min-width: 1700px){

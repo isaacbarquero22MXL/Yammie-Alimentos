@@ -52,17 +52,20 @@ let botones = document.querySelectorAll('.btn');
 let panelViewed = 1;
 let panels = document.querySelectorAll('.login_content-container');
 let divBtn = document.querySelectorAll('.login_btn');
+let loginTitle = document.querySelectorAll('.login_title');
 function moverPanel(){
     if(panelViewed == 1){
         panels[0].style.transform = 'translateX(-150%)';
         panels[1].style.transform = 'translateX(-150%)';
         divBtn[0].style.gridTemplateColumns = 'repeat(2, 1fr)';
+        loginTitle[0].innerHTML = "Crear una cuenta <br/> Dirección y Horarios";
         showBtn();
         panelViewed = 2;
     }else{
         panels[1].style.transform = 'translateX(150%)';
         panels[0].style.transform = 'translateX(0)';
         divBtn[0].style.gridTemplateColumns = 'repeat(1, 1fr)';
+        loginTitle[0].innerHTML = "Crear una cuenta <br/> Datos personales tet";
         notShowBtn();
         panelViewed = 1;
     }
