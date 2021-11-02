@@ -1,0 +1,189 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <meta charset="UTF-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <!-- =================== Box icons ================= -->
+        <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'/>
+        <link rel="shortcut icon" href="images/YammieLogoIcon.png" type="image/x-icon"/>
+        <!-- ============= main css ========= -->
+        <link rel="stylesheet" href="css/style.css"/>
+        <link rel="stylesheet" href="css/ingreso.css"/>
+
+        <title>Yammie - Ingreso</title>
+    </h:head>
+    <h:body>
+        <h:form>
+            <main class="section" id="main">
+                <div class="login_logo" onclick="animation()">
+                    <img src="images/YammieLogo.png" alt="logo" class="login_logo-img"/>
+                </div>
+                <div class="login_content">
+                    <a href="index.xhtml" class="login_back"><i class='bx bx-arrow-back go_back'></i>Regresar</a>
+                    <h1 class="login_title">Crear una cuenta</h1>
+                    <div class="login_content-container container_one">
+                        <div class="login_form section">
+                            <div class="login_section">
+                                <div class="login_icon">
+                                    <i class='bx bxs-id-card'></i>
+                                </div>
+                                <div class="login_inputs">
+                                    <h5>Cédula</h5>
+                                    <h:inputText class="input"></h:inputText>
+                                </div>
+                            </div>
+                            <div class="login_section">
+                                <div class="login_icon">
+                                    <i class='bx bxs-user user_icon'></i>
+                                </div>
+                                <div class="login_inputs">
+                                    <h5>Nombre</h5>
+                                    <h:inputText class="input"></h:inputText>
+                                </div>
+                            </div>
+                            <div class="login_section">
+                                <div class="login_icon">
+                                    <i class='bx bxs-user user_icon'></i>
+                                </div>
+                                <div class="login_inputs">
+                                    <h5>Primer Apellido</h5>
+                                    <h:inputText class="input"></h:inputText>
+                                </div>
+                            </div>
+                            <div class="login_section">
+                                <div class="login_icon">
+                                    <i class='bx bxs-user user_icon'></i>
+                                </div>
+                                <div class="login_inputs">
+                                    <h5>Segundo Apellido</h5>
+                                    <h:inputText class="input"></h:inputText>
+                                </div>
+                            </div>
+                            <div class="login_section">
+                                <div class="login_icon">
+                                    <i class='bx bxs-user user_icon'></i>
+                                </div>
+                                <div class="login_inputs">
+                                    <h5>Correo Electrónico</h5>
+                                    <h:inputText class="input"></h:inputText>
+                                </div>
+                            </div>
+                            <div class="login_section">
+                                <div class="login_icon">
+                                    <i class='bx bxs-phone'></i>
+                                </div>
+                                <div class="login_inputs">
+                                    <h5>Teléfono</h5>
+                                    <h:inputText class="input"></h:inputText>
+                                </div>
+                            </div>
+                            <div class="login_section">
+                                <div class="login_icon">
+                                    <i class='bx bxs-lock-alt lock_icon'></i>
+                                </div>
+                                <div class="login_inputs">
+                                    <h5>Contraseña</h5>
+                                    <h:inputSecret class="input"></h:inputSecret>
+                                </div>
+                            </div>
+                            <div class="login_section">
+                                <div class="login_icon">
+                                    <i class='bx bxs-lock-alt lock_icon'></i>
+                                </div>
+                                <div class="login_inputs">
+                                    <h5>Confirmar contraseña</h5>
+                                    <h:inputSecret class="input"></h:inputSecret>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="login_content-container container_two">
+                        <div class="login_form section">
+                            <div class="login_section">
+                                <div class="login_icon">
+                                    <i class='bx bxs-location-plus' ></i>
+                                </div>
+                                <div class="login_inputs">
+                                    <h5 class="login_location">Provincia</h5>
+                                    <h:selectOneMenu class="input combo">
+                                        <f:selectItem itemValue="Seleccione"></f:selectItem>
+                                    </h:selectOneMenu>
+                                </div>
+                            </div>
+                            <div class="login_section">
+                                <div class="login_icon">
+                                    <i class='bx bxs-location-plus' ></i>
+                                </div>
+                                <div class="login_inputs">
+                                    <h5 class="login_location">Cantón</h5>
+                                    <h:selectOneMenu class="input combo">
+                                        <f:selectItem itemValue="Seleccione"></f:selectItem>
+                                    </h:selectOneMenu>
+                                </div>
+                            </div>
+                            <div class="login_section">
+                                <div class="login_icon">
+                                    <i class='bx bxs-location-plus' ></i>
+                                </div>
+                                <div class="login_inputs">
+                                    <h5 class="login_location">Distrito</h5>
+                                    <h:selectOneMenu class="input combo">
+                                        <f:selectItem itemValue="Seleccione"></f:selectItem>
+                                    </h:selectOneMenu>
+                                </div>
+                            </div>
+                            <div class="login_section">
+                                <div class="login_icon">
+                                    <i class='bx bxs-location-plus' ></i>
+                                </div>
+                                <div class="login_inputs">
+                                    <h5 class="login_location">Barrio</h5>
+                                    <h:selectOneMenu class="input combo">
+                                        <f:selectItem itemValue="Seleccione"></f:selectItem>
+                                    </h:selectOneMenu>
+                                </div>
+                            </div>
+                            <div class="login_section">
+                                <div class="login_icon">
+                                    <i class='bx bxs-location-plus' ></i>
+                                </div>
+                                <div class="login_inputs">
+                                    <h5>Otras Señas</h5>
+                                    <h:inputText class="input"></h:inputText>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="login_register section">
+                        <p class="login_register-p">
+                            Al hacer clic en registrar, confirmo que he leído y acepto:
+                            <a href="#" class="register">Términos y condiciones del sitio web de Yammie.</a>
+                        </p>
+                    </div>
+                    <div class="login_btn">
+                        <h:commandButton type="button" class="button btn" onclick="moverPanel()" value="Siguiente"></h:commandButton>
+                        <h:commandButton type="submit" class="button btn" value="Registrarme"></h:commandButton>
+                        <h:commandButton type="button" class="button btn" onclick="moverPanel()" value="Retroceder"></h:commandButton>
+                    </div>
+                    <hr/>
+                        <div class="login_links section">
+                            <a href="#" class="login_link">Ayuda</a>
+                            <p class="login_register-p"> 
+                                ¿Ya tiene una cuenta?
+                                <a href="ingreso.xhtml" class="register">Iniciar Sesión</a>
+                            </p>
+                        </div>
+                </div>
+            </main>
+            <!-- Scroll reveal JS -->
+            <script src="js/scrollreveal.min.js"></script>
+            <!-- Ingreso JS  -->
+            <script src="js/ingreso.js"></script>
+        </h:form>
+    </h:body>
+</html>
+
