@@ -1,7 +1,8 @@
 
 // ICON ANIMATION 
-const logo = document.getElementsByClassName('login_logo-img')[0];
-let animationDone = 1;
+const logo = document.querySelectorAll('login_logo-img')[0];
+let animationDone = 1; 
+
 function animation() {
     if (animationDone == 1) {
         animationDone = 0;
@@ -18,7 +19,7 @@ const combos = document.querySelectorAll('.login_location');
 function focusInput(){
     let parent = this.parentNode.parentNode;
     parent.classList.add('focus');
-}
+} 
 
 function removeFocus(){
     let parent = this.parentNode.parentNode;
@@ -34,14 +35,14 @@ input.forEach(input => {
 
 combos.forEach( combo => {
     combo.addEventListener('click', focusInput);
-})
+});
 
 const sr = ScrollReveal({
     origin: 'top',
     distance: '60px',
     duration: 2000,
-    delay: 300,
-})
+    delay: 300
+});
 
 sr.reveal('.login_content'); 
 
@@ -58,14 +59,14 @@ function moverPanel(){
         panels[0].style.transform = 'translateX(-150%)';
         panels[1].style.transform = 'translateX(-150%)';
         divBtn[0].style.gridTemplateColumns = 'repeat(2, 1fr)';
-        loginTitle[0].innerHTML = "Crear una cuenta <br/> Dirección y Horarios";
+        loginTitle[0].innerHTML = "Crear una cuenta <br> Direcci\u00F3n y Horarios";
         showBtn();
         panelViewed = 2;
     }else{
         panels[1].style.transform = 'translateX(150%)';
         panels[0].style.transform = 'translateX(0)';
         divBtn[0].style.gridTemplateColumns = 'repeat(1, 1fr)';
-        loginTitle[0].innerHTML = "Crear una cuenta <br/> Datos personales tet";
+        loginTitle[0].innerHTML = "Crear una cuenta <br> Datos personales";
         notShowBtn();
         panelViewed = 1;
     }
