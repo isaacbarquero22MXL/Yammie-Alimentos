@@ -7,19 +7,19 @@
         <meta charset="UTF-8"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-            <!-- =================== Box icons ================= -->
+        <!-- =================== Box icons ================= -->
         <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'/>
         <link rel="shortcut icon" href="images/YammieLogoIcon.png" type="image/x-icon"/>
 
-            <!-- bootstrap -->
-            <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-                integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> -->
+        <!-- bootstrap -->
+        <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+            integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> -->
 
-            <!-- Swiper CSS-->
+        <!-- Swiper CSS-->
         <link rel="stylesheet" href="css/swiper-bundle.min.css"/>
 
-            <!-- Main CSS     -->
-            <link rel="stylesheet" href="css/style.css"/>
+        <!-- Main CSS     -->
+        <link rel="stylesheet" href="css/style.css"/>
         <title>Yammie Alimentos</title>
     </h:head>
     <h:body>
@@ -27,9 +27,17 @@
             <!-- ====================HEADER ======================= -->
             <header class="header" id="header">
                 <nav class="nav main_container">
-                    <a href="index.xhtml">
-                        <img src="images/YammieLogo.png" alt="" class="nav_logo-img"/>
-                    </a>
+                    <div class="nav_logo">
+                        <a href="index.xhtml">
+                            <img src="images/YammieLogo.png" alt="" class="nav_logo-img"/>
+                            <span class="snowflake"></span>
+                            <span class="snowflake"></span>
+                            <span class="snowflake"></span>
+                            <span class="snowflake"></span>
+                            <span class="snowflake"></span>
+                            <span class="snowflake"></span>
+                        </a>
+                    </div>
                     <div class="nav_menu" id="nav-menu">
                         <ul class="nav_list">
                             <li class="nav_item">
@@ -45,15 +53,15 @@
                                 <a href="#" class="nav_link">Contacto</a>
                             </li>
                             <hr class="divisor"/>
-                                <li class="nav_item">
-                                    <a href="#" class="nav_link"></a>
-                                </li>
-                                <li class="nav_item">
-                                    <a href="ingreso.xhtml" class="nav_link button login">
-                                        Iniciar Sesión
-                                        <i class='bx bxs-user loginIcon'></i>
-                                    </a>
-                                </li>
+                            <li class="nav_item">
+                                <a href="#" class="nav_link"></a>
+                            </li>
+                            <li class="nav_item">
+                                <a href="ingreso.xhtml" class="nav_link button login">
+                                    Iniciar Sesión
+                                    <i class='bx bxs-user loginIcon'></i>
+                                </a>
+                            </li>
                         </ul>
                         <div class="nav_close" id="nav-close">
                             <i class='bx bx-x'></i>
@@ -75,12 +83,12 @@
                                 <div class="home_content grid">
                                     <div class="home_group">
                                         <img class="home_img" src="images/hamburguesa.png" alt=""/>
-                                            <div class="home_indicator"></div>
+                                        <div class="home_indicator"></div>
 
-                                            <div class="home_details-img">
-                                                <h4 class="home_details-title">Comida rápida</h4>
-                                                <span class="home_details-subtitle">100% sabor original</span>
-                                            </div>
+                                        <div class="home_details-img">
+                                            <h4 class="home_details-title">Comida rápida</h4>
+                                            <span class="home_details-subtitle">100% sabor original</span>
+                                        </div>
                                     </div>
 
                                     <div class="home_data">
@@ -102,12 +110,12 @@
                                 <div class="home_content grid">
                                     <div class="home_group">
                                         <img class="home_img" src="images/batido.png" alt=""/>
-                                            <div class="home_indicator"></div>
+                                        <div class="home_indicator"></div>
 
-                                            <div class="home_details-img">
-                                                <h4 class="home_details-title">Tus Bebidas Favoritas</h4>
-                                                <span class="home_details-subtitle">Variedad de sabores</span>
-                                            </div>
+                                        <div class="home_details-img">
+                                            <h4 class="home_details-title">Tus Bebidas Favoritas</h4>
+                                            <span class="home_details-subtitle">Variedad de sabores</span>
+                                        </div>
                                     </div>
 
                                     <div class="home_data">
@@ -129,12 +137,12 @@
                                 <div class="home_content grid">
                                     <div class="home_group">
                                         <img class="home_img" src="images/pastel.png" alt=""/>
-                                            <div class="home_indicator"></div>
+                                        <div class="home_indicator"></div>
 
-                                            <div class="home_details-img">
-                                                <h4 class="home_details-title">Respostería</h4>
-                                                <span class="home_details-subtitle">Dulce y salada</span>
-                                            </div>
+                                        <div class="home_details-img">
+                                            <h4 class="home_details-title">Respostería</h4>
+                                            <span class="home_details-subtitle">Dulce y salada</span>
+                                        </div>
                                     </div>
 
                                     <div class="home_data">
@@ -162,23 +170,23 @@
                     <div class="category_container containerM grid">
                         <div class="category_data">
                             <img src="images/papas.png" alt="papas" class="category_img"/>
-                                <h3 class="category_title">Frituras</h3>
-                                <p class="category_description">Papas fritas, pollo frito, tacos, pizza.</p>
+                            <h3 class="category_title">Frituras</h3>
+                            <p class="category_description">Papas fritas, pollo frito, tacos, pizza.</p>
                         </div>
                         <div class="category_data">
                             <img src="images/cafeH.png" alt="bebida" class="category_img"/>
-                                <h3 class="category_title">Bebidas</h3>
-                                <p class="category_description">Cafe Helado, batidos, bebidas calientes.</p>
+                            <h3 class="category_title">Bebidas</h3>
+                            <p class="category_description">Cafe Helado, batidos, bebidas calientes.</p>
                         </div>
                         <div class="category_data">
                             <img src="images/postre.png" alt="papas" class="category_img"/>
-                                <h3 class="category_title">Postres</h3>
-                                <p class="category_description">Helado, Flanes, Yogurts, Pastel, Pastelillos.</p>
+                            <h3 class="category_title">Postres</h3>
+                            <p class="category_description">Helado, Flanes, Yogurts, Pastel, Pastelillos.</p>
                         </div>
                         <div class="category_data">
                             <img src="images/pasta.png" alt="papas" class="category_img"/>
-                                <h3 class="category_title">Pastas</h3>
-                                <p class="category_description">Fideos, Ramen, Macarrones.</p>
+                            <h3 class="category_title">Pastas</h3>
+                            <p class="category_description">Fideos, Ramen, Macarrones.</p>
                         </div>
                     </div>
                 </section>
@@ -213,7 +221,7 @@
                     <div class="footer_content">
                         <a href="#" class="footer_logo-content">
                             <img src="images/YammieLogoIcon.png" alt="" class="footer_logo"/>
-                                Yammie
+                            Yammie
                         </a>
                         <p class="footer_description">Disfruta de nuestro sabor original.</p>
 
