@@ -1,14 +1,14 @@
 
 // ICON ANIMATION 
-const logo = document.querySelectorAll('login_logo-img')[0];
+let logo = document.querySelectorAll('.login_logo-img');
 let animationDone = 1; 
 
 function animation() {
     if (animationDone == 1) {
         animationDone = 0;
-        logo.classList.add('freed');
+        logo[0].classList.add('freed');
         setTimeout(function () {
-            logo.classList.remove('freed');
+            logo[0].classList.remove('freed');
             animationDone = 1;
         }, 2500);
     }

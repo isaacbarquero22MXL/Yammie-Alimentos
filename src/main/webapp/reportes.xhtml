@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <meta charset="UTF-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <!-- =================== Box icons ================= -->
+        <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'/>
+        <link rel="shortcut icon" href="images/YammieLogoIcon.png" type="image/x-icon"/>
+        <!-- ============= main css ========= -->
+        <link rel="stylesheet" href="css/style.css"/>
+        <link rel="stylesheet" href="css/ingreso.css"/>
+        <link rel="stylesheet" href="css/registroProd.css"/>
+        <link rel="stylesheet" href="css/mantenimiento.css"/>
+        <link rel="stylesheet" href="css/HorariosDirecciones.css"/>
+        <link rel="stylesheet" href="css/factura.css"/>
+        <link rel="stylesheet" href="css/despacho.css"/>
+        <link rel="stylesheet" href="css/reporte.css"/>
+
+        <title>Yammie - Reportes</title>
+    </h:head>
+    <h:body>
+        <h:form acceptcharset="UTF-8">
+            <main class="section" id="main">
+                <div class="login_logo" onclick="animation()">
+                    <img src="images/YammieLogo.png" alt="logo" class="login_logo-img"/>
+                </div>
+                <div class="login_content">
+                    <a href="principal.xhtml" class="login_back"><i class='bx bx-arrow-back go_back'></i>Regresar</a>
+                    <h1 class="login_title">Reportes</h1>
+                    <div class="login_form sign_in section">
+                        <div class="login_content-container container_two">
+                            <div class="login_form section">
+                                <div class="login_section input_filter">
+                                    <div class="login_icon">
+                                        <i class='bx bxs-filter-alt' ></i>
+                                    </div>
+                                    <div class="login_inputs">
+                                        <h5 class="login_location">Filtro</h5>
+                                        <h:selectOneMenu class="input combo">
+                                            <f:selectItem itemValue="Seleccione"></f:selectItem>
+                                        </h:selectOneMenu>
+                                    </div>
+                                </div>
+                                <div class="reporte_buttons">
+                                    <h:outputLabel class="filter" value="filtro aplicado:"></h:outputLabel>
+                                    <h:commandButton class="button reporte_btn" value="Reporte pedidos"></h:commandButton>
+                                    <div class="report_container">
+                                        <h:dataTable class="report_table">
+                                            <h:column>
+                                                <f:facet name="header">ID Pedido</f:facet>
+                                                Pedido 1
+                                                Pedido 2
+                                            </h:column>
+                                            <h:column>
+                                                <f:facet name="header">ID Pedido</f:facet>
+                                                Pendiente
+                                                Entregado
+                                            </h:column>
+                                        </h:dataTable>
+                                        
+                                        <!--======== Ejemplo de la tabla final ========-->
+                                        <table class="report_table">
+                                            <thead>
+                                                <tr>
+                                                    <th>ID Pedido</th>
+                                                    <th>Estado</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Pedido ejemplo 123</td>
+                                                    <td>Pendiente</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Pedido ejemplo 1234</td>
+                                                    <td>En despacho</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Pedido ejemplo 12345</td>
+                                                    <td>Entregado</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <hr/>
+                                    <h:commandButton class="button reporte_btn" value="Reporte factura por cobro"></h:commandButton>
+                                    <div class="report_container">
+                                        
+                                        <!--======== Ejemplo de la tabla final ========-->
+                                        <table class="report_table">
+                                            <thead>
+                                                <tr>
+                                                    <th>ID Factura</th>
+                                                    <th>Cobro</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Factura ejemplo 123</td>
+                                                    <td>Contado</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Factura ejemplo 1234</td>
+                                                    <td>Credito</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Factura ejemplo 12345</td>
+                                                    <td>Contado</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+            <!-- Scroll reveal JS -->
+            <script src="js/scrollreveal.min.js"></script>
+            <!-- ingreso JS  -->
+            <script src="js/ingreso.js"></script>
+            <script src="js/despacho.js"></script>
+            <script src="js/jquery-3.6.0.min.js"></script>
+        </h:form>
+    </h:body>
+</html>
+

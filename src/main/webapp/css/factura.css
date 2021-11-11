@@ -1,0 +1,78 @@
+.factura_btn{
+    padding-bottom: 1rem; 
+    display: grid;
+    grid-template-columns: repeat(1, 1fr); 
+    row-gap: .5rem;
+    justify-items: center;
+    padding-top: 1rem;
+}
+
+.factura_btn button{
+    width: 35%;
+}
+
+.order_details{
+    position: fixed;
+    top: 0;
+    right: -150%;
+    width: 100%;
+    height: 100vh;
+    background: var(--container-color);
+    z-index: 100000;
+    text-align: center;
+    overflow-y: scroll;
+    transition: .4s;
+}
+
+.nav_close-details{
+    position: absolute;
+    right: .5rem;
+    font-size: 2.5rem;
+    cursor: pointer;
+}
+.order_details-title{
+    padding-top: 5rem;
+    padding-bottom: 2rem;
+}
+
+.details{
+    grid-template-columns: repeat(1, 1fr);
+    justify-items: center;
+    row-gap: .5rem;
+    padding-bottom: 2rem;
+}
+
+.detail_item{
+    background: var(--container-color-2);
+    border-radius: .5rem;
+    width: 80%;
+    border: 2px dashed var(--title-color);
+}
+
+.details-img{
+    object-fit: contain;
+    height: 250px;
+}
+
+
+.show_details{
+    right: 0;
+}
+
+
+/* breakpoints */
+
+@media screen and (min-width: 767px) {
+    .order_details{
+        width: 40%;
+    }
+}
+
+@media screen and (min-width: 992px) {
+    .order_details{
+        width: 30%;
+    }
+    .factura_btn button{
+        width: 25%;
+    }
+}

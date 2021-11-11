@@ -1,0 +1,32 @@
+.mante_btn{
+    text-align: center;
+    padding-top: 2rem;
+}
+
+.mante_btn-options{
+    padding: 2rem 1rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    row-gap: .5rem;
+    justify-items: center;
+}
+
+.mante_btn-options button{
+    background: transparent;
+    color: var(--first-color);
+    width: 50%;
+    height: 100%;
+    padding: 1.5rem;
+    font-size: 2rem;
+    border-radius: 50%;
+}
+
+.mante_btn-options button:hover{
+    background: hsl(var(--hue), 4%, 80%);
+}
+
+@media screen and (min-width: 767px) {
+    .mante_btn-options{
+        grid-template-columns: repeat(4, 1fr);
+    }
+}

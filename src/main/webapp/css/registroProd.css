@@ -1,0 +1,40 @@
+.product_image-section{
+    border: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.product_image{
+    width: 15rem;
+    height: 15rem;
+    border: 5px solid var(--text-color-light);
+    border-radius: .5rem;
+}
+
+.product_btn{
+    margin: 0 auto;
+    padding: 2rem 0;
+}
+
+.product_button{
+    align-self: center;
+}
+
+.add-new-photo{
+    display: none;
+}
+
+.product_added{
+    width: inherit;
+    height: -webkit-fill-available;
+    object-fit: contain;
+}
+/* breakpoint dispositivo pequeño */
+
+@media screen and (max-width: 320px) {
+    .product_image{
+        width: 10rem;
+        height: 10rem;
+    }
+}

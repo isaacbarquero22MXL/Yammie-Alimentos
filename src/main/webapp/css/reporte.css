@@ -1,0 +1,63 @@
+
+.reporte_buttons{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    padding-top: 2rem;
+    text-align: center;
+}
+
+.reporte_btn{
+    width: 80%;
+    align-self: center;
+    margin: 1rem 0;
+}
+
+.filter{
+    color: var(--container-color-2);
+    font-weight: var(--font-black);
+}
+
+.login_form{
+    grid-template-columns: repeat(1, 1fr);
+}
+
+
+/* =========== tablas =========== */
+
+.report_table{
+    color: var(--container-color-2);
+    border: 3px solid var(--container-color-2);
+    margin: 0 auto 1rem;
+    background: hsl(var(--hue), 4%, 95%);
+}
+
+.report_table tr:nth-child(even){
+   background: hsl(var(--hue), 4%, 80%);
+}
+
+.report_table th, .report_table td{
+    border:  3px solid var(--container-color-2);
+    padding: .5rem;
+    font-weight: var(--font-semi-bold);
+    color: black;
+}
+
+.report_table th{
+    font-weight: var(--font-black);
+    background: var(--container-color);
+}
+
+.login_content{
+    overflow-x: scroll;
+}
+
+hr{
+   margin: 5rem 0;
+}
+
+@media screen and (min-width: 767px) {
+    .input_filter{
+        width: 50%;
+    }
+}
