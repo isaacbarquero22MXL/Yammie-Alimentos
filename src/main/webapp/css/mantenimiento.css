@@ -25,6 +25,19 @@
     background: hsl(var(--hue), 4%, 80%);
 }
 
+.inputArea{
+    font-family: var(--body-font);
+    font-weight: var(--semi-bold-font);
+    border-radius: .5rem;
+    border: 3px solid var(--container-color-2);
+    padding: .5rem;
+    width: 100%;
+}
+
+.factura_btn button{
+    width: fit-content;
+}
+
 @media screen and (min-width: 767px) {
     .mante_btn-options{
         grid-template-columns: repeat(4, 1fr);

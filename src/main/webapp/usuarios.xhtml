@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <meta charset="UTF-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <!-- =================== Box icons ================= -->
+        <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'/>
+        <link rel="shortcut icon" href="images/YammieLogoIcon.png" type="image/x-icon"/>
+        <!-- ============= main css ========= -->
+        <!-- ============= main css ========= -->
+        <!-- ============= main css ========= -->
+        <link rel="stylesheet" href="css/style.css"/>
+        <link rel="stylesheet" href="css/ingreso.css"/>
+        <link rel="stylesheet" href="css/registroProd.css"/>
+        <link rel="stylesheet" href="css/HorariosDirecciones.css"/>
+        <link rel="stylesheet" href="css/factura.css"/>
+        <link rel="stylesheet" href="css/despacho.css"/>
+        <link rel="stylesheet" href="css/mantenimiento.css"/>
+
+        <title>Yammie - Usuarios</title>
+    </h:head>
+    <h:body onload="showTime()">
+        <h:form acceptcharset="UTF-8">
+            <main class="section" id="main">
+                <div class="login_logo" onclick="animation()">
+                    <img src="images/YammieLogo.png" alt="logo" class="login_logo-img"/>
+                </div>
+                <div class="login_content">
+                    <a href="principal.xhtml" class="login_back"><i class='bx bx-arrow-back go_back'></i>Regresar</a>
+                    <h1 class="login_title">Usuarios registrados</h1>
+                    <div class="time" id="time"></div>   
+                    <div class="login_form sign_in section">
+                        <div class="login_content-container container_two">
+                            <div class="login_form section">
+                                <div class="login_section">
+                                    <div class="login_icon">
+                                        <i class='bx bxs-location-plus' ></i>
+                                    </div>
+                                    <div class="login_inputs">
+                                        <h5 class="login_location">Usuario</h5>
+                                        <h:selectOneMenu class="input combo">
+                                            <f:selectItem itemValue="Seleccione"></f:selectItem>
+                                        </h:selectOneMenu>
+                                    </div>
+                                </div>
+                                <div class="login_section">
+                                    <div class="login_icon">
+                                        <i class='bx bxs-location-plus' ></i>
+                                    </div>
+                                    <div class="login_inputs">
+                                        <h5 class="login_location">¿Que hacer?</h5>
+                                        <h:selectOneMenu class="input combo">
+                                            <f:selectItem itemValue="Seleccione"></f:selectItem>
+                                        </h:selectOneMenu>
+                                    </div>
+                                </div>
+                                <div class="login_section">
+                                    <div class="login_icon">
+                                        <i class='bx bxs-location-plus'></i>
+                                    </div>
+                                    <div class="login_inputs">
+                                        <h5 class="login_location">Mensaje</h5>
+                                        <h:inputTextarea rows="1" class="inputArea"></h:inputTextarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="factura_btn">
+                        <h:commandButton class="button" value="Confirmar" type="submit"></h:commandButton>
+                    </div>
+                </div>
+            </main>
+            <!-- Scroll reveal JS -->
+            <script src="js/scrollreveal.min.js"></script>
+            <!-- ingreso JS  -->
+            <script src="js/ingreso.js"></script>
+            <script src="js/factura.js"></script>
+            <script src="js/despacho.js"></script>
+            <script src="js/jquery-3.6.0.min.js"></script>
+        </h:form>
+    </h:body>
+</html>
+
