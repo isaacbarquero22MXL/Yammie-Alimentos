@@ -513,6 +513,7 @@ button{
     padding: 1rem;
     justify-content: space-between;
     border-radius: .5rem;
+    flex-direction: column;
 }
 
 .mini_form .mini_form-input{
@@ -654,6 +655,15 @@ button{
     border-radius: 5rem;
 }
 
+
+/*=========== mensaje de error =======*/
+
+.errorLabel{
+    font-size: var(--normal-font-size);
+    color: red;
+    font-weight: var(--font-black);
+    padding: 1rem .5rem;
+}
 
 
 /* ================== BREAKPOINTS ============= */

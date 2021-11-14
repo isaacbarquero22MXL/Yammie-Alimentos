@@ -2,6 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
     <h:head>
         <meta charset="UTF-8"/>
@@ -202,14 +203,17 @@
                         </div>
                         <img src="images/YammieLogoIcon.png" alt="yammieIcon" class="about_image"/>
                     </div>
-                    <div class="about_data start">
+                    <div class="about_data start" id="miniForm">
                         <h2 class="section_title about_title">Comienza Ya</h2>
                         <p class="about_description">
                             Ingresa e inicia sesión ahora para empezar a disfrutar de los servicios que te ofrecemos.
                         </p>
                         <div class="mini_form">
-                            <h:inputText a:placeholder="Ingresa tu correo" class="mini_form-input"></h:inputText>
-                            <h:commandButton value="Inicia Sesión" class="button" action="ingreso"></h:commandButton>
+                            <div>
+                                <h:inputText value="#{beanUsuario.correo}" a:placeholder="Ingresa tu correo" class="mini_form-input"></h:inputText>
+                                <h:commandButton action="#{beanUsuario.validaCorreo()}" value="Inicia Sesión" class="button"></h:commandButton>
+                            </div>
+                            <h:outputLabel class="errorLabel" value="#{beanUsuario.mensaje}"></h:outputLabel>
                         </div>
                     </div>
                 </section>
