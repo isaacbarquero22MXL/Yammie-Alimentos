@@ -72,10 +72,10 @@ function moverPanel(){
     }
 }
 
+let inputEmail = document.querySelectorAll('.email')[0];
 function onloadPage(){
     notShowBtn();
-    let input = document.querySelectorAll('.email')[0];
-    input.focus();
+    inputEmail.focus();
 }
 
 

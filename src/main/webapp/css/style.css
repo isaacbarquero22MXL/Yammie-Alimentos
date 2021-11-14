@@ -470,7 +470,7 @@ button{
     height: 100px;
     margin-bottom: var(--mb-0-75);
     transition: .3s;
-    object-fit: cover;
+    object-fit: contain;
 }
 
 .category_title{
