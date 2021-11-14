@@ -74,7 +74,7 @@ function moverPanel(){
 
 function onloadPage(){
     notShowBtn();
-    let input=document.querySelectorAll('.email')[0];
+    let input = document.querySelectorAll('.email')[0];
     input.focus();
 }
 
