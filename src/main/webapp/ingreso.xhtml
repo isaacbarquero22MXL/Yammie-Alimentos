@@ -40,12 +40,15 @@
                             </div>
                             <div class="login_inputs">
                                 <h5>Contraseña</h5>
-                                <h:inputSecret class="input"></h:inputSecret>
+                                <h:inputSecret value="#{beanUsuario.contrasenna}" class="input"></h:inputSecret>
                             </div>
+                        </div>
+                        <div class="login_section">
+                            <h:outputLabel class="errorLabel" value="#{beanUsuario.mensaje}"></h:outputLabel>
                         </div>
                     </div>
                     <div class="login_btn"> 
-                        <h:commandButton class="button" value="Iniciar Sesión" action="principal"></h:commandButton>
+                        <h:commandButton class="button" value="Iniciar Sesión" action="#{beanUsuario.validaCamposIngreso()}"></h:commandButton>
                     </div>
                     <div class="login_links section">
                         <a href="#" class="login_link">Ayuda</a>

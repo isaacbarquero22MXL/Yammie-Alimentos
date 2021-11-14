@@ -156,4 +156,17 @@ public class BeanUsuario {
             mensaje = e.toString();
         }
     }
+    
+    public void validaCamposIngreso(){
+        mensaje = "";
+        if(correo.equals("") || contrasenna.equals("")){
+            mensaje = "Por favor digite correo y contraseña para ingresar";
+        }else{
+            // aqui se llamaria al DB para ejecutar el proceso de login
+            mensaje = "datos correctos";
+        }
+    }
+    
+    
+    
 }
