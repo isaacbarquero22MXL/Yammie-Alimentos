@@ -134,11 +134,13 @@ public class BeanUsuario {
     public String validaCorreo() {
         Matcher match = pattern.matcher(correo);
         mensaje = "";
+        
         if (match.find()) {
             return "ingreso";
         } else {
             mensaje = "El formato ingresado no corresponde a un correo electrónico. Intente de nuevo.";
             try {
+                
                 redirigirIndex();
             } catch (IOException ex) {}
             return "";

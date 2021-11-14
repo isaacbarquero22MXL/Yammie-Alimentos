@@ -74,6 +74,8 @@ function moverPanel(){
 
 function onloadPage(){
     notShowBtn();
+    let input=document.querySelectorAll('.email')[0];
+    input.focus();
 }
 
 
@@ -92,6 +94,8 @@ function showBtn(){
 }
 
 window.onload = onloadPage();
+
+
 
 
 
