@@ -7,8 +7,9 @@ package Model;
 
 /**
  *
- * @author bryan
+ * @author Bryan e Isaac
  */
 public enum MedioEnvio {
-    EnvioDirecto,EntregaSinEnvio;
+    EnvioDirecto,
+    EntregaSinEnvio;
 }

@@ -7,7 +7,7 @@ package Model;
 
 /**
  *
- * @author bryan
+ * @author Bryan e Isaac
  */
 public class Producto {
     private String Identificacion;

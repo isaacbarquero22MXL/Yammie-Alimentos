@@ -7,7 +7,7 @@ package Model;
 
 /**
  *
- * @author bryan
+ * @author Bryan e Isaac
  */
 public enum TipoRol {
     Admin,Cliente,Despacho;

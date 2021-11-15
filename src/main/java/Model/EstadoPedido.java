@@ -7,8 +7,10 @@ package Model;
 
 /**
  *
- * @author bryan
+ * @author Bryan e Isaac
  */
 public enum EstadoPedido {
-    EnProceso,Realizado,Pendientes;
+    EnProceso,
+    Realizado,
+    Pendientes;
 }

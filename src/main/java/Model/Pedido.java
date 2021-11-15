@@ -9,7 +9,7 @@ import java.sql.Date;
 
 /**
  *
- * @author bryan
+ * @author Bryan e Isaac
  */
 public class Pedido {
     private String IDentificacion;

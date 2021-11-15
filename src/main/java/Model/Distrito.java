@@ -7,7 +7,7 @@ package Model;
 
 /**
  *
- * @author bryan
+ * @author Bryan e Isaac
  */
 public class Distrito {
      float cod_provincia;

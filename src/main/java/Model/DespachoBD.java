@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 /**
  *
- * @author bryan
+ * @author Bryan e Isaac
  */
 public class DespachoBD implements Serializable{
     

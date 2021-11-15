@@ -33,7 +33,7 @@
                                 </div>
                                 <div class="login_inputs">
                                     <h5>Cédula</h5>
-                                    <h:inputText class="input"></h:inputText>
+                                    <h:inputText value="#{beanUsuario.cedula}" class="input"></h:inputText>
                                 </div>
                             </div>
                             <div class="login_section">
@@ -42,7 +42,7 @@
                                 </div>
                                 <div class="login_inputs">
                                     <h5>Nombre</h5>
-                                    <h:inputText class="input"></h:inputText>
+                                    <h:inputText value="#{beanUsuario.nombre}" class="input"></h:inputText>
                                 </div>
                             </div>
                             <div class="login_section">
@@ -51,7 +51,7 @@
                                 </div>
                                 <div class="login_inputs">
                                     <h5>Primer Apellido</h5>
-                                    <h:inputText class="input"></h:inputText>
+                                    <h:inputText value="#{beanUsuario.apellido}" class="input"></h:inputText>
                                 </div>
                             </div>
                             <div class="login_section">
@@ -60,7 +60,7 @@
                                 </div>
                                 <div class="login_inputs">
                                     <h5>Segundo Apellido</h5>
-                                    <h:inputText class="input"></h:inputText>
+                                    <h:inputText value="#{beanUsuario.apellido2}" class="input"></h:inputText>
                                 </div>
                             </div>
                             <div class="login_section">
@@ -69,7 +69,7 @@
                                 </div>
                                 <div class="login_inputs">
                                     <h5>Correo Electrónico</h5>
-                                    <h:inputText class="input"></h:inputText>
+                                    <h:inputText value="#{beanUsuario.correo}" class="input"></h:inputText>
                                 </div>
                             </div>
                             <div class="login_section">
@@ -78,7 +78,7 @@
                                 </div>
                                 <div class="login_inputs">
                                     <h5>Teléfono</h5>
-                                    <h:inputText class="input"></h:inputText>
+                                    <h:inputText value="#{beanUsuario.telefono}" class="input"></h:inputText>
                                 </div>
                             </div>
                             <div class="login_section">
@@ -87,7 +87,7 @@
                                 </div>
                                 <div class="login_inputs">
                                     <h5>Contraseña</h5>
-                                    <h:inputSecret class="input"></h:inputSecret>
+                                    <h:inputSecret value="#{beanUsuario.contrasenna}" class="input"></h:inputSecret>
                                 </div>
                             </div>
                             <div class="login_section">
@@ -96,7 +96,7 @@
                                 </div>
                                 <div class="login_inputs">
                                     <h5>Confirmar contraseña</h5>
-                                    <h:inputSecret class="input"></h:inputSecret>
+                                    <h:inputSecret value="#{beanUsuario.contrasennaConfirm}" class="input"></h:inputSecret>
                                 </div>
                             </div>
                         </div>
@@ -109,7 +109,7 @@
                                 </div>
                                 <div class="login_inputs">
                                     <h5 class="login_location">Provincia</h5>
-                                    <h:selectOneMenu class="input combo">
+                                    <h:selectOneMenu value="#{beanUsuario.ID_Provincia}" class="input combo">
                                         <f:selectItem itemValue="Seleccione"></f:selectItem>
                                     </h:selectOneMenu>
                                 </div>
@@ -120,7 +120,7 @@
                                 </div>
                                 <div class="login_inputs">
                                     <h5 class="login_location">Cantón</h5>
-                                    <h:selectOneMenu class="input combo">
+                                    <h:selectOneMenu value="#{beanUsuario.ID_Canton}" class="input combo">
                                         <f:selectItem itemValue="Seleccione"></f:selectItem>
                                     </h:selectOneMenu>
                                 </div>
@@ -131,7 +131,7 @@
                                 </div>
                                 <div class="login_inputs">
                                     <h5 class="login_location">Distrito</h5>
-                                    <h:selectOneMenu class="input combo">
+                                    <h:selectOneMenu value="#{beanUsuario.ID_Distrito}" class="input combo">
                                         <f:selectItem itemValue="Seleccione"></f:selectItem>
                                     </h:selectOneMenu>
                                 </div>
@@ -142,7 +142,7 @@
                                 </div>
                                 <div class="login_inputs">
                                     <h5 class="login_location">Barrio</h5>
-                                    <h:selectOneMenu class="input combo">
+                                    <h:selectOneMenu value="#{beanUsuario.ID_Barrio}" class="input combo">
                                         <f:selectItem itemValue="Seleccione"></f:selectItem>
                                     </h:selectOneMenu>
                                 </div>
@@ -153,7 +153,7 @@
                                 </div>
                                 <div class="login_inputs">
                                     <h5>Otras Señas</h5>
-                                    <h:inputText class="input"></h:inputText>
+                                    <h:inputText value="#{beanUsuario.otrasSenna}" class="input"></h:inputText>
                                 </div>
                             </div>
                         </div>
@@ -164,7 +164,7 @@
                                 </div>
                                 <div class="login_inputs">
                                     <h5 class="login_location">Horario de Entrega (Desde)</h5>
-                                    <h:selectOneMenu class="input combo">
+                                    <h:selectOneMenu value="#{beanUsuario.inicio}" class="input combo">
                                         <f:selectItem itemValue="Seleccione"></f:selectItem>
                                     </h:selectOneMenu>
                                 </div>
@@ -174,12 +174,15 @@
                                 </div>
                                 <div class="login_inputs">
                                     <h5 class="login_location">Horario de Entrega (Hasta)</h5>
-                                    <h:selectOneMenu class="input combo">
+                                    <h:selectOneMenu value="#{beanUsuario.fin}" class="input combo">
                                         <f:selectItem itemValue="Seleccione"></f:selectItem>
                                     </h:selectOneMenu>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="login_section">
+                        <h:outputLabel class="errorLabel" value="#{beanUsuario.mensaje}"></h:outputLabel>
                     </div>
                     <div class="login_register section">
                         <p class="login_register-p">
@@ -189,7 +192,7 @@
                     </div>
                     <div class="login_btn">
                         <h:commandButton type="button" class="button btn" onclick="moverPanel()" value="Siguiente"></h:commandButton>
-                        <h:commandButton type="submit" class="button btn" value="Registrarme"></h:commandButton>
+                        <h:commandButton type="submit" class="button btn" value="Registrarme" action="#{beanUsuario.validaCamposRegistro()}"></h:commandButton>
                         <h:commandButton type="button" class="button btn" onclick="moverPanel()" value="Retroceder"></h:commandButton>
                     </div>
                     <hr/>
