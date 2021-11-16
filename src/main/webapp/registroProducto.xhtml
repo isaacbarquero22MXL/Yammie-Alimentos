@@ -34,7 +34,7 @@
                             </div>
                             <div class="login_inputs">
                                 <h5>ID</h5>
-                                <h:inputText class="input"></h:inputText>
+                                <h:inputText value="#{beanProducto.identificacion}" class="input"></h:inputText>
                             </div>
                         </div>
                         <div class="login_section">
@@ -43,7 +43,7 @@
                             </div>
                             <div class="login_inputs">
                                 <h5>Precio</h5>
-                                <h:inputText class="input"></h:inputText>
+                                <h:inputText value="#{beanProducto.precio}" class="input"></h:inputText>
                             </div>
                         </div>
                         <div class="login_section">
@@ -52,7 +52,7 @@
                             </div>
                             <div class="login_inputs">
                                 <h5>Cantidad mínima</h5>
-                                <h:inputText class="input"></h:inputText>
+                                <h:inputText value="#{beanProducto.cantMinVenta}" class="input"></h:inputText>
                             </div>
                         </div>
                         <div class="login_section">
@@ -61,8 +61,9 @@
                             </div>
                             <div class="login_inputs">
                                 <h5 class="login_location">Tipo Producto</h5>
-                                <h:selectOneMenu class="input combo">
-                                    <f:selectItem itemValue="Seleccione"></f:selectItem>
+                                <h:selectOneMenu value="#{beanProducto.tipoProducto}" class="input combo">
+                                    <f:selectItems value="#{beanProducto.listaTipoProducto}"></f:selectItems>
+                                    
                                 </h:selectOneMenu>
                             </div>
                         </div>
@@ -78,9 +79,12 @@
                             </div>
                         </div>
                     </div>
+                     <div class="login_section">
+                         <h:outputLabel class="errorLabel" value="#{beanProducto.mensaje}"></h:outputLabel>
+                    </div>
                     <hr/>
                     <div class="mante_btn">
-                        <h:commandButton class="button" value="Registrar Producto" type="submit"></h:commandButton>
+                        <h:commandButton class="button" action="#{beanProducto.RealizarRegistroProducto()}" value="Registrar Producto" type="submit"></h:commandButton>
                         <div class="mante_btn-options">
                             <h:commandButton class="button" title="Editar" type="button" value="Editar"></h:commandButton>
                             <h:commandButton class="button" title="Nuevo" type="button" value="Nuevo"></h:commandButton>

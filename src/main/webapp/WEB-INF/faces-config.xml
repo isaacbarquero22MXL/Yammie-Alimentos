@@ -52,4 +52,9 @@
         <managed-bean-class>Controller.BeanEstadoUsuarios</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
+    <managed-bean>
+        <managed-bean-name>beanProducto</managed-bean-name>
+        <managed-bean-class>Controller.BeanProducto</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
 </faces-config>
