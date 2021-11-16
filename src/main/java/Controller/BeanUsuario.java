@@ -237,6 +237,8 @@ public class BeanUsuario {
         }
     }
 
+    // Si el correo digitado en el index esta mal formateado, resetea la página y 
+    // navega entre anclas hasta el div miniForm
     public void redirigirIndex() throws IOException {
         try {
             ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
@@ -246,21 +248,29 @@ public class BeanUsuario {
         }
     }
 
-    public void validaCamposIngreso() {
+    // valida si el correo y contraseña se han digitado
+    public String validaCamposIngreso() {
         mensaje = "";
+        String retorno = "";
         if (correo.equals("") || contrasenna.equals("")) {
             mensaje = "Por favor digite correo y contraseña para ingresar";
         } else {
-            // aqui se llamaria al DB para ejecutar el proceso de login
-            mensaje = "datos correctos";
+            if (validaCorreo().equals("ingreso")) {
+                // aquí se llamaría al DB para ejecutar el proceso de login
+                retorno = "ingreso";
+            }
         }
+        return retorno;
     }
 
-    public String goToRegister() {
+    // destruye la sesión actual con los valores del bean
+    // y redirige a la página del parámetro
+    public String destroySessionAndReturn(String page) {
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-        return "registro";
+        return page;
     }
 
+    // valida campos nulos
     public boolean validaCamposUsuario() {
         if (Cedula.equals("") || apellido.equals("")
                 || apellido2.equals("") || nombre.equals("")
@@ -274,6 +284,7 @@ public class BeanUsuario {
         }
     }
 
+    // valida que el teléfono tenga 8 dígitos y que sea numérico
     public boolean validaTelefono() {
         boolean estado = true;
 
@@ -287,31 +298,31 @@ public class BeanUsuario {
                 break;
             }
         }
-        
-        if(estado){
-           if(telefono.length() > 8 || telefono.length() < 8){
-               estado = false;
-               mensaje = "El formato de teléfono debe tener 8 digitos sin guión (-).";
-           }
+        if (estado) {
+            if (telefono.length() != 8) {
+                estado = false;
+                mensaje = "El formato de teléfono debe tener 8 digitos sin guión (-).";
+            }
         }
-            
         return estado;
     }
-    
-    public boolean validaContrasennas(){
-        if(contrasenna.equals(contrasennaConfirm)){
+
+    // valida que las contraseñas sean iguales
+    public boolean validaContrasennas() {
+        if (contrasenna.equals(contrasennaConfirm)) {
             return true;
-        }else{
+        } else {
             mensaje = "Las contraseñas no coinciden. Verifique de nuevo.";
             return false;
         }
     }
 
-    public boolean validaCedula(){
+    // valida que la cedula sea numérica, de 8 dígitos y sin guiones
+    public boolean validaCedula() {
         boolean estado = true;
-        
+
         for (int i = 0; i < Cedula.length(); i++) {
-             char digito = Cedula.charAt(i);
+            char digito = Cedula.charAt(i);
 
             if (Character.isLetter(digito)) {
                 estado = false;
@@ -320,9 +331,17 @@ public class BeanUsuario {
                 break;
             }
         }
+
+        if (estado) {
+            if (Cedula.length() != 9) {
+                estado = false;
+                mensaje = "La cédula consta de 9 digitos numéricos sin guión.";
+            }
+        }
         return estado;
     }
-    
+
+    // asigna los atributos del bean direccion
     public void asignarDireccion() {
         beanDireccion.setID_Barrio(ID_Barrio);
         beanDireccion.setID_Canton(ID_Canton);
@@ -331,28 +350,57 @@ public class BeanUsuario {
         beanDireccion.setOtrasSenna(otrasSenna);
     }
 
+    // asigna los atributos al bean horario
     public void asignarHorario() {
         beanHorario.setInicio(inicio);
         beanHorario.setFin(fin);
-    } 
+    }
 
+    public String deshacerBeansComp(){
+        beanDireccion.setID_Barrio("");
+        beanDireccion.setID_Canton("");
+        beanDireccion.setID_Distrito("");
+        beanDireccion.setID_Provincia("");
+        beanDireccion.setOtrasSenna("");
+        beanHorario.setInicio("");
+        beanHorario.setFin("");
+        return "horarioDirecciones";
+    }
+    // realiza todas las validaciones del bean usuario, dirección y horario
+    // si todo es correcto ira al DB registrará el usuario
     public void validaCamposRegistro() {
         mensaje = "";
-        asignarDireccion();
-        asignarHorario();   
-        if(validaCamposUsuario() && validaTelefono()
-                && validaContrasennas() && validaCedula()){
-            if(!beanDireccion.validaCampos()){
-                mensaje = "Verifique que haya seleccionado todos lo campos requeridos"
-                        + " para la dirección y continuar con el registro.";
-            }else{
-                if(!beanHorario.validaDatosNulos()){
-                    mensaje = "Verifique haya seleccionado un horario"
-                            + " para continuar con el registro";
-                }else{
-                    mensaje = "Registro completado";
-                }
+        if (validaCamposUsuario() && validaTelefono()
+                && validaContrasennas() && validaCedula()) {
+            if(validaBeanAdicionales()){
+                mensaje = "registro completado";
             }
+        }
+    }
+
+    // valida los beans externos ajenos a usuarios, pero complementarios
+    public boolean validaBeanAdicionales() {
+        boolean estado = true;
+        asignarDireccion();
+        asignarHorario();
+        if (!beanDireccion.validaCampos()) {
+            estado = false;
+            mensaje = "Verifique que haya seleccionado todos lo campos requeridos"
+                    + " para la dirección y continuar con el registro.";
+        } else {
+            if (!beanHorario.validaDatosNulos()) {
+                estado = false;
+                mensaje = "Verifique haya seleccionado un horario"
+                        + " para continuar con el registro";
+            }
+        }
+        return estado;
+    }
+    
+    public void validaUsuarioMante(){
+        mensaje = "";
+        if(validaBeanAdicionales()){
+            // aqui se llama al db
         }
     }
 }

@@ -28,4 +28,28 @@
         <managed-bean-class>Controller.BeanUsuario</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
+    <managed-bean>
+        <managed-bean-name>beanDespacho</managed-bean-name>
+        <managed-bean-class>Controller.BeanDespacho</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>beanFactura</managed-bean-name>
+        <managed-bean-class>Controller.BeanFactura</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    
+    <navigation-rule>
+        <from-view-id>/ingreso.xhtml</from-view-id>
+        <navigation-case>
+            <from-action>#{beanUsuario.validaCamposIngreso()}</from-action>
+            <from-outcome>ingreso</from-outcome>
+            <to-view-id>/principal.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <managed-bean>
+        <managed-bean-name>beanEstadoUsuario</managed-bean-name>
+        <managed-bean-class>Controller.BeanEstadoUsuarios</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
 </faces-config>

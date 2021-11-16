@@ -402,6 +402,7 @@ button{
     font-weight: var(--font-medium);
     border-radius: .5rem;
     color: var(--title-color);
+    cursor: pointer;
 }
 
 .button:hover{

@@ -38,8 +38,9 @@
                                     </div>
                                     <div class="login_inputs">
                                         <h5 class="login_location">N° Pedido</h5>
-                                        <h:selectOneMenu class="input combo">
+                                        <h:selectOneMenu class="input combo" value="#{beanFactura.ID}">
                                             <f:selectItem itemValue="Seleccione"></f:selectItem>
+                                             <f:selectItem itemValue="P0001"></f:selectItem>
                                         </h:selectOneMenu>
                                     </div>
                                 </div>
@@ -49,8 +50,8 @@
                                     </div>
                                     <div class="login_inputs">
                                         <h5 class="login_location">Tipo de cobro</h5>
-                                        <h:selectOneMenu class="input combo">
-                                            <f:selectItem itemValue="Seleccione"></f:selectItem>
+                                        <h:selectOneMenu class="input combo" value="#{beanFactura.cobro}">
+                                            <f:selectItems value="#{beanFactura.listaTipoCobro()}"></f:selectItems>
                                         </h:selectOneMenu>
                                     </div>
                                 </div>
@@ -60,15 +61,18 @@
                                     </div>
                                     <div class="login_inputs">
                                         <h5>Descuento</h5>
-                                        <h:inputText class="input"></h:inputText>
+                                        <h:inputText value="#{beanFactura.descuento}" class="input"></h:inputText>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <div class="login_section">
+                        <h:outputLabel class="errorLabel" value="#{beanFactura.mensaje}"></h:outputLabel>
+                    </div>
                     <hr/>
                         <div class="factura_btn">
-                            <h:commandButton class="button" value="Facturar" type="submit"></h:commandButton>
+                            <h:commandButton class="button" value="Facturar" type="submit" action="#{beanFactura.realizarFacturacion()}"></h:commandButton>
                             <h:commandButton class="button" value="Detalle pedido" type="button" onclick="showDetails()"></h:commandButton>
                         </div>
                 </div>

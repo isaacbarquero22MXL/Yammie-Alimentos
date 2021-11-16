@@ -58,7 +58,7 @@
                         <div class="login_register section">
                             <p class="login_register-p">
                                 ¿No tiene una cuenta? 
-                                <h:commandLink value="Regístrese" class="register" action="#{beanUsuario.goToRegister()}"></h:commandLink>
+                                <h:commandLink value="Regístrese" class="register" action="#{beanUsuario.destroySessionAndReturn('registro')}"></h:commandLink>
                             </p>
                         </div>
                 </div>

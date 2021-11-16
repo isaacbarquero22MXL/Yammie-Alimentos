@@ -73,6 +73,7 @@ function moverPanel() {
 }
 
 let inputEmail = document.querySelectorAll('.email')[0];
+let time = document.getElementById('time');
 function onloadPage() {
     notShowBtn();
     if(inputEmail){
@@ -101,7 +102,9 @@ function showBtn() {
     });
 }
 
-window.onload = onloadPage();
+if(!time){
+    window.onload = onloadPage();
+}
 
 
 

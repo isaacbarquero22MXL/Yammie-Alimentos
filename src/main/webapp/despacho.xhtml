@@ -42,8 +42,9 @@
                                     </div>
                                     <div class="login_inputs">
                                         <h5 class="login_location">N° Factura</h5>
-                                        <h:selectOneMenu class="input combo">
+                                        <h:selectOneMenu value="#{beanDespacho.IDFactura}" class="input combo">
                                             <f:selectItem itemValue="Seleccione"></f:selectItem>
+                                            <f:selectItem itemValue="P0001"></f:selectItem>
                                         </h:selectOneMenu>
                                     </div>
                                 </div>
@@ -53,16 +54,19 @@
                                     </div>
                                     <div class="login_inputs">
                                         <h5 class="login_location">Tipo de envío</h5>
-                                        <h:selectOneMenu class="input combo">
-                                            <f:selectItem itemValue="Seleccione"></f:selectItem>
+                                        <h:selectOneMenu value="#{beanDespacho.medioenvio}" class="input combo">
+                                            <f:selectItems value="#{beanDespacho.listaMedios()}"></f:selectItems>
                                         </h:selectOneMenu>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <div class="login_section">
+                        <h:outputLabel class="errorLabel" value="#{beanDespacho.mensaje}"></h:outputLabel>
+                    </div>
                     <div class="factura_btn">
-                        <h:commandButton class="button" value="Realizar Despacho" type="submit"></h:commandButton>
+                        <h:commandButton class="button" value="Realizar Despacho" type="submit" action="#{beanDespacho.realizaDespacho()}"></h:commandButton>
                     </div>
                 </div>
             </main>

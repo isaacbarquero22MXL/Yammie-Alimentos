@@ -1,4 +1,3 @@
-let time = document.getElementById('time');
 
 function showTime(){
     myDate = new Date();

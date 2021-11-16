@@ -40,9 +40,9 @@ public class BeanHorario {
     
     public boolean validaDatosNulos(){
         if(inicio.equals("Seleccione") || fin.equals("Seleccione")){
-            return true;
-        }else{
             return false;
+        }else{
+            return true;
         }
     }
 }

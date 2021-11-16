@@ -111,6 +111,7 @@
                                     <h5 class="login_location">Provincia</h5>
                                     <h:selectOneMenu value="#{beanUsuario.ID_Provincia}" class="input combo">
                                         <f:selectItem itemValue="Seleccione"></f:selectItem>
+                                        <f:selectItem itemValue="Alajuela"></f:selectItem>
                                     </h:selectOneMenu>
                                 </div>
                             </div>
@@ -122,6 +123,7 @@
                                     <h5 class="login_location">Cantón</h5>
                                     <h:selectOneMenu value="#{beanUsuario.ID_Canton}" class="input combo">
                                         <f:selectItem itemValue="Seleccione"></f:selectItem>
+                                        <f:selectItem itemValue="Alajuela"></f:selectItem>
                                     </h:selectOneMenu>
                                 </div>
                             </div>
@@ -133,6 +135,7 @@
                                     <h5 class="login_location">Distrito</h5>
                                     <h:selectOneMenu value="#{beanUsuario.ID_Distrito}" class="input combo">
                                         <f:selectItem itemValue="Seleccione"></f:selectItem>
+                                        <f:selectItem itemValue="San Antonio del Tejar"></f:selectItem>
                                     </h:selectOneMenu>
                                 </div>
                             </div>
@@ -144,6 +147,7 @@
                                     <h5 class="login_location">Barrio</h5>
                                     <h:selectOneMenu value="#{beanUsuario.ID_Barrio}" class="input combo">
                                         <f:selectItem itemValue="Seleccione"></f:selectItem>
+                                        <f:selectItem itemValue="Urb. Arboleda"></f:selectItem>
                                     </h:selectOneMenu>
                                 </div>
                             </div>
@@ -166,6 +170,7 @@
                                     <h5 class="login_location">Horario de Entrega (Desde)</h5>
                                     <h:selectOneMenu value="#{beanUsuario.inicio}" class="input combo">
                                         <f:selectItem itemValue="Seleccione"></f:selectItem>
+                                        <f:selectItem itemValue="Lunes 8:00am"></f:selectItem>
                                     </h:selectOneMenu>
                                 </div>
                             </div><div class="login_section">
@@ -176,6 +181,7 @@
                                     <h5 class="login_location">Horario de Entrega (Hasta)</h5>
                                     <h:selectOneMenu value="#{beanUsuario.fin}" class="input combo">
                                         <f:selectItem itemValue="Seleccione"></f:selectItem>
+                                        <f:selectItem itemValue="Lunes 5:00pm"></f:selectItem>
                                     </h:selectOneMenu>
                                 </div>
                             </div>
@@ -200,7 +206,7 @@
                         <a href="#" class="login_link">Ayuda</a>
                         <p class="login_register-p"> 
                             ¿Ya tiene una cuenta?
-                            <a href="ingreso.xhtml" class="register">Iniciar Sesión</a>
+                            <h:commandLink value="Iniciar Sesión" class="register" action="#{beanUsuario.destroySessionAndReturn('ingreso')}"></h:commandLink>
                         </p>
                     </div>
                 </div>

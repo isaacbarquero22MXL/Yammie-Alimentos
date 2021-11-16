@@ -42,8 +42,9 @@
                                     </div>
                                     <div class="login_inputs">
                                         <h5 class="login_location">Usuario</h5>
-                                        <h:selectOneMenu class="input combo">
+                                        <h:selectOneMenu value="#{beanEstadoUsuario.IDUsuario}" class="input combo">
                                             <f:selectItem itemValue="Seleccione"></f:selectItem>
+                                            <f:selectItem itemValue="118010156- Isaac Barquero Lizano"></f:selectItem>
                                         </h:selectOneMenu>
                                     </div>
                                 </div>
@@ -53,8 +54,8 @@
                                     </div>
                                     <div class="login_inputs">
                                         <h5 class="login_location">¿Que hacer?</h5>
-                                        <h:selectOneMenu class="input combo">
-                                            <f:selectItem itemValue="Seleccione"></f:selectItem>
+                                        <h:selectOneMenu value="#{beanEstadoUsuario.estado}" class="input combo">
+                                            <f:selectItems value="#{beanEstadoUsuario.listaEstado()}"></f:selectItems>
                                         </h:selectOneMenu>
                                     </div>
                                 </div>
@@ -64,14 +65,17 @@
                                     </div>
                                     <div class="login_inputs">
                                         <h5 class="login_location">Mensaje</h5>
-                                        <h:inputTextarea rows="1" class="inputArea"></h:inputTextarea>
+                                        <h:inputTextarea rows="1" class="inputArea" value="#{beanEstadoUsuario.mensajeEstado}"></h:inputTextarea>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                     <div class="login_section">
+                         <h:outputLabel class="errorLabel" value="#{beanEstadoUsuario.mensaje}"></h:outputLabel>
+                    </div>
                     <div class="factura_btn">
-                        <h:commandButton class="button" value="Confirmar" type="submit"></h:commandButton>
+                        <h:commandButton class="button" value="Confirmar" type="submit" action="#{beanEstadoUsuario.realizaAccion()}"></h:commandButton>
                     </div>
                 </div>
             </main>

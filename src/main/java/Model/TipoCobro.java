@@ -9,15 +9,11 @@ package Model;
  *
  * @author Bryan e Isaac
  */
-public enum MedioEnvio {
-    EnvioDirecto {
+public enum TipoCobro {
+    Efectivo,
+    CuentaPorCobrar{
         public String toString(){
-            return "Envío directo";
-        }
-    },
-    EntregaSinEnvio{
-        public String toString(){
-            return "Entrega sin envío";
+            return "Cuenta por cobrar";
         }
     };
 }
