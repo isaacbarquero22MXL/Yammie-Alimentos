@@ -27,7 +27,7 @@
 
 .product_added{
     width: inherit;
-    height: -webkit-fill-available;
+    height: inherit;
     object-fit: contain;
 }
 /* breakpoint dispositivo pequeño */

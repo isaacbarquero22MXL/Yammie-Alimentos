@@ -9,6 +9,9 @@ package Controller;
  *
  * @author User
  */
+
+// aqui no hace falta validar beans ya que hay botones para reporte y el filtrado
+// aparece directamente como primera opcion a escoger
 public class BeanReporte {
     private String tipoReporte;
 }
