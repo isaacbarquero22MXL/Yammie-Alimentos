@@ -67,22 +67,34 @@
                                 </h:selectOneMenu>
                             </div>
                         </div>
+                        <div class="login_section">
+                            <div class="login_icon">
+                                <i class='bx bxs-dish'></i>
+                            </div>
+                            <div class="login_inputs">
+                                <h5>Ruta imagen</h5>
+                                <h:inputText value="#{beanProducto.path}" class="input imgPath">
+                                    <f:ajax listener="#{beanProducto.cargaImagePath()}"></f:ajax>
+                                </h:inputText>
+                            </div>
+                        </div>
                         <div class=" login_section product_image-section">
                             <div class="product">
                                 <div class="product_image">
-                                    <p:graphicImage cache="false" class="product_added" value="#{beanProducto.sc}"></p:graphicImage>
+                                    <!--<p:graphicImage cache="false" class="product_added" value="{beanProducto.sc}"></p:graphicImage>-->
+                                    <h:outputLabel class="product_image label_image" escape="false" value="#{beanProducto.image}"></h:outputLabel>
                                 </div>
                             </div>
                             <div class="product_button">
-                                <h:commandButton class="button addImg" id="addImg" type="button" value="Agregar Imagen"></h:commandButton>
-                                <h:inputFile value="#{beanProducto.uploadedFile}" id="add-new-photo" class="add-new-photo">
-                                    <f:ajax listener="#{beanProducto.upload()}"></f:ajax>
-                                </h:inputFile>
+                                <!--<h:commandButton class="button addImg" id="addImg" type="button" value="Agregar Imagen"></h:commandButton>-->
+                                <!--                                <h:inputFile value="{beanProducto.uploadedFile}" id="add-new-photo" class="add-new-photo">
+                                                                    <f:ajax listener="{beanProducto.upload()}"></f:ajax>
+                                                                </h:inputFile>-->
                             </div>
                         </div>
                     </div>
-                     <div class="login_section">
-                         <h:outputLabel class="errorLabel" value="#{beanProducto.mensaje}"></h:outputLabel>
+                    <div class="login_section">
+                        <h:outputLabel class="errorLabel" value="#{beanProducto.mensaje}"></h:outputLabel>
                     </div>
                     <hr/>
                     <div class="mante_btn">

@@ -5,14 +5,18 @@
  */
 package Controller;
 
+import DAO.SNMPExceptions;
 import Model.Barrio;
 import Model.Canton;
 import Model.Distrito;
 import Model.Provincia;
 import Model.TipoRol;
+import Model.Usuario;
+import Model.UsuarioDB;
 import java.io.Console;
 import java.io.IOException;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -60,10 +64,210 @@ public class BeanUsuario {
             = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
                     + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
 
+    // Usuario Global
+    private Usuario usuario;
+
     //Constructor
     public BeanUsuario() {
         beanDireccion = new BeanDireccion();
         beanHorario = new BeanHorario();
+    }
+
+    // Métodos
+    public String validaCorreo() {
+        Matcher match = pattern.matcher(correo);
+        mensaje = "";
+
+        if (match.find()) {
+            return "ingreso";
+        } else {
+            mensaje = "El formato ingresado no corresponde a un correo electrónico. Intente de nuevo.";
+            try {
+
+                redirigirIndex();
+            } catch (IOException ex) {
+            }
+            return "";
+        }
+    }
+
+    // Si el correo digitado en el index esta mal formateado, resetea la página y 
+    // navega entre anclas hasta el div miniForm
+    public void redirigirIndex() throws IOException {
+        try {
+            ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+            ec.redirect("index.xhtml#miniForm");
+        } catch (Exception e) {
+            mensaje = e.toString();
+        }
+    }
+
+    // valida si el correo y contraseña se han digitado
+    public String validaCamposIngreso() {
+        mensaje = "";
+        String retorno = "";
+        if (correo.equals("") || contrasenna.equals("")) {
+            mensaje = "Por favor digite correo y contraseña para ingresar";
+        } else {
+            if (validaCorreo().equals("ingreso")) {
+                try {
+                    // aquí se llamaría al DB para ejecutar el proceso de login
+                    UsuarioDB uBD = new UsuarioDB();
+                    if (uBD.validaIngreso(this.correo, this.contrasenna)) {
+                        retorno = "ingreso";
+                    }else{
+                        mensaje = "El correo o contraseña no pertencen"
+                                + " a ningún usuario registrado. Intenta de nuevo.";
+                    }
+                } catch (SNMPExceptions ex) {
+                    mensaje = ex.toString();
+                } catch (SQLException ex) {
+                    mensaje = ex.toString();
+                }
+            }
+        }
+        return retorno;
+    }
+        // destruye la sesión actual con los valores del bean
+        // y redirige a la página del parámetro
+    public String destroySessionAndReturn(String page) {
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        return page;
+    }
+
+    // valida campos nulos
+    public boolean validaCamposUsuario() {
+        if (Cedula.equals("") || apellido.equals("")
+                || apellido2.equals("") || nombre.equals("")
+                || correo.equals("") || contrasenna.equals("")
+                || telefono.equals("") || contrasennaConfirm.equals("")) {
+            mensaje = "Por favor rellene todos los campos de información personal"
+                    + " para contirnuar con el registro";
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    // valida que el teléfono tenga 8 dígitos y que sea numérico
+    public boolean validaTelefono() {
+        boolean estado = true;
+
+        for (int i = 0; i < telefono.length(); i++) {
+            char digito = telefono.charAt(i);
+
+            if (Character.isLetter(digito)) {
+                estado = false;
+                mensaje = "El formato de teléfono contiene letras. Asegúrese "
+                        + " que sean solo números.";
+                break;
+            }
+        }
+        if (estado) {
+            if (telefono.length() != 8) {
+                estado = false;
+                mensaje = "El formato de teléfono debe tener 8 digitos sin guión (-).";
+            }
+        }
+        return estado;
+    }
+
+    // valida que las contraseñas sean iguales
+    public boolean validaContrasennas() {
+        if (contrasenna.equals(contrasennaConfirm)) {
+            return true;
+        } else {
+            mensaje = "Las contraseñas no coinciden. Verifique de nuevo.";
+            return false;
+        }
+    }
+
+    // valida que la cedula sea numérica, de 8 dígitos y sin guiones
+    public boolean validaCedula() {
+        boolean estado = true;
+
+        for (int i = 0; i < Cedula.length(); i++) {
+            char digito = Cedula.charAt(i);
+
+            if (Character.isLetter(digito)) {
+                estado = false;
+                mensaje = "El formato de cédula contiene letras. Asegúrese "
+                        + " que sean solo números sin guiones (-).";
+                break;
+            }
+        }
+
+        if (estado) {
+            if (Cedula.length() != 9) {
+                estado = false;
+                mensaje = "La cédula consta de 9 digitos numéricos sin guión.";
+            }
+        }
+        return estado;
+    }
+
+    // asigna los atributos del bean direccion
+    public void asignarDireccion() {
+        beanDireccion.setID_Barrio(ID_Barrio);
+        beanDireccion.setID_Canton(ID_Canton);
+        beanDireccion.setID_Distrito(ID_Distrito);
+        beanDireccion.setID_Provincia(ID_Provincia);
+        beanDireccion.setOtrasSenna(otrasSenna);
+    }
+
+    // asigna los atributos al bean horario
+    public void asignarHorario() {
+        beanHorario.setInicio(inicio);
+        beanHorario.setFin(fin);
+    }
+
+    public String deshacerBeansComp() {
+        beanDireccion.setID_Barrio("");
+        beanDireccion.setID_Canton("");
+        beanDireccion.setID_Distrito("");
+        beanDireccion.setID_Provincia("");
+        beanDireccion.setOtrasSenna("");
+        beanHorario.setInicio("");
+        beanHorario.setFin("");
+        return "horarioDirecciones";
+    }
+
+    // realiza todas las validaciones del bean usuario, dirección y horario
+    // si todo es correcto ira al DB registrará el usuario
+    public void validaCamposRegistro() {
+        mensaje = "";
+        if (validaCamposUsuario() && validaTelefono()
+                && validaContrasennas() && validaCedula()) {
+            if (validaBeanAdicionales()) {
+                mensaje = "registro completado";
+            }
+        }
+    }
+
+    // valida los beans externos ajenos a usuarios, pero complementarios
+    public boolean validaBeanAdicionales() {
+        boolean estado = true;
+        asignarDireccion();
+        asignarHorario();
+        if (!beanDireccion.validaCampos()) {
+            estado = false;
+            mensaje = "Verifique que haya seleccionado todos lo campos requeridos"
+                    + " para la dirección y continuar con el registro.";
+        } else {
+            if (!beanHorario.validaDatosNulos()) {
+                estado = false;
+                mensaje = "Verifique haya seleccionado un horario"
+                        + " para continuar con el registro";
+            }
+        }
+        return estado;
+    }
+
+    public void validaUsuarioMante() {
+        mensaje = "";
+        if (validaBeanAdicionales()) {
+            // aqui se llama al db
+        }
     }
 
     // Getters and Setters
@@ -219,188 +423,11 @@ public class BeanUsuario {
         this.contrasennaConfirm = contrasennaConfirm;
     }
 
-    // Métodos
-    public String validaCorreo() {
-        Matcher match = pattern.matcher(correo);
-        mensaje = "";
-
-        if (match.find()) {
-            return "ingreso";
-        } else {
-            mensaje = "El formato ingresado no corresponde a un correo electrónico. Intente de nuevo.";
-            try {
-
-                redirigirIndex();
-            } catch (IOException ex) {
-            }
-            return "";
-        }
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    // Si el correo digitado en el index esta mal formateado, resetea la página y 
-    // navega entre anclas hasta el div miniForm
-    public void redirigirIndex() throws IOException {
-        try {
-            ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-            ec.redirect("index.xhtml#miniForm");
-        } catch (Exception e) {
-            mensaje = e.toString();
-        }
-    }
-
-    // valida si el correo y contraseña se han digitado
-    public String validaCamposIngreso() {
-        mensaje = "";
-        String retorno = "";
-        if (correo.equals("") || contrasenna.equals("")) {
-            mensaje = "Por favor digite correo y contraseña para ingresar";
-        } else {
-            if (validaCorreo().equals("ingreso")) {
-                // aquí se llamaría al DB para ejecutar el proceso de login
-                retorno = "ingreso";
-            }
-        }
-        return retorno;
-    }
-
-    // destruye la sesión actual con los valores del bean
-    // y redirige a la página del parámetro
-    public String destroySessionAndReturn(String page) {
-        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-        return page;
-    }
-
-    // valida campos nulos
-    public boolean validaCamposUsuario() {
-        if (Cedula.equals("") || apellido.equals("")
-                || apellido2.equals("") || nombre.equals("")
-                || correo.equals("") || contrasenna.equals("")
-                || telefono.equals("") || contrasennaConfirm.equals("")) {
-            mensaje = "Por favor rellene todos los campos de información personal"
-                    + " para contirnuar con el registro";
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    // valida que el teléfono tenga 8 dígitos y que sea numérico
-    public boolean validaTelefono() {
-        boolean estado = true;
-
-        for (int i = 0; i < telefono.length(); i++) {
-            char digito = telefono.charAt(i);
-
-            if (Character.isLetter(digito)) {
-                estado = false;
-                mensaje = "El formato de teléfono contiene letras. Asegúrese "
-                        + " que sean solo números.";
-                break;
-            }
-        }
-        if (estado) {
-            if (telefono.length() != 8) {
-                estado = false;
-                mensaje = "El formato de teléfono debe tener 8 digitos sin guión (-).";
-            }
-        }
-        return estado;
-    }
-
-    // valida que las contraseñas sean iguales
-    public boolean validaContrasennas() {
-        if (contrasenna.equals(contrasennaConfirm)) {
-            return true;
-        } else {
-            mensaje = "Las contraseñas no coinciden. Verifique de nuevo.";
-            return false;
-        }
-    }
-
-    // valida que la cedula sea numérica, de 8 dígitos y sin guiones
-    public boolean validaCedula() {
-        boolean estado = true;
-
-        for (int i = 0; i < Cedula.length(); i++) {
-            char digito = Cedula.charAt(i);
-
-            if (Character.isLetter(digito)) {
-                estado = false;
-                mensaje = "El formato de cédula contiene letras. Asegúrese "
-                        + " que sean solo números sin guiones (-).";
-                break;
-            }
-        }
-
-        if (estado) {
-            if (Cedula.length() != 9) {
-                estado = false;
-                mensaje = "La cédula consta de 9 digitos numéricos sin guión.";
-            }
-        }
-        return estado;
-    }
-
-    // asigna los atributos del bean direccion
-    public void asignarDireccion() {
-        beanDireccion.setID_Barrio(ID_Barrio);
-        beanDireccion.setID_Canton(ID_Canton);
-        beanDireccion.setID_Distrito(ID_Distrito);
-        beanDireccion.setID_Provincia(ID_Provincia);
-        beanDireccion.setOtrasSenna(otrasSenna);
-    }
-
-    // asigna los atributos al bean horario
-    public void asignarHorario() {
-        beanHorario.setInicio(inicio);
-        beanHorario.setFin(fin);
-    }
-
-    public String deshacerBeansComp(){
-        beanDireccion.setID_Barrio("");
-        beanDireccion.setID_Canton("");
-        beanDireccion.setID_Distrito("");
-        beanDireccion.setID_Provincia("");
-        beanDireccion.setOtrasSenna("");
-        beanHorario.setInicio("");
-        beanHorario.setFin("");
-        return "horarioDirecciones";
-    }
-    // realiza todas las validaciones del bean usuario, dirección y horario
-    // si todo es correcto ira al DB registrará el usuario
-    public void validaCamposRegistro() {
-        mensaje = "";
-        if (validaCamposUsuario() && validaTelefono()
-                && validaContrasennas() && validaCedula()) {
-            if(validaBeanAdicionales()){
-                mensaje = "registro completado";
-            }
-        }
-    }
-
-    // valida los beans externos ajenos a usuarios, pero complementarios
-    public boolean validaBeanAdicionales() {
-        boolean estado = true;
-        asignarDireccion();
-        asignarHorario();
-        if (!beanDireccion.validaCampos()) {
-            estado = false;
-            mensaje = "Verifique que haya seleccionado todos lo campos requeridos"
-                    + " para la dirección y continuar con el registro.";
-        } else {
-            if (!beanHorario.validaDatosNulos()) {
-                estado = false;
-                mensaje = "Verifique haya seleccionado un horario"
-                        + " para continuar con el registro";
-            }
-        }
-        return estado;
-    }
-    
-    public void validaUsuarioMante(){
-        mensaje = "";
-        if(validaBeanAdicionales()){
-            // aqui se llama al db
-        }
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 }

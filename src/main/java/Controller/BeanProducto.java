@@ -34,14 +34,18 @@ public class BeanProducto implements Serializable {
     private String resultado;
     private String Mensaje = "";
     private int TipoProducto;
+    
+    // Imagen por arreglo de bytes
     private String graphicImage;
     private StreamedContent sc;
-    
     private Part uploadedFile;
     private String fileName;
 
-    public BeanProducto() {
-    }
+    // Imagen por directorio
+    private String path;
+    private String image;
+    
+    public BeanProducto() {}
 
     public boolean VerificarCampos() {
 
@@ -176,72 +180,79 @@ public class BeanProducto implements Serializable {
         this.TipoProducto = TipoProducto;
     }
 
-    public String getFileName() {
-        return fileName;
-    }
-
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
-
-    public Part getUploadedFile() {
-        return uploadedFile;
-    }
-
-    public String getGraphicImage() {
-        return graphicImage;
-    }
-
-    public void setGraphicImage(String graphicImage) {
-        this.graphicImage = graphicImage;
-    }
-
-    public StreamedContent getSc() {
-        return sc;
-    }
-
-    public void setSc(StreamedContent sc) {
-        this.sc = sc;
-    }
     
-    public void setUploadedFile(Part uploadedFile) throws IOException {
-        this.uploadedFile = uploadedFile;
-//        if(this.uploadedFile != null){
-//            upload();
-//        }
-    }
-
-    public void upload() throws IOException {
-        fileName = Paths.get(uploadedFile.getSubmittedFileName()).getFileName().toString();
-        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-        try (InputStream input = uploadedFile.getInputStream()) {
-            int nRead;
-            byte[] data = new byte[(int) uploadedFile.getSize()];
-
-            while ((nRead = input.read(data, 0, data.length)) != -1) {
-                buffer.write(data, 0, nRead);
-            }
-        } catch (IOException e) {
-            Mensaje = "Algo salio mal cargar el archivo";
-        }
-        foto = buffer.toByteArray();
-        setSc(new DefaultStreamedContent(new ByteArrayInputStream(foto)));
-    }
-
-//    public StreamedContent getMyImage() {
-//        byte[] buffer;
-//        StreamedContent stream = null;
-//       // FacesContext fc = FacesContext.getCurrentInstance();
-//        if (foto != null) {
-//            buffer = foto;
-//            InputStream input = new ByteArrayInputStream(buffer);
-//            stream = new DefaultStreamedContent(input,
-//                    "image/jpeg");
-//        }
-//        return stream;
+    
+    
+    
+//    public String getFileName() {
+//        return fileName;
+//    }
+//
+//    public void setFileName(String fileName) {
+//        this.fileName = fileName;
+//    }
+//
+//    public Part getUploadedFile() {
+//        return uploadedFile;
+//    }
+//
+//    public String getGraphicImage() {
+//        return graphicImage;
+//    }
+//
+//    public void setGraphicImage(String graphicImage) {
+//        this.graphicImage = graphicImage;
+//    }
+//
+//    public StreamedContent getSc() {
+//        return sc;
+//    }
+//
+//    public void setSc(StreamedContent sc) {
+//        this.sc = sc;
 //    }
 //    
-//    public void cargaIamgen(){
-//        this.graphicImage = "<p:graphicImage class=\"product_added\" value=\"#{beanProducto.myImage}\"></p:graphicImage>";
+//    public void setUploadedFile(Part uploadedFile) throws IOException {
+//        this.uploadedFile = uploadedFile;
+////        if(this.uploadedFile != null){
+////            upload();
+////        }
 //    }
+//
+//    public void upload() throws IOException {
+//        fileName = Paths.get(uploadedFile.getSubmittedFileName()).getFileName().toString();
+//        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+//        try (InputStream input = uploadedFile.getInputStream()) {
+//            int nRead;
+//            byte[] data = new byte[(int) uploadedFile.getSize()];
+//
+//            while ((nRead = input.read(data, 0, data.length)) != -1) {
+//                buffer.write(data, 0, nRead);
+//            }
+//        } catch (IOException e) {
+//            Mensaje = "Algo salio mal cargar el archivo";
+//        }
+//        foto = buffer.toByteArray();
+//        setSc(new DefaultStreamedContent(new ByteArrayInputStream(foto)));
+//    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+    
+    public void cargaImagePath(){
+        this.image = "<img class=\"product_added\" alt=\"imagenMante\" src=\"" + this.path + "\">";
+    }
 }
