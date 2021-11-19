@@ -64,5 +64,8 @@ public class Distrito {
         this.log_activo = log_activo;
     }
 
+    public String toString(){
+        return dsc_Distrito;
+    }
    
 }

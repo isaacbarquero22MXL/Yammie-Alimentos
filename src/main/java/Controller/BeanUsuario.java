@@ -8,7 +8,11 @@ package Controller;
 import DAO.SNMPExceptions;
 import Model.Barrio;
 import Model.Canton;
+import Model.Direccion;
+import Model.DireccionDB;
 import Model.Distrito;
+import Model.Horario;
+import Model.HorarioDB;
 import Model.Provincia;
 import Model.TipoRol;
 import Model.Usuario;
@@ -45,10 +49,10 @@ public class BeanUsuario {
     //Bean de direccion
     private BeanDireccion beanDireccion;
 
-    private String ID_Provincia;
-    private String ID_Canton;
-    private String ID_Distrito;
-    private String ID_Barrio;
+    private float ID_Provincia;
+    private float ID_Canton;
+    private float ID_Distrito;
+    private float ID_Barrio;
     private String otrasSenna;
 
     //Bean de Horario
@@ -115,7 +119,7 @@ public class BeanUsuario {
                     UsuarioDB uBD = new UsuarioDB();
                     if (uBD.validaIngreso(this.correo, this.contrasenna)) {
                         retorno = "ingreso";
-                    }else{
+                    } else {
                         mensaje = "El correo o contraseña no pertencen"
                                 + " a ningún usuario registrado. Intenta de nuevo.";
                     }
@@ -128,8 +132,9 @@ public class BeanUsuario {
         }
         return retorno;
     }
-        // destruye la sesión actual con los valores del bean
-        // y redirige a la página del parámetro
+    // destruye la sesión actual con los valores del bean
+    // y redirige a la página del parámetro
+
     public String destroySessionAndReturn(String page) {
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         return page;
@@ -206,26 +211,12 @@ public class BeanUsuario {
         return estado;
     }
 
-    // asigna los atributos del bean direccion
-    public void asignarDireccion() {
-        beanDireccion.setID_Barrio(ID_Barrio);
-        beanDireccion.setID_Canton(ID_Canton);
-        beanDireccion.setID_Distrito(ID_Distrito);
-        beanDireccion.setID_Provincia(ID_Provincia);
-        beanDireccion.setOtrasSenna(otrasSenna);
-    }
-
     // asigna los atributos al bean horario
-    public void asignarHorario() {
-        beanHorario.setInicio(inicio);
-        beanHorario.setFin(fin);
-    }
-
     public String deshacerBeansComp() {
-        beanDireccion.setID_Barrio("");
-        beanDireccion.setID_Canton("");
-        beanDireccion.setID_Distrito("");
-        beanDireccion.setID_Provincia("");
+        beanDireccion.setID_Barrio(-1);
+        beanDireccion.setID_Canton(-1);
+        beanDireccion.setID_Distrito(-1);
+        beanDireccion.setID_Provincia(-1);
         beanDireccion.setOtrasSenna("");
         beanHorario.setInicio("");
         beanHorario.setFin("");
@@ -234,21 +225,43 @@ public class BeanUsuario {
 
     // realiza todas las validaciones del bean usuario, dirección y horario
     // si todo es correcto ira al DB registrará el usuario
-    public void validaCamposRegistro() {
+    public String validaCamposRegistro() {
+        String resultado = "";
         mensaje = "";
         if (validaCamposUsuario() && validaTelefono()
                 && validaContrasennas() && validaCedula()) {
             if (validaBeanAdicionales()) {
-                mensaje = "registro completado";
+                UsuarioDB userDB = new UsuarioDB();
+                DireccionDB direccionDB = new DireccionDB();
+                HorarioDB horarioDB = new HorarioDB();
+                try {
+                    if (!userDB.validaIDUsuario(this.Cedula, this.correo)) {
+                        Usuario usuario = retornaUsuarioConstruido();
+                        Direccion direccion = retornaDirrecionConstruido();
+                        Horario horario = retornaHorarioConstruido();
+
+                        userDB.insertaUsuario(usuario);
+                        direccionDB.insertaDireccion(direccion, usuario.getCedula());
+                        horarioDB.insertaDireccion(horario, usuario.getCedula());
+                        contrasenna = "";
+                        
+                        mensaje = "<p class=\"errorLabel\" style=\"color: #DF9E16\">"
+                                + "El registro ha sido completado. Su cuenta está en espera de aprobación.<p>";
+                        resultado = "ingreso";
+                    } else {
+                        mensaje = "Esta cédula o correo de usuario ya se encuentra registrada en el sistema";
+                    }
+                } catch (SNMPExceptions ex) {
+                    mensaje = ex.toString();
+                }
             }
         }
+        return resultado;
     }
 
     // valida los beans externos ajenos a usuarios, pero complementarios
     public boolean validaBeanAdicionales() {
         boolean estado = true;
-        asignarDireccion();
-        asignarHorario();
         if (!beanDireccion.validaCampos()) {
             estado = false;
             mensaje = "Verifique que haya seleccionado todos lo campos requeridos"
@@ -268,6 +281,39 @@ public class BeanUsuario {
         if (validaBeanAdicionales()) {
             // aqui se llama al db
         }
+    }
+
+    public Usuario retornaUsuarioConstruido() {
+        Usuario user = new Usuario();
+        user.setCedula(Cedula);
+        user.setNombre(nombre);
+        user.setApellido(apellido);
+        user.setApellido2(apellido2);
+        user.setContrasenna(contrasenna);
+        user.setElectronico(correo);
+        user.setTelefono(telefono);
+        user.setTipoRol(TipoRol.Cliente);
+
+        return user;
+    }
+
+    public Direccion retornaDirrecionConstruido() {
+        Direccion direccion = new Direccion();
+        direccion.setProvincia(beanDireccion.getID_Provincia());
+        direccion.setCanton(beanDireccion.getID_Canton());
+        direccion.setDistrito(beanDireccion.getID_Distrito());
+        direccion.setBarrio(beanDireccion.getID_Barrio());
+        direccion.setOtrasSennas(beanDireccion.getOtrasSenna());
+
+        return direccion;
+    }
+
+    public Horario retornaHorarioConstruido() {
+        Horario horario = new Horario();
+        horario.setInicio(beanHorario.getInicio());
+        horario.setFin(beanHorario.getFin());
+
+        return horario;
     }
 
     // Getters and Setters
@@ -359,35 +405,35 @@ public class BeanUsuario {
         this.pattern = pattern;
     }
 
-    public String getID_Provincia() {
+    public float getID_Provincia() {
         return ID_Provincia;
     }
 
-    public void setID_Provincia(String ID_Provincia) {
+    public void setID_Provincia(float ID_Provincia) {
         this.ID_Provincia = ID_Provincia;
     }
 
-    public String getID_Canton() {
+    public float getID_Canton() {
         return ID_Canton;
     }
 
-    public void setID_Canton(String ID_Canton) {
+    public void setID_Canton(float ID_Canton) {
         this.ID_Canton = ID_Canton;
     }
 
-    public String getID_Distrito() {
+    public float getID_Distrito() {
         return ID_Distrito;
     }
 
-    public void setID_Distrito(String ID_Distrito) {
+    public void setID_Distrito(float ID_Distrito) {
         this.ID_Distrito = ID_Distrito;
     }
 
-    public String getID_Barrio() {
+    public float getID_Barrio() {
         return ID_Barrio;
     }
 
-    public void setID_Barrio(String ID_Barrio) {
+    public void setID_Barrio(float ID_Barrio) {
         this.ID_Barrio = ID_Barrio;
     }
 
@@ -429,5 +475,21 @@ public class BeanUsuario {
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
+    }
+
+    public BeanDireccion getBeanDireccion() {
+        return beanDireccion;
+    }
+
+    public void setBeanDireccion(BeanDireccion beanDireccion) {
+        this.beanDireccion = beanDireccion;
+    }
+
+    public BeanHorario getBeanHorario() {
+        return beanHorario;
+    }
+
+    public void setBeanHorario(BeanHorario beanHorario) {
+        this.beanHorario = beanHorario;
     }
 }

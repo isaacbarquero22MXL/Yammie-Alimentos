@@ -11,6 +11,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.naming.NamingException;
 
 /*
@@ -448,6 +450,11 @@ public class AccesoDatos implements Serializable {
 
     public AccesoDatos() {
         super();
+        try {
+            dbConn = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=SIYF_BD", "sa", "123456");
+        } catch (SQLException ex) {
+            Logger.getLogger(AccesoDatos.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }

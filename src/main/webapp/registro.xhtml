@@ -109,9 +109,11 @@
                                 </div>
                                 <div class="login_inputs">
                                     <h5 class="login_location">Provincia</h5>
-                                    <h:selectOneMenu value="#{beanUsuario.ID_Provincia}" class="input combo">
-                                        <f:selectItem itemValue="Seleccione"></f:selectItem>
-                                        <f:selectItem itemValue="Alajuela"></f:selectItem>
+                                    <h:selectOneMenu value="#{beanUsuario.beanDireccion.ID_Provincia}" class="input combo" label="pro" id="pro">
+                                        <f:selectItems value="#{beanUsuario.beanDireccion.listaProvincias()}"></f:selectItems>
+                                        <f:ajax event="change" listener="#{beanUsuario.beanDireccion.listaCantonesPorProvincia()}" render="can" execute="@this"/>
+                                        <f:ajax event="change" listener="#{beanUsuario.beanDireccion.listaDistritosPorCanton()}" render="dis" execute="@this"/>
+                                        <f:ajax event="change" listener="#{beanUsuario.beanDireccion.listaBarriosPorDistrito()}" render="bar" execute="@this"/>
                                     </h:selectOneMenu>
                                 </div>
                             </div>
@@ -121,9 +123,10 @@
                                 </div>
                                 <div class="login_inputs">
                                     <h5 class="login_location">Cantón</h5>
-                                    <h:selectOneMenu value="#{beanUsuario.ID_Canton}" class="input combo">
-                                        <f:selectItem itemValue="Seleccione"></f:selectItem>
-                                        <f:selectItem itemValue="Alajuela"></f:selectItem>
+                                    <h:selectOneMenu value="#{beanUsuario.beanDireccion.ID_Canton}" class="input combo" label="can" id="can">
+                                        <f:selectItems value="#{beanUsuario.beanDireccion.listaCantonesPorProvincia()}"></f:selectItems>
+                                        <f:ajax event="change" listener="#{beanUsuario.beanDireccion.listaDistritosPorCanton()}" render="dis" execute="@this"/>
+                                        <f:ajax event="change" listener="#{beanUsuario.beanDireccion.listaBarriosPorDistrito()}" render="bar" execute="@this"/>
                                     </h:selectOneMenu>
                                 </div>
                             </div>
@@ -133,9 +136,9 @@
                                 </div>
                                 <div class="login_inputs">
                                     <h5 class="login_location">Distrito</h5>
-                                    <h:selectOneMenu value="#{beanUsuario.ID_Distrito}" class="input combo">
-                                        <f:selectItem itemValue="Seleccione"></f:selectItem>
-                                        <f:selectItem itemValue="San Antonio del Tejar"></f:selectItem>
+                                    <h:selectOneMenu value="#{beanUsuario.beanDireccion.ID_Distrito}" class="input combo" label="dis" id="dis">
+                                        <f:selectItems value="#{beanUsuario.beanDireccion.listaDistritosPorCanton()}"></f:selectItems>
+                                        <f:ajax event="change" listener="#{beanUsuario.beanDireccion.listaBarriosPorDistrito()}" render="bar" execute="@this"/>
                                     </h:selectOneMenu>
                                 </div>
                             </div>
@@ -145,9 +148,8 @@
                                 </div>
                                 <div class="login_inputs">
                                     <h5 class="login_location">Barrio</h5>
-                                    <h:selectOneMenu value="#{beanUsuario.ID_Barrio}" class="input combo">
-                                        <f:selectItem itemValue="Seleccione"></f:selectItem>
-                                        <f:selectItem itemValue="Urb. Arboleda"></f:selectItem>
+                                    <h:selectOneMenu value="#{beanUsuario.beanDireccion.ID_Barrio}" class="input combo" label="bar" id="bar">
+                                        <f:selectItems value="#{beanUsuario.beanDireccion.listaBarriosPorDistrito()}"></f:selectItems>
                                     </h:selectOneMenu>
                                 </div>
                             </div>
@@ -157,7 +159,7 @@
                                 </div>
                                 <div class="login_inputs">
                                     <h5>Otras Señas</h5>
-                                    <h:inputText value="#{beanUsuario.otrasSenna}" class="input"></h:inputText>
+                                    <h:inputText value="#{beanUsuario.beanDireccion.otrasSenna}" class="input"></h:inputText>
                                 </div>
                             </div>
                         </div>
@@ -168,9 +170,8 @@
                                 </div>
                                 <div class="login_inputs">
                                     <h5 class="login_location">Horario de Entrega (Desde)</h5>
-                                    <h:selectOneMenu value="#{beanUsuario.inicio}" class="input combo">
-                                        <f:selectItem itemValue="Seleccione"></f:selectItem>
-                                        <f:selectItem itemValue="Lunes 8:00am"></f:selectItem>
+                                    <h:selectOneMenu value="#{beanUsuario.beanHorario.inicio}" class="input combo">
+                                        <f:selectItems value="#{beanUsuario.beanHorario.listaHorarios()}"></f:selectItems>
                                     </h:selectOneMenu>
                                 </div>
                             </div><div class="login_section">
@@ -179,16 +180,15 @@
                                 </div>
                                 <div class="login_inputs">
                                     <h5 class="login_location">Horario de Entrega (Hasta)</h5>
-                                    <h:selectOneMenu value="#{beanUsuario.fin}" class="input combo">
-                                        <f:selectItem itemValue="Seleccione"></f:selectItem>
-                                        <f:selectItem itemValue="Lunes 5:00pm"></f:selectItem>
+                                    <h:selectOneMenu value="#{beanUsuario.beanHorario.fin}" class="input combo">
+                                        <f:selectItems value="#{beanUsuario.beanHorario.listaHorarios()}"></f:selectItems>
                                     </h:selectOneMenu>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="login_section">
-                        <h:outputLabel class="errorLabel" value="#{beanUsuario.mensaje}"></h:outputLabel>
+                        <h:outputLabel escape="false" class="errorLabel" value="#{beanUsuario.mensaje}"></h:outputLabel>
                     </div>
                     <div class="login_register section">
                         <p class="login_register-p">

@@ -56,4 +56,8 @@ public class Provincia {
     public void setLog_activo(float log_activo) {
         this.log_activo = log_activo;
     }
+    
+    public String toString(){
+        return dsc_provincia;
+    }
 }

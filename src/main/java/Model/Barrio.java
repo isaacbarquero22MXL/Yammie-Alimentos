@@ -22,6 +22,7 @@ public class Barrio {
         this.setCod_provincia(cod_provincia);
         this.setCod_canton(cod_canton);
         this.setCod_distrito(cod_distrito);
+        this.setCod_barrio(cod_barrio);
         this.setDsc_barrio(dsc_barrio);
         this.setLog_activo(log_activo);
     }
@@ -72,5 +73,9 @@ public class Barrio {
 
     public void setLog_activo(float log_activo) {
         this.log_activo = log_activo;
+    }
+    
+    public String toString(){
+        return dsc_barrio;
     }
 }

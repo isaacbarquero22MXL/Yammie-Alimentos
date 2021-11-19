@@ -5,36 +5,41 @@
  */
 package Model;
 
+import DAO.AccesoDatos;
+import DAO.SNMPExceptions;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 /**
  *
  * @author User
  */
 public class HorarioDB {
-     private int ID;
-    private String inicio;
-    private String fin;
+     public void insertaDireccion(Horario horario, String usuario) throws SNMPExceptions{
+         String strSQL = "";     
+        try {
 
-    public int getID() {
-        return ID;
-    }
+            //Se intancia la clase de acceso a datos
+            AccesoDatos accesoDatos = new AccesoDatos();
+            
+            strSQL = "INSERT INTO HorarioEntrega VALUES (?,?,?)";
+            
+            PreparedStatement insert = accesoDatos.getDbConn().prepareStatement(strSQL);
+            insert.setString(1, horario.getInicio());
+            insert.setString(2, horario.getFin());
+            insert.setString(3, usuario);
+            
+            insert.executeUpdate();
+            insert.close();
+            accesoDatos.cerrarConexion();
+        } catch (SQLException e) {
+            throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage(), e.getErrorCode());
+        } catch (Exception e) {
+            throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());
+        } finally {
 
-    public void setID(int ID) {
-        this.ID = ID;
-    }
-
-    public String getInicio() {
-        return inicio;
-    }
-
-    public void setInicio(String inicio) {
-        this.inicio = inicio;
-    }
-
-    public String getFin() {
-        return fin;
-    }
-
-    public void setFin(String fin) {
-        this.fin = fin;
+        }
     }
 }
+
+

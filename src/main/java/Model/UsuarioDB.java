@@ -7,8 +7,11 @@ package Model;
 
 import DAO.AccesoDatos;
 import DAO.SNMPExceptions;
+import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Calendar;
 import java.util.LinkedList;
 
 /**
@@ -16,8 +19,7 @@ import java.util.LinkedList;
  * @author Bryan e Isaac
  */
 public class UsuarioDB {
-    
-    
+
     public boolean validaIngreso(String email, String contrasenna) throws SNMPExceptions, SQLException {
         String select = "";
         boolean exist = false;
@@ -27,8 +29,8 @@ public class UsuarioDB {
             AccesoDatos accesoDatos = new AccesoDatos();
 
             //Se crea la sentencia de búsqueda
-            select = "SELECT * from USUARIO where CorreoElectronico='" +
-                    email +"' and contrasenna = '" + contrasenna + "' ";
+            select = "SELECT * from USUARIO where CorreoElectronico='"
+                    + email + "' and contrasenna = '" + contrasenna + "' and logActivo = 1";
             //Se ejecuta la sentencia SQL
             ResultSet rsPA = accesoDatos.ejecutaSQLRetornaRS(select);
             //Se llena el arryaList con los proyectos   
@@ -48,5 +50,74 @@ public class UsuarioDB {
         }
         return exist;
     }
-    
+
+    public void insertaUsuario(Usuario usuario) throws SNMPExceptions {
+        String strSQL = "";
+        try {
+
+            //Se intancia la clase de acceso a datos
+            AccesoDatos accesoDatos = new AccesoDatos();
+
+            strSQL = "INSERT INTO USUARIO VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+            PreparedStatement insert = accesoDatos.getDbConn().prepareStatement(strSQL);
+            insert.setString(1, usuario.getContrasenna());
+            insert.setString(2, usuario.getElectronico());
+            insert.setString(3, usuario.getCedula());
+            insert.setString(4, usuario.getNombre());
+            insert.setString(5, usuario.getApellido());
+            insert.setString(6, usuario.getApellido2());
+            insert.setString(7, usuario.getTelefono());
+            insert.setDate(8, new Date(Calendar.getInstance().getTime().getTime()));
+            insert.setDate(9, new Date(Calendar.getInstance().getTime().getTime()));
+            insert.setString(10, usuario.getCedula());
+            insert.setDate(11, new Date(Calendar.getInstance().getTime().getTime()));
+            insert.setBoolean(12, false);
+
+            insert.executeUpdate();
+            insert.close();
+
+            strSQL = "INSERT INTO ROLUSUARIO VALUES (?,?)";
+            PreparedStatement insert2 = accesoDatos.getDbConn().prepareStatement(strSQL);
+            insert2.setString(1, usuario.getTipoRol().toString());
+            insert2.setString(2, usuario.getCedula());
+
+            insert2.executeUpdate();
+            insert2.close();
+            accesoDatos.cerrarConexion();
+        } catch (SQLException e) {
+            throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage(), e.getErrorCode());
+        } catch (Exception e) {
+            throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());
+        } finally {
+
+        }
+    }
+
+    public boolean validaIDUsuario(String cedula, String correo) throws SNMPExceptions {
+        String strSQL = "";
+        boolean exist = false;
+        try {
+
+            //Se intancia la clase de acceso a datos
+            AccesoDatos accesoDatos = new AccesoDatos();
+
+            strSQL = "SELECT * FROM USUARIO WHERE CEDULA = '" + cedula + "' or CorreoElectronico = '"+ correo + "' ";
+
+            ResultSet rsPA = accesoDatos.ejecutaSQLRetornaRS(strSQL);
+            //Se llena el arryaList con los proyectos   
+            while (rsPA.next()) {
+                exist = true;
+                break;
+            }
+            rsPA.close();
+            accesoDatos.cerrarConexion();
+        } catch (SQLException e) {
+            throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage(), e.getErrorCode());
+        } catch (Exception e) {
+            throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());
+        } finally {
+
+        }
+        return exist;
+    }
 }

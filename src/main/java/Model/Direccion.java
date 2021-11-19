@@ -11,9 +11,70 @@ package Model;
  */
 public class Direccion {
     private String ID;
-    private Provincia provincia;
-    private Canton canton;
-    private Distrito distrito;
-    private Barrio barrio;
+    private float provincia;
+    private float canton;
+    private float distrito;
+    private float barrio;
+    private String tipoDireccion;
+    private String otrasSennas;
     
+    public Direccion(){
+        this.tipoDireccion = "Principal";
+    }
+
+    public String getID() {
+        return ID;
+    }
+
+    public void setID(String ID) {
+        this.ID = ID;
+    }
+
+    public String getTipoDireccion() {
+        return tipoDireccion;
+    }
+
+    public void setTipoDireccion(String tipoDireccion) {
+        this.tipoDireccion = tipoDireccion;
+    }
+
+    public float getProvincia() {
+        return provincia;
+    }
+
+    public void setProvincia(float provincia) {
+        this.provincia = provincia;
+    }
+
+    public float getCanton() {
+        return canton;
+    }
+
+    public void setCanton(float canton) {
+        this.canton = canton;
+    }
+
+    public float getDistrito() {
+        return distrito;
+    }
+
+    public void setDistrito(float distrito) {
+        this.distrito = distrito;
+    }
+
+    public float getBarrio() {
+        return barrio;
+    }
+
+    public void setBarrio(float barrio) {
+        this.barrio = barrio;
+    }
+
+    public String getOtrasSennas() {
+        return otrasSennas;
+    }
+
+    public void setOtrasSennas(String otrasSennas) {
+        this.otrasSennas = otrasSennas;
+    }
 }
