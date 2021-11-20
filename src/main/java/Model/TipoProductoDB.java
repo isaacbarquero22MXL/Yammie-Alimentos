@@ -9,6 +9,7 @@ import DAO.AccesoDatos;
 import DAO.SNMPExceptions;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 /**
@@ -16,11 +17,11 @@ import java.util.LinkedList;
  * @author Bryan e Isaac
  */
 public class TipoProductoDB {
-    public LinkedList<TipoProducto> listaTipoProducto() throws SNMPExceptions, SQLException {
+    public ArrayList<TipoProducto> listaTipoProducto() throws SNMPExceptions, SQLException {
 
         // breakpoint en plublic**
         String select = "";
-        LinkedList<TipoProducto> listaTipo = new LinkedList<TipoProducto>();
+        ArrayList<TipoProducto> listaTipo = new ArrayList<TipoProducto>();
 
         try {
 

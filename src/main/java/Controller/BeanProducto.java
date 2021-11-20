@@ -16,6 +16,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.servlet.http.HttpSession;
 import Model.Usuario;
+import java.util.ArrayList;
 
 /**
  *
@@ -32,6 +33,15 @@ public class BeanProducto {
     private String Mensaje = "";
     private TipoProducto tipoProducto;
   
+    private int ID_Tipo;
+
+    public int getID_Tipo() {
+        return ID_Tipo;
+    }
+
+    public void setID_Tipo(int ID_Tipo) {
+        this.ID_Tipo = ID_Tipo;
+    }
 
     // Imagen por directorio
     private String path;
@@ -129,10 +139,10 @@ public class BeanProducto {
             isValid = false;
         }
         
-        if (tipoProducto == null || tipoProducto.getDescripcion().equals("Seleccione")) {
-            Mensaje = "Debe escoger un tipo de producto";
-            isValid = false;
-        }
+//        if (tipoProducto == null || tipoProducto.getDescripcion().equals("Seleccione")) {
+//            Mensaje = "Debe escoger un tipo de producto";
+//            isValid = false;
+//        }
         
         if (this.path.equals("")) {
             Mensaje = "La ruta de imágen no puede estar vacía";
@@ -161,7 +171,7 @@ public class BeanProducto {
                 Mensaje = e.getMessage();
             }
         }
-        return "ingreso";
+        return "holaMundo";
     }
 
     public Producto retornaProductoConstruido() {
@@ -176,16 +186,16 @@ public class BeanProducto {
         return producto;
     }
 
-    public LinkedList<SelectItem> getListaTipoProducto() {
+    public ArrayList<SelectItem> getListaTipoProducto() {
 
         TipoProductoDB tipoDB = new TipoProductoDB();
-        LinkedList resultList = new LinkedList();
-        resultList.add(new SelectItem(new TipoProducto("Seleccione", 0)));
+        ArrayList<SelectItem> resultList = new ArrayList();
+       // resultList.add(new SelectItem(new TipoProducto("Seleccione", 0)));
         try {
-            LinkedList<TipoProducto> tipoPro = tipoDB.listaTipoProducto();
+            ArrayList<TipoProducto> tipoPro = tipoDB.listaTipoProducto();
 
             for (TipoProducto tipoP : tipoPro) {
-                resultList.add(new SelectItem(tipoP));
+                resultList.add(new SelectItem(tipoP.getCodigo(), tipoP.getDescripcion()));
             }
         } catch (SNMPExceptions ex) {
             Mensaje = ex.getMensajeParaDesarrollador();

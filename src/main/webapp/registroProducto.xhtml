@@ -19,7 +19,7 @@
         <title>Yammie - mantenimiento</title>
     </h:head>
     <h:body>
-        <h:form enctype="multipart/form-data">
+        <h:form acceptcharset="UTF-8" enctype="multipart/form-data">
             <main class="section" id="main">
                 <div class="login_logo" onclick="animation()">
                     <img src="images/YammieLogo.png" alt="logo" class="login_logo-img"/>
@@ -42,6 +42,15 @@
                                 <i class='bx bxs-dish'></i>
                             </div>
                             <div class="login_inputs">
+                                <h5>Precio</h5>
+                                <h:inputText class="input" value="#{beanProducto.precio}"></h:inputText>
+                            </div>
+                        </div>
+                         <div class="login_section">
+                            <div class="login_icon">
+                                <i class='bx bxs-dish'></i>
+                            </div>
+                            <div class="login_inputs">
                                 <h5>Descripción</h5>
                                 <h:inputText value="#{beanProducto.descripcion}" class="input"></h:inputText>
                             </div>
@@ -51,16 +60,7 @@
                                 <i class='bx bxs-dish'></i>
                             </div>
                             <div class="login_inputs">
-                                <h5>Precio</h5>
-                                <h:inputText value="#{beanProducto.precio}" class="input"></h:inputText>
-                            </div>
-                        </div>
-                        <div class="login_section">
-                            <div class="login_icon">
-                                <i class='bx bxs-dish'></i>
-                            </div>
-                            <div class="login_inputs">
-                                <h5>Cantidad mínima</h5>
+                                <h5>Cantidad minima</h5>
                                 <h:inputText value="#{beanProducto.cantMinVenta}" class="input"></h:inputText>
                             </div>
                         </div>
@@ -70,8 +70,9 @@
                             </div>
                             <div class="login_inputs">
                                 <h5 class="login_location">Tipo Producto</h5>
-                                <h:selectOneMenu value="#{beanProducto.tipoProducto}" class="input combo">
+                                <h:selectOneMenu value="#{beanProducto.ID_Tipo}" class="input combo">
                                     <f:selectItems value="#{beanProducto.listaTipoProducto}"></f:selectItems> 
+                                    <f:ajax/>
                                 </h:selectOneMenu>
                             </div>
                         </div>
@@ -92,7 +93,6 @@
                                     <h:outputLabel class="product_image label_image" escape="false" value="#{beanProducto.image}"></h:outputLabel>
                                 </div>
                             </div>
-                            <div class="product_button"></div>
                         </div>
                     </div>
                     <div class="login_section">
@@ -100,12 +100,12 @@
                     </div>
                     <hr/>
                     <div class="mante_btn">
-                        <h:commandButton class="button" value="Registrar Producto" action="#{beanProducto.realizaRegistroProducto()}"></h:commandButton>
+                        <h:commandButton class="button" value="Registrar Producto" type="submit" action="#{beanProducto.realizaRegistroProducto()}"></h:commandButton>
                         <div class="mante_btn-options">
-                            <h:commandButton class="button" title="Editar" value="Editar"></h:commandButton>
-                            <h:commandButton class="button" title="Nuevo" value="Nuevo"></h:commandButton>
-                            <h:commandButton class="button" title="Buscar" value="Buscar"></h:commandButton>
-                            <h:commandButton class="button" title="Ayuda" value="Ayuda"></h:commandButton>
+                            <h:commandButton class="button" title="Editar" type="button" value="Editar"></h:commandButton>
+                            <h:commandButton class="button" title="Nuevo" type="button" value="Nuevo"></h:commandButton>
+                            <h:commandButton class="button" title="Buscar" type="button" value="Buscar"></h:commandButton>
+                            <h:commandButton class="button" title="Ayuda" type="button" value="Ayuda"></h:commandButton>
                         </div>
                     </div>
                 </div>
