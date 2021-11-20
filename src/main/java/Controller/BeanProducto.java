@@ -24,12 +24,12 @@ import Model.Usuario;
 
 public class BeanProducto {
 
-    private String Identificacion;
+    private String identificacion;
     private int cantMinVenta;
     private double precio;
     private String descripcion;
     private String resultado;
-    private String Mensaje;
+    private String Mensaje = "";
     private TipoProducto tipoProducto;
   
 
@@ -40,11 +40,11 @@ public class BeanProducto {
     public BeanProducto() {}
 
     public String getIdentificacion() {
-        return Identificacion;
+        return identificacion;
     }
 
     public void setIdentificacion(String Identificacion) {
-        this.Identificacion = Identificacion;
+        this.identificacion = Identificacion;
     }
 
     public int getCantMinVenta() {
@@ -110,10 +110,10 @@ public class BeanProducto {
 
     public boolean VerificarCampos() {
         boolean isValid = true;
-        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-        Usuario user = (Usuario) session.getAttribute("usuario");
+//        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+//        Usuario user = (Usuario) session.getAttribute("usuario");
         
-        if (this.Identificacion.equals("")) {
+        if (this.identificacion.equals("")) {
             Mensaje = "Por favor digite un ID para este producto.";
             isValid = false;
         }
@@ -129,13 +129,18 @@ public class BeanProducto {
             isValid = false;
         }
         
-        if (tipoProducto.getDescripcion().equals("Seleccione")) {
+        if (tipoProducto == null || tipoProducto.getDescripcion().equals("Seleccione")) {
             Mensaje = "Debe escoger un tipo de producto";
             isValid = false;
         }
         
         if (this.path.equals("")) {
             Mensaje = "La ruta de imágen no puede estar vacía";
+            isValid = false;
+        }
+        
+        if (this.descripcion.equals("")) {
+            Mensaje = "Por favor escriba una descripción para el producto";
             isValid = false;
         }
         
@@ -161,7 +166,7 @@ public class BeanProducto {
 
     public Producto retornaProductoConstruido() {
         Producto producto = new Producto();
-        producto.setIdentificacion(this.Identificacion);
+        producto.setIdentificacion(this.identificacion);
         producto.setFoto(this.path);
         producto.setCantMinVenta(this.cantMinVenta);
         producto.setPrecio(this.precio);
