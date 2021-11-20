@@ -11,14 +11,16 @@ package Model;
  */
 public class Producto {
     private String Identificacion;
-    private byte[] foto;
+    private String foto;
     private int cantMinVenta;
     private double precio;
+    private TipoProducto tipo;
+    private String descripcion;
 
     public Producto() {
     }
 
-    public Producto(String Identificacion, byte[] foto, int cantMinVenta, double precio) {
+    public Producto(String Identificacion, String foto, int cantMinVenta, double precio) {
         this.Identificacion = Identificacion;
         this.foto = foto;
         this.cantMinVenta = cantMinVenta;
@@ -33,11 +35,11 @@ public class Producto {
         this.Identificacion = Identificacion;
     }
 
-    public byte[] getFoto() {
+    public String getFoto() {
         return foto;
     }
 
-    public void setFoto(byte[] foto) {
+    public void setFoto(String foto) {
         this.foto = foto;
     }
 
@@ -55,6 +57,22 @@ public class Producto {
 
     public void setPrecio(double precio) {
         this.precio = precio;
+    }
+
+    public TipoProducto getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(TipoProducto tipo) {
+        this.tipo = tipo;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
     
     

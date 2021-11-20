@@ -12,7 +12,7 @@ import java.sql.SQLException;
 
 /**
  *
- * @author User
+ * @author Bryan e Isaac
  */
 public class HorarioDB {
      public void insertaDireccion(Horario horario, String usuario) throws SNMPExceptions{

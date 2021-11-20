@@ -5,116 +5,36 @@
  */
 package Controller;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.Serializable;
-import java.nio.file.Paths;
-
+import DAO.SNMPExceptions;
+import Model.Producto;
+import Model.ProductoDB;
+import Model.TipoProducto;
+import Model.TipoProductoDB;
+import java.sql.SQLException;
 import java.util.LinkedList;
-import javax.enterprise.context.SessionScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
-import javax.servlet.http.Part;
-import org.primefaces.model.DefaultStreamedContent;
-import org.primefaces.model.StreamedContent;
 
 /**
  *
- * @author bryan
+ * @author Bryan e Isaac
  */
-@SessionScoped
-public class BeanProducto implements Serializable {
 
-    private String Identificacion = "";
-    private byte[] foto;
+public class BeanProducto {
+
+    private String Identificacion;
     private int cantMinVenta;
     private double precio;
+    private String descripcion;
     private String resultado;
-    private String Mensaje = "";
-    private int TipoProducto;
+    private String Mensaje;
+    private TipoProducto tipoProducto;
     
-    // Imagen por arreglo de bytes
-    private String graphicImage;
-    private StreamedContent sc;
-    private Part uploadedFile;
-    private String fileName;
 
     // Imagen por directorio
     private String path;
     private String image;
-    
+
     public BeanProducto() {}
-
-    public boolean VerificarCampos() {
-
-        for (int i = 0; i < Identificacion.length(); i++) {
-            char digito = Identificacion.charAt(i);
-
-            if (Character.isLetter(digito)) {
-                Mensaje = "El ID debe contener unicamente numeros";
-                return false;
-            }
-        }
-
-        if (this.cantMinVenta < 0) {
-            Mensaje = "La cantidad de venta debe ser mayor a 0";
-            return false;
-
-        }
-
-        if (this.precio <= 0) {
-
-            Mensaje = "El precio no puede ser menos a 0";
-            return false;
-        }
-        if (TipoProducto == 0) {
-            Mensaje = "Debe ingresar un tipo de producto";
-            return false;
-        }
-        if (this.foto == null) {
-            Mensaje = "La foto no puede estar vacia";
-            return false;
-        }
-        Mensaje = "entro ";
-        return true;
-    }
-
-    public void RealizarRegistroProducto() {
-        if (VerificarCampos()) {
-            //codigo productoDB
-        }
-    }
-
-    public LinkedList<SelectItem> getListaTipoProducto() {
-//           throws SNMPExceptions, SQLException {
-//        String dscCortaProvincia = "";
-//        float codigoProvincia = 0;
-//
-//        LinkedList<Provincia> lista = new LinkedList<Provincia>();
-//        ProvinciaDB pDB = new ProvinciaDB();
-//
-//        lista = pDB.moTodo();
-
-        LinkedList resultList = new LinkedList();
-        resultList.add(new SelectItem(0, "Ingrese su Tipo de Producto"));
-        resultList.add(new SelectItem(1, "Frituras"));
-        resultList.add(new SelectItem(2, "Bebidas"));
-        resultList.add(new SelectItem(3, "Postres"));
-        resultList.add(new SelectItem(4, "Pastas"));
-        resultList.add(new SelectItem(5, "Almuerzos"));
-//         for (Canton can : lista) {
-//            
-//            
-//            dscCortaCanton = can.getDsc_Canton();
-//            cod_Canton = can.getCod_Canton();
-//            resultList.add(new SelectItem(codigoCanton,
-//                    dscCortaCanton));
-//         
-//        }
-        return resultList;
-    }
 
     public String getIdentificacion() {
         return Identificacion;
@@ -122,14 +42,6 @@ public class BeanProducto implements Serializable {
 
     public void setIdentificacion(String Identificacion) {
         this.Identificacion = Identificacion;
-    }
-
-    public byte[] getFoto() {
-        return foto;
-    }
-
-    public void setFoto(byte[] foto) {
-        this.foto = foto;
     }
 
     public int getCantMinVenta() {
@@ -172,69 +84,13 @@ public class BeanProducto implements Serializable {
         this.Mensaje = Mensaje;
     }
 
-    public int getTipoProducto() {
-        return TipoProducto;
+    public String getDescripcion() {
+        return descripcion;
     }
 
-    public void setTipoProducto(int TipoProducto) {
-        this.TipoProducto = TipoProducto;
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
-
-    
-    
-    
-    
-//    public String getFileName() {
-//        return fileName;
-//    }
-//
-//    public void setFileName(String fileName) {
-//        this.fileName = fileName;
-//    }
-//
-//    public Part getUploadedFile() {
-//        return uploadedFile;
-//    }
-//
-//    public String getGraphicImage() {
-//        return graphicImage;
-//    }
-//
-//    public void setGraphicImage(String graphicImage) {
-//        this.graphicImage = graphicImage;
-//    }
-//
-//    public StreamedContent getSc() {
-//        return sc;
-//    }
-//
-//    public void setSc(StreamedContent sc) {
-//        this.sc = sc;
-//    }
-//    
-//    public void setUploadedFile(Part uploadedFile) throws IOException {
-//        this.uploadedFile = uploadedFile;
-////        if(this.uploadedFile != null){
-////            upload();
-////        }
-//    }
-//
-//    public void upload() throws IOException {
-//        fileName = Paths.get(uploadedFile.getSubmittedFileName()).getFileName().toString();
-//        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-//        try (InputStream input = uploadedFile.getInputStream()) {
-//            int nRead;
-//            byte[] data = new byte[(int) uploadedFile.getSize()];
-//
-//            while ((nRead = input.read(data, 0, data.length)) != -1) {
-//                buffer.write(data, 0, nRead);
-//            }
-//        } catch (IOException e) {
-//            Mensaje = "Algo salio mal cargar el archivo";
-//        }
-//        foto = buffer.toByteArray();
-//        setSc(new DefaultStreamedContent(new ByteArrayInputStream(foto)));
-//    }
 
     public String getPath() {
         return path;
@@ -251,8 +107,100 @@ public class BeanProducto implements Serializable {
     public void setImage(String image) {
         this.image = image;
     }
-    
-    public void cargaImagePath(){
+
+    public void cargaImagePath() {
         this.image = "<img class=\"product_added\" alt=\"imagenMante\" src=\"" + this.path + "\">";
+    }
+
+    public TipoProducto getTipoProducto() {
+        return tipoProducto;
+    }
+
+    public void setTipoProducto(TipoProducto tipoProducto) {
+        this.tipoProducto = tipoProducto;
+    }
+
+    public boolean VerificarCampos() {
+        boolean isValid = true;
+//        String user = String.valueOf(FacesContext.getCurrentInstance().
+//                getExternalContext().getRequestParameterMap().get("paramUser"));
+
+        if (this.Identificacion.equals("")) {
+            Mensaje = "Por favor digite un ID para este producto.";
+            isValid = false;
+        }
+
+        if (this.cantMinVenta < 0) {
+            Mensaje = "La cantidad de venta debe ser mayor a 0";
+            isValid = false;
+        }
+
+        if (this.precio <= 0) {
+
+            Mensaje = "El precio no puede ser menos a 0";
+            isValid = false;
+        }
+        
+        if (tipoProducto.getDescripcion().equals("Seleccione")) {
+            Mensaje = "Debe escoger un tipo de producto";
+            isValid = false;
+        }
+        
+        if (this.path.equals("")) {
+            Mensaje = "La ruta de imágen no puede estar vacía";
+            isValid = false;
+        }
+        
+        return isValid;
+    }
+
+    public String RealizarRegistroProducto() {
+        if (VerificarCampos()) {
+            //codigo productoDB
+            Producto producto = retornaProductoConstruido();
+            ProductoDB prodDB = new ProductoDB();
+            try {
+                if (!prodDB.validaIDUsuario(producto.getIdentificacion())) {
+                    prodDB.insertaProducto(producto);
+                    Mensaje = "<p class=\"errorLabel\" style=\"color: #00C32C\">"
+                                + "El registro de producto se ha completado.<p>";
+                }
+            } catch (Exception e) {
+                Mensaje = e.getMessage();
+            }
+        }
+        return "";
+    }
+
+    public Producto retornaProductoConstruido() {
+        Producto producto = new Producto();
+        producto.setIdentificacion(this.Identificacion);
+        producto.setFoto(this.path);
+        producto.setCantMinVenta(this.cantMinVenta);
+        producto.setPrecio(this.precio);
+        producto.setTipo(this.tipoProducto);
+        producto.setDescripcion(descripcion);
+        
+        return producto;
+    }
+
+    public LinkedList<SelectItem> getListaTipoProducto() {
+
+        TipoProductoDB tipoDB = new TipoProductoDB();
+        LinkedList resultList = new LinkedList();
+        resultList.add(new SelectItem(new TipoProducto("Seleccione", 0)));
+        try {
+            LinkedList<TipoProducto> tipoPro = tipoDB.listaTipoProducto();
+
+            for (TipoProducto tipoP : tipoPro) {
+                resultList.add(new SelectItem(tipoP));
+            }
+        } catch (SNMPExceptions ex) {
+            Mensaje = ex.getMensajeParaDesarrollador();
+        } catch (SQLException ex) {
+            Mensaje = ex.getMessage();
+        }
+
+        return resultList;
     }
 }

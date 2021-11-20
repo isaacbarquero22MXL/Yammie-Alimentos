@@ -75,6 +75,7 @@ public class BeanUsuario {
     public BeanUsuario() {
         beanDireccion = new BeanDireccion();
         beanHorario = new BeanHorario();
+        usuario.setCedula("118010156");
     }
 
     // Métodos

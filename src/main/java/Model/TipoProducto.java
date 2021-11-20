@@ -37,5 +37,8 @@ public class TipoProducto {
         this.codigo = codigo;
     }
     
+    public String toString(){
+        return this.Descripcion;
+    }
    
 }
