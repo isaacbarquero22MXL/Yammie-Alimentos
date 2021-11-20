@@ -12,7 +12,10 @@ import Model.TipoProducto;
 import Model.TipoProductoDB;
 import java.sql.SQLException;
 import java.util.LinkedList;
+import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import javax.servlet.http.HttpSession;
+import Model.Usuario;
 
 /**
  *
@@ -28,7 +31,7 @@ public class BeanProducto {
     private String resultado;
     private String Mensaje;
     private TipoProducto tipoProducto;
-    
+  
 
     // Imagen por directorio
     private String path;
@@ -60,20 +63,12 @@ public class BeanProducto {
         this.precio = precio;
     }
 
-    public String getResultado() {
-        return resultado;
+    public String getDescripcion() {
+        return descripcion;
     }
 
-    public void setResultado(String resultado) {
-        this.resultado = resultado;
-    }
-
-    public String getEstado() {
-        return Mensaje;
-    }
-
-    public void setEstado(String estado) {
-        this.Mensaje = estado;
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
     public String getMensaje() {
@@ -82,14 +77,6 @@ public class BeanProducto {
 
     public void setMensaje(String Mensaje) {
         this.Mensaje = Mensaje;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
     }
 
     public String getPath() {
@@ -119,12 +106,13 @@ public class BeanProducto {
     public void setTipoProducto(TipoProducto tipoProducto) {
         this.tipoProducto = tipoProducto;
     }
+    
 
     public boolean VerificarCampos() {
         boolean isValid = true;
-//        String user = String.valueOf(FacesContext.getCurrentInstance().
-//                getExternalContext().getRequestParameterMap().get("paramUser"));
-
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        Usuario user = (Usuario) session.getAttribute("usuario");
+        
         if (this.Identificacion.equals("")) {
             Mensaje = "Por favor digite un ID para este producto.";
             isValid = false;
@@ -154,9 +142,8 @@ public class BeanProducto {
         return isValid;
     }
 
-    public String RealizarRegistroProducto() {
+    public String realizaRegistroProducto() {
         if (VerificarCampos()) {
-            //codigo productoDB
             Producto producto = retornaProductoConstruido();
             ProductoDB prodDB = new ProductoDB();
             try {
@@ -169,7 +156,7 @@ public class BeanProducto {
                 Mensaje = e.getMessage();
             }
         }
-        return "";
+        return "ingreso";
     }
 
     public Producto retornaProductoConstruido() {

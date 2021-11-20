@@ -2,8 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <meta charset="UTF-8"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -20,7 +19,7 @@
         <title>Yammie - mantenimiento</title>
     </h:head>
     <h:body>
-        <h:form acceptcharset="UTF-8" enctype="multipart/form-data">
+        <h:form enctype="multipart/form-data">
             <main class="section" id="main">
                 <div class="login_logo" onclick="animation()">
                     <img src="images/YammieLogo.png" alt="logo" class="login_logo-img"/>
@@ -38,7 +37,7 @@
                                 <h:inputText value="#{beanProducto.identificacion}" class="input"></h:inputText>
                             </div>
                         </div>
-                         <div class="login_section">
+                        <div class="login_section">
                             <div class="login_icon">
                                 <i class='bx bxs-dish'></i>
                             </div>
@@ -90,7 +89,6 @@
                         <div class=" login_section product_image-section">
                             <div class="product">
                                 <div class="product_image">
-                                    <!--<p:graphicImage cache="false" class="product_added" value="{beanProducto.sc}"></p:graphicImage>-->
                                     <h:outputLabel class="product_image label_image" escape="false" value="#{beanProducto.image}"></h:outputLabel>
                                 </div>
                             </div>
@@ -102,7 +100,11 @@
                     </div>
                     <hr/>
                     <div class="mante_btn">
-                        <h:commandButton class="button" value="Registrar Producto" action="#{beanProducto.realizarRegistroProducto()}"></h:commandButton>
+                        <!--<h:commandButton class="button" value="Registrar Producto" action="#{beanProducto.realizaRegistroProducto()}"></h:commandButton>-->
+                        <h:commandButton class="button" value="Registrar" action="#{beanProducto.realizaRegistroProducto()}">
+                            <f:param name="paramUser" id="paramUser" value="#{beanUsuario.usuario.cedula}"/>
+                        </h:commandButton>
+
                         <div class="mante_btn-options">
                             <h:commandButton class="button" title="Editar" value="Editar"></h:commandButton>
                             <h:commandButton class="button" title="Nuevo" value="Nuevo"></h:commandButton>

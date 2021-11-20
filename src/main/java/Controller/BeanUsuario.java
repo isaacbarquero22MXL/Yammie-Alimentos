@@ -27,6 +27,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -75,7 +76,10 @@ public class BeanUsuario {
     public BeanUsuario() {
         beanDireccion = new BeanDireccion();
         beanHorario = new BeanHorario();
+        usuario = new Usuario();
         usuario.setCedula("118010156");
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        session.setAttribute("usuario", usuario);
     }
 
     // Métodos
