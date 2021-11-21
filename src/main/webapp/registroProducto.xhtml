@@ -46,7 +46,7 @@
                                 <h:inputText class="input" value="#{beanProducto.precio}"></h:inputText>
                             </div>
                         </div>
-                         <div class="login_section">
+                        <div class="login_section">
                             <div class="login_icon">
                                 <i class='bx bxs-dish'></i>
                             </div>
@@ -100,16 +100,60 @@
                     </div>
                     <hr/>
                     <div class="mante_btn">
-                        <h:commandButton class="button" value="Registrar Producto" type="submit" action="#{beanProducto.realizaRegistroProducto()}"></h:commandButton>
+                        <div class="mante_main-buttons"> 
+                            <h:commandButton class="button" value="Registrar Producto" type="submit" action="#{beanProducto.realizaRegistroProducto()}"></h:commandButton>
+                            <h:commandButton class="button updateBtn" value="Actualizar Producto" type="submit" action="#{beanProducto.actualizaProducto()}"></h:commandButton>
+                        </div>
                         <div class="mante_btn-options">
-                            <h:commandButton class="button" title="Editar" type="button" value="Editar"></h:commandButton>
-                            <h:commandButton class="button" title="Nuevo" type="button" value="Nuevo"></h:commandButton>
-                            <h:commandButton class="button" title="Buscar" type="button" value="Buscar"></h:commandButton>
                             <h:commandButton class="button" title="Ayuda" type="button" value="Ayuda"></h:commandButton>
+                            <h:commandButton class="button" title="Nuevo" value="Nuevo" action="#{beanProducto.cleanProduct()}"></h:commandButton>
                         </div>
                     </div>
+                    <h1 class="tableTitle" id="productTable">Lista Productos</h1>
+                    <h:dataTable value="#{beanProducto.listaProductos}" var="datos" class="dataTable">
+                        <h:column>
+                            <f:facet name="header">ID</f:facet>
+                                #{datos.identificacion}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Descripción</f:facet>
+                                #{datos.descripcion}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Precio ₡</f:facet>
+                                #{datos.precio}
+                        </h:column> 
+                        <h:column>
+                            <f:facet name="header">Cantidad minima de venta</f:facet>
+                                #{datos.cantMinVenta}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Fotografía</f:facet>
+                            <h:graphicImage value="#{datos.foto}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Tipo Producto</f:facet>
+                                #{datos.tipo.descripcion}
+                        </h:column>  
+                        <h:column>
+                            <div class="table_button">
+                                <h:commandButton class="tBtn" type="submit" image="images/edit.png" action="#{beanProducto.setearProductoSeleccionado(datos)}" ></h:commandButton>
+                                <h:commandButton class="tBtn" image="images/delete.png" action="#{beanProducto.setearProductoYEjecutarJavaScript(datos)}"></h:commandButton>
+                            </div>
+                        </h:column>  
+                    </h:dataTable>
                 </div>
             </main>
+            <div class="delete_section">
+                <div class="delete_content">
+                    <p class="delete_info">¿Está seguro que desea eliminar este producto?</p>
+                    <h:graphicImage value="#{beanProducto.productoSelected.foto}" class="delete_product-img"></h:graphicImage>
+                    <div class="buttonOptions">
+                        <h:commandButton class="button" value="Aceptar" action="#{beanProducto.eliminaProducto()}"></h:commandButton>
+                        <h:commandButton class="button" type="button" value="Cancelar" onclick="removeDialog()"></h:commandButton>
+                    </div>
+                </div>
+            </div>
             <!-- Scroll reveal JS -->
             <script src="js/scrollreveal.min.js"></script>
             <!-- ingreso JS  -->

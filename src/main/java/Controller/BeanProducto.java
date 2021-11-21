@@ -16,13 +16,17 @@ import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.servlet.http.HttpSession;
 import Model.Usuario;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.faces.context.ExternalContext;
+import org.primefaces.PrimeFaces;
 
 /**
  *
  * @author Bryan e Isaac
  */
-
 public class BeanProducto {
 
     private String identificacion;
@@ -32,22 +36,22 @@ public class BeanProducto {
     private String resultado;
     private String Mensaje = "";
     private TipoProducto tipoProducto;
-  
+
     private int ID_Tipo;
-
-    public int getID_Tipo() {
-        return ID_Tipo;
-    }
-
-    public void setID_Tipo(int ID_Tipo) {
-        this.ID_Tipo = ID_Tipo;
-    }
 
     // Imagen por directorio
     private String path;
     private String image;
 
-    public BeanProducto() {}
+    //Lista productos
+    ArrayList<Producto> listaProductos = new ArrayList<>();
+
+    // Producto seleccionado
+    Producto productoSelected;
+
+    public BeanProducto() {
+        refrescaListaProductos();
+    }
 
     public String getIdentificacion() {
         return identificacion;
@@ -116,13 +120,34 @@ public class BeanProducto {
     public void setTipoProducto(TipoProducto tipoProducto) {
         this.tipoProducto = tipoProducto;
     }
-    
+
+    public int getID_Tipo() {
+        return ID_Tipo;
+    }
+
+    public void setID_Tipo(int ID_Tipo) {
+        this.ID_Tipo = ID_Tipo;
+    }
+
+    public ArrayList<Producto> getListaProductos() {
+        return listaProductos;
+    }
+
+    public void setListaProductos(ArrayList<Producto> listaProductos) {
+        this.listaProductos = listaProductos;
+    }
+
+    public Producto getProductoSelected() {
+        return productoSelected;
+    }
+
+    public void setProductoSelected(Producto productoSelected) {
+        this.productoSelected = productoSelected;
+    }
 
     public boolean VerificarCampos() {
         boolean isValid = true;
-//        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-//        Usuario user = (Usuario) session.getAttribute("usuario");
-        
+
         if (this.identificacion.equals("")) {
             Mensaje = "Por favor digite un ID para este producto.";
             isValid = false;
@@ -138,40 +163,44 @@ public class BeanProducto {
             Mensaje = "El precio no puede ser menos a 0";
             isValid = false;
         }
-        
-//        if (tipoProducto == null || tipoProducto.getDescripcion().equals("Seleccione")) {
-//            Mensaje = "Debe escoger un tipo de producto";
-//            isValid = false;
-//        }
-        
+
+        if (this.ID_Tipo == 0) {
+            Mensaje = "Seleccione el tipo de producto.";
+            isValid = false;
+        }
+
         if (this.path.equals("")) {
             Mensaje = "La ruta de imágen no puede estar vacía";
             isValid = false;
         }
-        
+
         if (this.descripcion.equals("")) {
             Mensaje = "Por favor escriba una descripción para el producto";
             isValid = false;
         }
-        
+
         return isValid;
     }
 
-    public String realizaRegistroProducto() {
+    public void realizaRegistroProducto() {
         if (VerificarCampos()) {
             Producto producto = retornaProductoConstruido();
             ProductoDB prodDB = new ProductoDB();
             try {
-                if (!prodDB.validaIDUsuario(producto.getIdentificacion())) {
-                    prodDB.insertaProducto(producto);
+                if (!prodDB.validaIDProducto(producto.getIdentificacion())) {
+                    HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+                    Usuario user = (Usuario) session.getAttribute("usuario");
+                    prodDB.insertaProducto(producto, user);
                     Mensaje = "<p class=\"errorLabel\" style=\"color: #00C32C\">"
-                                + "El registro de producto se ha completado.<p>";
+                            + "El registro de producto se ha completado.<p>";
+                    refrescaListaProductos();
+                } else {
+                    Mensaje = "Alparecer ya existe un producto con este ID registrado";
                 }
             } catch (Exception e) {
                 Mensaje = e.getMessage();
             }
         }
-        return "holaMundo";
     }
 
     public Producto retornaProductoConstruido() {
@@ -180,9 +209,22 @@ public class BeanProducto {
         producto.setFoto(this.path);
         producto.setCantMinVenta(this.cantMinVenta);
         producto.setPrecio(this.precio);
-        producto.setTipo(this.tipoProducto);
         producto.setDescripcion(descripcion);
-        
+
+        TipoProductoDB tipoDB = new TipoProductoDB();
+        try {
+            ArrayList<TipoProducto> listaTipos = tipoDB.listaTipoProducto();
+            for (TipoProducto tipo : listaTipos) {
+                if (tipo.getCodigo() == this.ID_Tipo) {
+                    producto.setTipo(tipo);
+                }
+            }
+        } catch (SNMPExceptions ex) {
+            Mensaje = ex.getMensajeParaDesarrollador();
+        } catch (SQLException ex) {
+            Mensaje = ex.getMessage();
+        }
+
         return producto;
     }
 
@@ -190,7 +232,7 @@ public class BeanProducto {
 
         TipoProductoDB tipoDB = new TipoProductoDB();
         ArrayList<SelectItem> resultList = new ArrayList();
-       // resultList.add(new SelectItem(new TipoProducto("Seleccione", 0)));
+        resultList.add(new SelectItem(0, "Seleccione"));
         try {
             ArrayList<TipoProducto> tipoPro = tipoDB.listaTipoProducto();
 
@@ -204,5 +246,88 @@ public class BeanProducto {
         }
 
         return resultList;
+    }
+
+    public void refrescaListaProductos() {
+        ProductoDB proDB = new ProductoDB();
+        try {
+            this.listaProductos = proDB.listaProductos();
+        } catch (Exception e) {
+            Mensaje = e.getMessage();
+        }
+    }
+
+    public void setearProductoSeleccionado(Producto producto) {
+        // se setean las propiedades de los input
+        this.identificacion = producto.getIdentificacion();
+        this.cantMinVenta = producto.getCantMinVenta();
+        this.descripcion = producto.getDescripcion();
+        this.precio = producto.getPrecio();
+        this.tipoProducto = producto.getTipo();
+        this.ID_Tipo = producto.getTipo().getCodigo();
+        this.path = producto.getFoto();
+        productoSelected = producto; // para poder eliminarlo si llega el caso 
+        PrimeFaces.current().executeScript("showUpdateBtn()");
+    }
+
+    public void setearProductoYEjecutarJavaScript(Producto producto) {
+        setearProductoSeleccionado(producto);
+        PrimeFaces.current().executeScript("showDialog()");
+        PrimeFaces.current().executeScript("removeUpdateBtn()");
+    }
+
+    public void actualizaProducto() {
+        if (VerificarCampos()) {
+            Producto producto = retornaProductoConstruido();
+            ProductoDB prodDB = new ProductoDB();
+
+            // esto permitirá setear el ID original del producto seleccionado por si el usuario lo trata cambiar.
+            producto.setIdentificacion(this.productoSelected.getIdentificacion());
+            try {
+                if (prodDB.validaIDProducto(producto.getIdentificacion())) {
+                    HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+                    Usuario user = (Usuario) session.getAttribute("usuario");
+                    prodDB.actualizaProducto(producto, user);
+                    Mensaje = "<p class=\"errorLabel\" style=\"color: #FA7E00\">"
+                            + "El producto se ha actualizado correctamente.<p>";
+                    refrescaListaProductos();
+                    PrimeFaces.current().executeScript("removeUpdateBtn()");
+                } else {
+                    Mensaje = "No se puede actualizar un producto con ID diferente al registrado.";
+                }
+            } catch (Exception e) {
+                Mensaje = e.getMessage();
+            }
+        }
+    }
+
+    public void eliminaProducto() {
+        ProductoDB prodDB = new ProductoDB();
+        try {
+            if (prodDB.validaIDProducto(this.productoSelected.getIdentificacion())) {
+                HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+                Usuario user = (Usuario) session.getAttribute("usuario");
+                prodDB.eliminaProducto(productoSelected, user);
+                Mensaje = "<p class=\"errorLabel\" style=\"color: #FA7E00\">"
+                        + "El producto se ha eliminado correctamente.<p>";
+                refrescaListaProductos();
+                cleanProduct();
+            } else {
+                Mensaje = "Al parecer el producto que intenta eliminar ya fue borrado o no existe.";
+            }
+        } catch (Exception e) {
+            Mensaje = e.getMessage();
+        }
+    }
+    
+    public void cleanProduct(){
+        this.identificacion = "";
+        this.cantMinVenta = 0;
+        this.descripcion = "";
+        this.precio = 0;
+        this.tipoProducto = null;
+        this.ID_Tipo = 0;
+        this.path = "";
+        productoSelected = null;
     }
 }
