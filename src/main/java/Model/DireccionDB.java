@@ -10,6 +10,7 @@ import DAO.SNMPExceptions;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 /**
@@ -102,9 +103,9 @@ public class DireccionDB {
         return listCant;
     }
 
-    public LinkedList<Distrito> SeleccionarDistritoporCanton(float codigoProv,float codigoCanton)
+    public LinkedList<Distrito> SeleccionarDistritoporCanton(float codigoProv, float codigoCanton)
             throws SNMPExceptions, SQLException {
-        
+
         String strSQL = "";
         LinkedList<Distrito> listDist = new LinkedList<Distrito>();
 
@@ -115,9 +116,9 @@ public class DireccionDB {
 
             strSQL = "SELECT COD_PROVINCIA,COD_CANTON,COD_DISTRITO,DSC_DISTRITO,LOG_ACTIVO "
                     + "FROM DISTRITO "
-                    + "WHERE LOG_ACTIVO=1 AND COD_PROVINCIA="+ codigoProv
-                    + " AND COD_CANTON=" + codigoCanton  + ";";
-                    
+                    + "WHERE LOG_ACTIVO=1 AND COD_PROVINCIA=" + codigoProv
+                    + " AND COD_CANTON=" + codigoCanton + ";";
+
             //Se ejecuta la sentencia SQL
             ResultSet rsPA = accesoDatos.ejecutaSQLRetornaRS(strSQL);
             //se llama el array con los proyectos
@@ -129,7 +130,7 @@ public class DireccionDB {
                 int logActivo = rsPA.getInt("LOG_ACTIVO");
 
                 Distrito distrito = new Distrito(codProvincia,
-                        codCanton, codDistrito,descDistrito, logActivo);
+                        codCanton, codDistrito, descDistrito, logActivo);
 
                 listDist.add(distrito);
             }
@@ -143,12 +144,12 @@ public class DireccionDB {
 
         }
         return listDist;
-    
+
     }
-    
-    public LinkedList<Barrio> SeleccionarBarrioporDistrito(float codigoProv,float codigoCanton, float codigoDistrito)
+
+    public LinkedList<Barrio> SeleccionarBarrioporDistrito(float codigoProv, float codigoCanton, float codigoDistrito)
             throws SNMPExceptions, SQLException {
-        
+
         String strSQL = "";
         LinkedList<Barrio> listBarrio = new LinkedList<Barrio>();
 
@@ -157,11 +158,11 @@ public class DireccionDB {
             //Se intancia la clase de acceso a datos
             AccesoDatos accesoDatos = new AccesoDatos();
 
-            strSQL = "SELECT COD_PROVINCIA,COD_CANTON,COD_DISTRITO,COD_BARRIO,DSC_BARRIO,LOG_ACTIVO\n " +
-                     "FROM BARRIO\n " +
-                     "WHERE LOG_ACTIVO=1 AND COD_PROVINCIA="+ codigoProv +"\n " +
-                     "AND COD_CANTON="+ codigoCanton +" AND COD_DISTRITO="+ codigoDistrito +";";
-                    
+            strSQL = "SELECT COD_PROVINCIA,COD_CANTON,COD_DISTRITO,COD_BARRIO,DSC_BARRIO,LOG_ACTIVO\n "
+                    + "FROM BARRIO\n "
+                    + "WHERE LOG_ACTIVO=1 AND COD_PROVINCIA=" + codigoProv + "\n "
+                    + "AND COD_CANTON=" + codigoCanton + " AND COD_DISTRITO=" + codigoDistrito + ";";
+
             //Se ejecuta la sentencia SQL
             ResultSet rsPA = accesoDatos.ejecutaSQLRetornaRS(strSQL);
             //se llama el array con los proyectos
@@ -174,7 +175,7 @@ public class DireccionDB {
                 int logActivo = rsPA.getInt("LOG_ACTIVO");
 
                 Barrio barrio = new Barrio(codProvincia,
-                        codCanton, codDistrito,codBarrio ,descBarrio, logActivo);
+                        codCanton, codDistrito, codBarrio, descBarrio, logActivo);
 
                 listBarrio.add(barrio);
             }
@@ -189,16 +190,16 @@ public class DireccionDB {
         }
         return listBarrio;
     }
-    
-    public void insertaDireccion(Direccion direccion, String usuario) throws SNMPExceptions{
-         String strSQL = "";     
+
+    public void insertaDireccion(Direccion direccion, String usuario) throws SNMPExceptions {
+        String strSQL = "";
         try {
 
             //Se intancia la clase de acceso a datos
             AccesoDatos accesoDatos = new AccesoDatos();
-            
+
             strSQL = "INSERT INTO DIRECCION VALUES (?,?,?,?,?,?,?)";
-            
+
             PreparedStatement insert = accesoDatos.getDbConn().prepareStatement(strSQL);
             insert.setString(1, usuario);
             insert.setFloat(2, direccion.getProvincia());
@@ -207,11 +208,11 @@ public class DireccionDB {
             insert.setFloat(5, direccion.getBarrio());
             insert.setString(6, direccion.getOtrasSennas());
             insert.setString(7, direccion.getTipoDireccion());
-            
+
             insert.executeUpdate();
             insert.close();
             accesoDatos.cerrarConexion();
-            
+
         } catch (SQLException e) {
             throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage(), e.getErrorCode());
         } catch (Exception e) {
@@ -219,5 +220,45 @@ public class DireccionDB {
         } finally {
 
         }
+    }
+
+    public ArrayList<Direccion> ObtenerHorarios(String cedula) throws SNMPExceptions,
+            SQLException {
+        String select = "";
+        ArrayList<Direccion> ListaDireccion = new ArrayList<Direccion>();
+
+        try {
+
+            //Se instancia la clase de acceso a datos
+            AccesoDatos accesoDatos = new AccesoDatos();
+
+            //Se crea la sentencia de búsqueda
+            select
+                    = "select * from Direccion where IDUsuario ='" + cedula + "'";
+            //Se ejecuta la sentencia SQL
+            ResultSet rsPA = accesoDatos.ejecutaSQLRetornaRS(select);
+            //Se llena el arryaList con los proyectos   
+            while (rsPA.next()) {
+                String ID=rsPA.getString("ID");
+                float provincia = rsPA.getFloat("Provincia");
+                float canton = rsPA.getFloat("Canton");
+                float distrito = rsPA.getFloat("Distrito");
+                float barrio = rsPA.getFloat("Barrio");
+                String tipoDireccion = rsPA.getString("TipoDireccion");
+                String otrasSennas = rsPA.getString("Otras");
+                ListaDireccion.add(new Direccion(ID, provincia, canton, distrito, barrio, tipoDireccion, otrasSennas));
+            }
+            rsPA.close();
+
+        } catch (SQLException e) {
+            throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION,
+                    e.getMessage(), e.getErrorCode());
+        } catch (Exception e) {
+            throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION,
+                    e.getMessage());
+        } finally {
+
+        }
+        return ListaDireccion;
     }
 }

@@ -5,6 +5,8 @@
  */
 package Model;
 
+import java.sql.Date;
+
 /**
  *
  * @author User
@@ -36,6 +38,15 @@ public class Horario {
 
     public void setFin(String fin) {
         this.fin = fin;
+    }
+
+    public Horario(int ID, String inicio, String fin) {
+        this.ID = ID;
+        this.inicio = inicio;
+        this.fin = fin;
+    }
+
+    public Horario() {
     }
     
     
