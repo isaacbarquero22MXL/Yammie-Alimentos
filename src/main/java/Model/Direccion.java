@@ -22,17 +22,6 @@ public class Direccion {
         this.tipoDireccion = "Principal";
     }
 
-    public Direccion(String ID, float provincia, float canton, float distrito, float barrio, String tipoDireccion, String otrasSennas) {
-        this.ID = ID;
-        this.provincia = provincia;
-        this.canton = canton;
-        this.distrito = distrito;
-        this.barrio = barrio;
-        this.tipoDireccion = tipoDireccion;
-        this.otrasSennas = otrasSennas;
-    }
-    
-
     public String getID() {
         return ID;
     }

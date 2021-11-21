@@ -5,22 +5,10 @@
  */
 package Model;
 
-import javax.lang.model.element.Element;
-
 /**
  *
  * @author Bryan e Isaac
  */
 public enum TipoRol {
-    Admin(0),Cliente(1),Despacho(2);
-    
-    public final int label;
-    
-    private TipoRol(int label){
-        this.label=label;
-    }
-    
-    public int getValue(){
-        return label;
-    }
+    Admin,Cliente,Despacho;
 }

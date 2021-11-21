@@ -15,7 +15,6 @@ import Model.Horario;
 import Model.HorarioDB;
 import Model.Provincia;
 import Model.TipoRol;
-import Model.TipoRolDB;
 import Model.Usuario;
 import Model.UsuarioDB;
 import java.io.Console;
@@ -71,16 +70,16 @@ public class BeanUsuario {
                     + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
 
     // Usuario Global
-    private Usuario usuarioGlobal;
+    private Usuario usuario;
 
     //Constructor
     public BeanUsuario() {
         beanDireccion = new BeanDireccion();
         beanHorario = new BeanHorario();
-        usuarioGlobal = new Usuario();
-        usuarioGlobal.setCedula("118010156");
+        usuario = new Usuario();
+        usuario.setCedula("118010156");
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-        session.setAttribute("usuario", usuarioGlobal);
+        session.setAttribute("usuario", usuario);
     }
 
     // Métodos
@@ -298,7 +297,7 @@ public class BeanUsuario {
         user.setContrasenna(contrasenna);
         user.setElectronico(correo);
         user.setTelefono(telefono);
-//        user.setTipoRol(TipoRol.Cliente);
+        user.setTipoRol(TipoRol.Cliente);
 
         return user;
     }
@@ -320,21 +319,6 @@ public class BeanUsuario {
         horario.setFin(beanHorario.getFin());
 
         return horario;
-    }
-    
-    public void GuardarInforUsuario(String correo,String contrasenna){
-                     UsuarioDB usuarioDB= new UsuarioDB();
-                     HorarioDB horarioDB= new HorarioDB();
-                     TipoRolDB tipoRolDB = new TipoRolDB();
-                     DireccionDB direccionDB= new DireccionDB();
-        try {
-        this.usuarioGlobal=usuarioDB.ObtenerInfoUsuario(correo, contrasenna);
-        this.usuarioGlobal.setListaDirecciones(direccionDB.ObtenerHorarios(usuarioGlobal.getCedula()));
-        this.usuarioGlobal.setListaHorarios(horarioDB.ObtenerHorarios(usuarioGlobal.getCedula()));
-        this.usuarioGlobal.setListaRoles(tipoRolDB.ObtenerTipoRol(usuarioGlobal.getCedula()));
-        } catch (Exception e) {
-        }
-       
     }
 
     // Getters and Setters
@@ -491,11 +475,11 @@ public class BeanUsuario {
     }
 
     public Usuario getUsuario() {
-        return usuarioGlobal;
+        return usuario;
     }
 
     public void setUsuario(Usuario usuario) {
-        this.usuarioGlobal = usuario;
+        this.usuario = usuario;
     }
 
     public BeanDireccion getBeanDireccion() {
