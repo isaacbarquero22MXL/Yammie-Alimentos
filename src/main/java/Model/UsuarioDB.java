@@ -79,7 +79,7 @@ public class UsuarioDB {
 
             strSQL = "INSERT INTO ROLUSUARIO VALUES (?,?)";
             PreparedStatement insert2 = accesoDatos.getDbConn().prepareStatement(strSQL);
-//            insert2.setString(1, usuario.getTipoRol().toString());
+            insert2.setString(1, usuario.getRolSeleccionado().toString());
             insert2.setString(2, usuario.getCedula());
 
             insert2.executeUpdate();
@@ -133,7 +133,8 @@ public class UsuarioDB {
 
               //Se crea la sentencia de búsqueda
               select = 
-                      "select * from usuario where CorreoElectronico='"+Correo+"'";
+                      "select * from usuario where CorreoElectronico='"+Correo+"' "
+                      + "and contrasenna = '" + Contrasenna+ "' ";
               //Se ejecuta la sentencia SQL
               ResultSet rsPA = accesoDatos.ejecutaSQLRetornaRS(select);
              //Se llena el arryaList con los proyectos   
@@ -143,14 +144,10 @@ public class UsuarioDB {
                 String CorreoElectronico    = rsPA.getString("CorreoElectronico");
                 String Cedula               = rsPA.getString("Cedula");
                 String Nombre               = rsPA.getString("nombre");
-                String Apellido             = rsPA.getString("Cedula");
-                String Apellido2            = rsPA.getString("apellido"); 
+                String Apellido             = rsPA.getString("apellido");
+                String Apellido2            = rsPA.getString("apellido2"); 
                 String telefono             = rsPA.getString("telefono");
                 Date   FechaVenciContrasena = rsPA.getDate("FechVenciContrasena");
-                Date   FechaRegistro        = rsPA.getDate("Cedula");
-                String usuarioEdita         = rsPA.getString("usuarioEdita");
-                String FechaEdita           = rsPA.getString("fechaEdita");
-                Boolean logActivo           = rsPA.getBoolean("logActivo");
                 
                 usuario= new Usuario(ContrasennaBD,CorreoElectronico,Cedula,Nombre,Apellido,Apellido2,telefono,FechaVenciContrasena);
               }

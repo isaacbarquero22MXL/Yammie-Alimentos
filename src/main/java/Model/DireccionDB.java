@@ -222,7 +222,7 @@ public class DireccionDB {
         }
     }
 
-    public ArrayList<Direccion> ObtenerHorarios(String cedula) throws SNMPExceptions,
+    public ArrayList<Direccion> ObtenerDirreciones(String cedula) throws SNMPExceptions,
             SQLException {
         String select = "";
         ArrayList<Direccion> ListaDireccion = new ArrayList<Direccion>();
@@ -234,12 +234,12 @@ public class DireccionDB {
 
             //Se crea la sentencia de búsqueda
             select
-                    = "select * from Direccion where IDUsuario ='" + cedula + "'";
+                    = "select * from Direccion where IDUsuario ='" + cedula + "' ";
             //Se ejecuta la sentencia SQL
             ResultSet rsPA = accesoDatos.ejecutaSQLRetornaRS(select);
             //Se llena el arryaList con los proyectos   
             while (rsPA.next()) {
-                String ID=rsPA.getString("ID");
+                String ID = rsPA.getString("ID");
                 float provincia = rsPA.getFloat("Provincia");
                 float canton = rsPA.getFloat("Canton");
                 float distrito = rsPA.getFloat("Distrito");

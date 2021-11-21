@@ -24,6 +24,8 @@ public class Usuario {
     private ArrayList<Direccion> listaDirecciones;
     private ArrayList<Horario> listaHorarios;
     private ArrayList<TipoRol> listaRoles;
+    private TipoRol rolSeleccionado;
+    
     public Usuario() {
     }
 
@@ -123,6 +125,14 @@ public class Usuario {
 
     public void setListaRoles(ArrayList<TipoRol> listaRoles) {
         this.listaRoles = listaRoles;
+    }
+
+    public TipoRol getRolSeleccionado() {
+        return rolSeleccionado;
+    }
+
+    public void setRolSeleccionado(TipoRol rolSeleccionado) {
+        this.rolSeleccionado = rolSeleccionado;
     }
     
     

@@ -16,8 +16,11 @@
         <!-- Main CSS     -->
         <link rel="stylesheet" href="css/style.css"/>
 
+        <link rel="stylesheet" href="css/mantenimiento.css"/>
         <!-- Producto CSS -->
         <link rel="stylesheet" href="css/producto.css"/>
+
+        <!--css mantenimientos para el table-->
 
         <title>Yammie - Alimentos</title>
     </h:head>
@@ -55,28 +58,59 @@
                                 <div class="user_container">
                                     <i class="bx bxs-user user" onclick="showUserMenu()"></i>
                                     <div class="submenu submenu_user">
-                                        <h6>Isaac Barquero Lizano</h6>
+                                        <h6><h:outputLabel value="#{beanUsuario.retornaNombreUser()}"></h:outputLabel></h6>
                                         <ul class="submenu_list">
                                             <li class="submenu_item">
-                                                <h:commandLink type="button" value="Horarios y Direcciones" class="submenu_link" action="#{beanUsuario.deshacerBeansComp()}"></h:commandLink>
+                                                <h:commandLink type="button" value="Horarios y Direcciones"
+                                                               class="submenu_link"
+                                                               action="#{beanUsuario.deshacerBeansComp()}"
+                                                               rendered="#{beanUsuario.isRol('Cliente')}">
+                                                </h:commandLink>
                                             </li>
                                             <li class="submenu_item">
-                                                <h:commandLink type="button" value="Registro Productos" class="submenu_link" action="registroProducto"></h:commandLink>
+                                                <h:commandLink type="button" value="Registro Productos" 
+                                                               class="submenu_link"
+                                                               action="registroProducto"
+                                                               rendered="#{!beanUsuario.isRol('Cliente')}">                                                                  
+                                                </h:commandLink>
                                             </li>
                                             <li class="submenu_item">
-                                                <h:commandLink type="button" value="Despacho" class="submenu_link" action="despacho"></h:commandLink>
+                                                <h:commandLink type="button" value="Despacho"
+                                                               class="submenu_link" 
+                                                               action="despacho"
+                                                               rendered="#{!beanUsuario.isRol('Cliente')}">
+
+                                                </h:commandLink>
                                             </li>
                                             <li class="submenu_item">
-                                                <h:commandLink type="button" value="Reportes" class="submenu_link" action="reportes"></h:commandLink>
+                                                <h:commandLink type="button" value="Reportes"
+                                                               class="submenu_link"
+                                                               action="reportes"
+                                                               rendered="#{beanUsuario.isRol('Admin')}">
+
+                                                </h:commandLink>
                                             </li>
                                             <li class="submenu_item">
-                                                <h:commandLink type="button" value="Facturar" class="submenu_link" action="facturar"></h:commandLink>
+                                                <h:commandLink type="button" value="Facturar"
+                                                               class="submenu_link" 
+                                                               action="facturar"
+                                                               rendered="#{!beanUsuario.isRol('Cliente')}">
+
+                                                </h:commandLink>
                                             </li>
-                                             <li class="submenu_item">
-                                                <h:commandLink type="button" value="Usuarios" class="submenu_link" action="usuarios"></h:commandLink>
+                                            <li class="submenu_item">
+                                                <h:commandLink type="button" value="Usuarios"
+                                                               class="submenu_link" 
+                                                               action="usuarios"
+                                                               rendered="#{beanUsuario.isRol('Admin')}">
+
+                                                </h:commandLink>
                                             </li>
-                                             <li class="submenu_item">
-                                                <h:commandLink type="button" value="Cerrar Sesión" class="submenu_link" action="index"></h:commandLink>
+                                            <li class="submenu_item">
+                                                <h:commandLink type="button" value="Cerrar Sesión"
+                                                               class="submenu_link"
+                                                               action="index">
+                                                </h:commandLink>
                                             </li>
                                         </ul>
                                     </div> 
@@ -92,7 +126,9 @@
                                                 <p class="cart_link" onclick="showCartItemPanel()">Ver carrito</p>
                                             </li>
                                             <li class="submenu_item">
-                                                <h:commandLink type="button" value="Confirmar Pedido" class="cart_link"></h:commandLink>
+                                                <h:commandLink type="button" value="Confirmar Pedido"
+                                                               class="cart_link"
+                                                               rendered="#{beanUsuario.isRol('Cliente')}"></h:commandLink>
                                             </li>
                                         </ul>
                                     </div>
@@ -130,63 +166,41 @@
                     <div class="product_filter">
                         <h:commandButton type="button" value="Filtro" class="button filter_btn" onclick="showFilterPanel()"></h:commandButton>
                     </div>
-                    <div class="product_container grid">
-                        <div class="product_data">
-                            <img src="images/papas.png" alt="producto" class="product_img"/>
-                            <div class="product_data-info">
-                                <h2>₡1000</h2>
-                                <h:commandButton type="button" value="Agregar" class="button addCart"><i class='bx bxs-cart-alt'></i></h:commandButton>
+                    <!--============= Aqui se cargará el catálogo de productos ================-->
+                    <!--                    <h:outputLabel class="product_container grid" escape="false"
+                                                       value="#{beanProducto.catalogoProductos()}">
+                                        </h:outputLabel>-->
+                    <h:dataTable value="#{beanProducto.listaProductos}" var="datos" class="dataTable">
+                        <h:column class="tableCol">
+                            <f:facet name="header">Código</f:facet>
+                                #{datos.identificacion}
+                        </h:column>
+                        <h:column class="tableCol">
+                            <f:facet name="header">Descripción</f:facet>
+                                #{datos.descripcion}
+                        </h:column>
+                        <h:column class="tableCol">
+                            <f:facet name="header">Precio ₡</f:facet>
+                                #{datos.precio}
+                        </h:column> 
+<!--                        <h:column>
+                            <f:facet name="header">Cantidad minima de venta</f:facet>
+                                {datos.cantMinVenta}
+                        </h:column>-->
+                        <h:column class="tableCol">
+                            <f:facet name="header">Fotografía</f:facet>
+                            <h:graphicImage value="#{datos.foto}"/>
+                        </h:column>
+                        <h:column class="tableCol">
+                            <f:facet name="header">Tipo Producto</f:facet>
+                                #{datos.tipo.descripcion}
+                        </h:column>  
+                        <h:column>
+                            <div class="table_button">
+                                <h:commandButton class="button" type="submit" image="images/cart.png" value="Agregar Carrito" action="#{beanProducto.agregaCarrito(datos)}" ></h:commandButton>
                             </div>
-                        </div>
-                        <div class="product_data">
-                            <img src="images/batido.png" alt="producto" class="product_img"/>
-                            <div class="product_data-info">
-                                <h2>₡1000</h2>
-                                <h:commandButton type="button" value="Agregar" class="button addCart"><i class='bx bxs-cart-alt'></i></h:commandButton>
-                            </div>
-                        </div>
-                        <div class="product_data">
-                            <img src="images/cafeH.png" alt="producto" class="product_img"/>
-                            <div class="product_data-info">
-                                <h2>₡1000</h2>
-                                <h:commandButton type="button" value="Agregar" class="button addCart"><i class='bx bxs-cart-alt'></i></h:commandButton>
-                            </div>
-                        </div>
-                        <div class="product_data">
-                            <img src="images/hamburguesa.png" alt="producto" class="product_img"/>
-                            <div class="product_data-info">
-                                <h2>₡1000</h2>
-                                <h:commandButton type="button" value="Agregar" class="button addCart"><i class='bx bxs-cart-alt'></i></h:commandButton>
-                            </div>
-                        </div>
-                        <div class="product_data">
-                            <img src="images/pasta.png" alt="producto" class="product_img"/>
-                            <div class="product_data-info">
-                                <h2>₡1000</h2>
-                                <h:commandButton type="button" value="Agregar" class="button addCart"><i class='bx bxs-cart-alt'></i></h:commandButton>
-                            </div>
-                        </div>
-                        <div class="product_data">
-                            <img src="images/pastel.png" alt="producto" class="product_img"/>
-                            <div class="product_data-info">
-                                <h2>₡1000</h2>
-                                <h:commandButton type="button" value="Agregar" class="button addCart"><i class='bx bxs-cart-alt'></i></h:commandButton>
-                            </div>
-                        </div><div class="product_data">
-                            <img src="images/pizza.png" alt="producto" class="product_img"/>
-                            <div class="product_data-info">
-                                <h2>₡1000</h2>
-                                <h:commandButton type="button" value="Agregar" class="button addCart"><i class='bx bxs-cart-alt'></i></h:commandButton>
-                            </div>
-                        </div>
-                        <div class="product_data">
-                            <img src="images/postre.png" alt="producto" class="product_img"/>
-                            <div class="product_data-info">
-                                <h2>₡1000</h2>
-                                <h:commandButton type="button" value="Agregar" class="button addCart"><i class='bx bxs-cart-alt'></i></h:commandButton>
-                            </div>
-                        </div>
-                    </div>
+                        </h:column>  
+                    </h:dataTable>
                 </section>
             </main>
 

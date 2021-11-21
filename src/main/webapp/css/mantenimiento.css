@@ -65,6 +65,9 @@
     border-top: 2px dashed;
 }
 
+.dataTable .button{
+    margin-right: 1rem;
+}
 
 
 .dataTable tbody tr:nth-child(even){

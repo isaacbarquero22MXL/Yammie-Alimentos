@@ -45,6 +45,7 @@ public class BeanProducto {
 
     //Lista productos
     ArrayList<Producto> listaProductos = new ArrayList<>();
+    ArrayList<Producto> listaCarrito = new ArrayList<>();
 
     // Producto seleccionado
     Producto productoSelected;
@@ -145,6 +146,17 @@ public class BeanProducto {
         this.productoSelected = productoSelected;
     }
 
+    public ArrayList<Producto> getListaCarrito() {
+        return listaCarrito;
+    }
+
+    public void setListaCarrito(ArrayList<Producto> listaCarrito) {
+        this.listaCarrito = listaCarrito;
+    }
+
+    
+   
+    // Métodos 
     public boolean VerificarCampos() {
         boolean isValid = true;
 
@@ -329,5 +341,27 @@ public class BeanProducto {
         this.ID_Tipo = 0;
         this.path = "";
         productoSelected = null;
+    }
+    
+    public String catalogoProductos(){
+        String hilera = "";
+        
+        for (Producto producto : listaProductos) {
+            hilera += "<div class=\"product_data\">"
+                    + "<img src=\"" + producto.getFoto() + "\" alt=\"papas\" class=\"product_img\">"
+                    + "<div class=\"product_data_container\">"
+                    + " <h3>" + producto.getDescripcion() + "</h3>"
+                    + "<div class=\"product_data-info\">"
+                    + "<h2>₡" + producto.getPrecio() + "</h2>"
+                    + "<h:commandButton value=\"Agregar\" action=\"#{beanProducto.agregaCarrito("+ producto +")}\" class=\"button addCart\">Agregar<i class='bx bxs-cart-alt'></i></h:commandButton>"
+                    + "</div>"
+                    + "</div>"
+                    + "</div>";
+        }
+        return hilera;
+    }
+    
+    public void agregaCarrito(Producto pro){
+        listaCarrito.add(pro);
     }
 }

@@ -54,13 +54,12 @@ public class HorarioDB {
 
               //Se crea la sentencia de búsqueda
               select = 
-                      "select * from HorarioEntrega where IDUsuario ='"+cedula+"'";
+                      "select * from HorarioEntrega where IDUsuario ='"+cedula+"' ";
               //Se ejecuta la sentencia SQL
               ResultSet rsPA = accesoDatos.ejecutaSQLRetornaRS(select);
              //Se llena el arryaList con los proyectos   
               while (rsPA.next()) {
-
-               String IDRol=rsPA.getString("Descripcion");
+                  
                 int ID=rsPA.getInt("ID");
                 String inicio=rsPA.getString("Inicio");
                 String fin=rsPA.getString("Fin");

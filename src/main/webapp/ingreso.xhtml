@@ -45,6 +45,17 @@
                             </div>
                         </div>
                         <div class="login_section">
+                            <div class="login_icon">
+                                <i class='bx bxs-user' ></i>
+                            </div>
+                            <div class="login_inputs">
+                                <h5 class="login_location">Seleccione su rol de ingreso</h5>
+                                <h:selectOneMenu value="#{beanUsuario.rolSeleccionado}" class="input combo">
+                                    <f:selectItems value="#{beanUsuario.listaPerfiles()}"></f:selectItems>
+                                </h:selectOneMenu>
+                            </div>
+                        </div>
+                        <div class="login_section">
                             <h:outputLabel escape="false" class="errorLabel" value="#{beanUsuario.mensaje}"></h:outputLabel>
                         </div>
                     </div>
@@ -56,12 +67,12 @@
                         <a href="#" class="login_link">¿Olvidó su contraseña?</a>
                     </div>
                     <hr/>
-                        <div class="login_register section">
-                            <p class="login_register-p">
-                                ¿No tiene una cuenta? 
-                                <h:commandLink value="Regístrese" class="register" action="#{beanUsuario.destroySessionAndReturn('registro')}"></h:commandLink>
-                            </p>
-                        </div>
+                    <div class="login_register section">
+                        <p class="login_register-p">
+                            ¿No tiene una cuenta? 
+                            <h:commandLink value="Regístrese" class="register" action="#{beanUsuario.destroySessionAndReturn('registro')}"></h:commandLink>
+                        </p>
+                    </div>
                 </div>
             </main>
             <!-- Scroll reveal JS -->

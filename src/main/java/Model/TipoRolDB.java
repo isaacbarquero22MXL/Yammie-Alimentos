@@ -29,24 +29,16 @@ public class TipoRolDB {
 
               //Se crea la sentencia de búsqueda
               select = 
-                      "select * from RolUsuario where IDUsuario ="+"'cedula'";
+                      "select * from RolUsuario where IDUsuario ='"+ cedula +"' ";
               //Se ejecuta la sentencia SQL
               ResultSet rsPA = accesoDatos.ejecutaSQLRetornaRS(select);
              //Se llena el arryaList con los proyectos   
               while (rsPA.next()) {
-
-               String IDRol=rsPA.getString("Descripcion");
-                if(IDRol.equals("Cliente")){
-                    ListaRoles.add(TipoRol.Cliente);
-                }
-                if(IDRol.equals("Admin")){
-                    ListaRoles.add(TipoRol.Admin);
-                }
-                if(IDRol.equals("Despacho")){
-                    ListaRoles.add(TipoRol.Despacho);
-                }
-                
-                
+                  for (TipoRol rol : TipoRol.values()) {
+                      if(rol.toString().endsWith(rsPA.getString("Descripcion"))){
+                          ListaRoles.add(rol);
+                      }
+                  }
               }
               rsPA.close();
               

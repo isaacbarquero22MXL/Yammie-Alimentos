@@ -117,4 +117,4 @@ function showFilterPanel() {
 sr.reveal('.section_title');
 sr.reveal('.product_filter');
 sr.reveal('.footer_copy', {origin: 'bottom'});
-sr.reveal('.product_data', {interval: 100}); 
+sr.reveal('.tableCol', {interval: 100}); 

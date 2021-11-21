@@ -22,12 +22,14 @@ import java.io.Console;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -61,6 +63,9 @@ public class BeanUsuario {
     private BeanHorario beanHorario;
     private String inicio;
     private String fin;
+
+    //Rol de ingreso seleccionado
+    private String rolSeleccionado;
 
     // Mensaje de error
     private String mensaje;
@@ -119,20 +124,28 @@ public class BeanUsuario {
         if (correo.equals("") || contrasenna.equals("")) {
             mensaje = "Por favor digite correo y contraseña para ingresar";
         } else {
-            if (validaCorreo().equals("ingreso")) {
-                try {
-                    // aquí se llamaría al DB para ejecutar el proceso de login
-                    UsuarioDB uBD = new UsuarioDB();
-                    if (uBD.validaIngreso(this.correo, this.contrasenna)) {
-                        retorno = "ingreso";
-                    } else {
-                        mensaje = "El correo o contraseña no pertencen"
-                                + " a ningún usuario registrado. Intenta de nuevo.";
+            if (this.rolSeleccionado.equals("")) {
+                mensaje = "Seleccione un rol de ingreso";
+            } else {
+                if (validaCorreo().equals("ingreso")) {
+                    try {
+                        // aquí se llamaría al DB para ejecutar el proceso de login
+                        UsuarioDB uBD = new UsuarioDB();
+                        if (uBD.validaIngreso(this.correo, this.contrasenna)) {
+                            this.GuardarInforUsuario(this.correo, this.contrasenna);
+
+                            if (usuarioGlobal != null) {
+                                retorno = "ingreso";
+                            }
+                        } else {
+                            mensaje = "El correo o contraseña no pertencen"
+                                    + " a ningún usuario registrado. Intenta de nuevo.";
+                        }
+                    } catch (SNMPExceptions ex) {
+                        mensaje = ex.toString();
+                    } catch (SQLException ex) {
+                        mensaje = ex.toString();
                     }
-                } catch (SNMPExceptions ex) {
-                    mensaje = ex.toString();
-                } catch (SQLException ex) {
-                    mensaje = ex.toString();
                 }
             }
         }
@@ -250,7 +263,7 @@ public class BeanUsuario {
                         direccionDB.insertaDireccion(direccion, usuario.getCedula());
                         horarioDB.insertaDireccion(horario, usuario.getCedula());
                         contrasenna = "";
-                        
+
                         mensaje = "<p class=\"errorLabel\" style=\"color: #DF9E16\">"
                                 + "El registro ha sido completado. Su cuenta está en espera de aprobación.<p>";
                         resultado = "ingreso";
@@ -298,7 +311,7 @@ public class BeanUsuario {
         user.setContrasenna(contrasenna);
         user.setElectronico(correo);
         user.setTelefono(telefono);
-//        user.setTipoRol(TipoRol.Cliente);
+        user.setRolSeleccionado(TipoRol.Cliente);
 
         return user;
     }
@@ -321,22 +334,71 @@ public class BeanUsuario {
 
         return horario;
     }
-    
-    public void GuardarInforUsuario(String correo,String contrasenna){
-                     UsuarioDB usuarioDB= new UsuarioDB();
-                     HorarioDB horarioDB= new HorarioDB();
-                     TipoRolDB tipoRolDB = new TipoRolDB();
-                     DireccionDB direccionDB= new DireccionDB();
+
+    public void GuardarInforUsuario(String correo, String contrasenna) {
+        UsuarioDB usuarioDB = new UsuarioDB();
+        HorarioDB horarioDB = new HorarioDB();
+        TipoRolDB tipoRolDB = new TipoRolDB();
+        DireccionDB direccionDB = new DireccionDB();
+        Usuario user;
         try {
-        this.usuarioGlobal=usuarioDB.ObtenerInfoUsuario(correo, contrasenna);
-        this.usuarioGlobal.setListaDirecciones(direccionDB.ObtenerHorarios(usuarioGlobal.getCedula()));
-        this.usuarioGlobal.setListaHorarios(horarioDB.ObtenerHorarios(usuarioGlobal.getCedula()));
-        this.usuarioGlobal.setListaRoles(tipoRolDB.ObtenerTipoRol(usuarioGlobal.getCedula()));
+            user = usuarioDB.ObtenerInfoUsuario(correo, contrasenna);
+            user.setListaDirecciones(direccionDB.ObtenerDirreciones(user.getCedula()));
+            user.setListaHorarios(horarioDB.ObtenerHorarios(user.getCedula()));
+            user.setListaRoles(tipoRolDB.ObtenerTipoRol(user.getCedula()));
+
+            boolean exist = false;
+            for (TipoRol rol : user.getListaRoles()) {
+                if (rol.toString().equals(rolSeleccionado)) {;
+                    exist = true;
+                    user.setRolSeleccionado(rol);
+                }
+            }
+
+            if (exist) {
+                // setea el usuario obtenido del login en la sesion actual para usarlo desde otro beans
+                HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+                session.setAttribute("usuario", user);
+
+                //este se setea en el usuario actual del propio bean
+                usuarioGlobal = user;
+            } else {
+                mensaje = "No existe un usuario registrado con este rol seleccionado.";
+                usuarioGlobal = null;
+            }
         } catch (Exception e) {
+            mensaje = e.getMessage();
         }
-       
     }
 
+    public ArrayList<SelectItem> listaPerfiles() {
+        ArrayList<SelectItem> lista = new ArrayList<>();
+
+        for (TipoRol rol : TipoRol.values()) {
+            lista.add(new SelectItem(rol.toString()));
+        }
+        return lista;
+    }
+
+    public String retornaNombreUser(){
+        return this.usuarioGlobal.getNombre() + " " + usuarioGlobal.getApellido()
+                + " " + usuarioGlobal.getApellido2();
+    }
+    
+    
+    public boolean isRol(String rol){
+        boolean isSet = false;
+        
+       if(rolSeleccionado.equals(rol)){
+           isSet = true;
+       }
+       
+       return isSet;
+    }
+    
+    
+    
+    
     // Getters and Setters
     public String getContrasenna() {
         return contrasenna;
@@ -513,4 +575,22 @@ public class BeanUsuario {
     public void setBeanHorario(BeanHorario beanHorario) {
         this.beanHorario = beanHorario;
     }
+
+    public String getRolSeleccionado() {
+        return rolSeleccionado;
+    }
+
+    public void setRolSeleccionado(String rolSeleccionado) {
+        this.rolSeleccionado = rolSeleccionado;
+    }
+
+    public Usuario getUsuarioGlobal() {
+        return usuarioGlobal;
+    }
+
+    public void setUsuarioGlobal(Usuario usuarioGlobal) {
+        this.usuarioGlobal = usuarioGlobal;
+    }
+
+    
 }
