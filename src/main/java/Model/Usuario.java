@@ -6,6 +6,7 @@
 package Model;
 
 import java.sql.Date;
+import java.util.ArrayList;
 
 /**
  *
@@ -14,27 +15,27 @@ import java.sql.Date;
 public class Usuario {
     private String Contrasenna;
     private String Electronico;
-    private TipoRol tipoRol;
     private String Cedula;
     private String nombre;
     private String apellido;
     private String apellido2;
     private String telefono;
-    private Date FechVenciCOntrasenna;
-
+    private Date fechVenciCOntrasenna;
+    private ArrayList<Direccion> listaDirecciones;
+    private ArrayList<Horario> listaHorarios;
+    private ArrayList<TipoRol> listaRoles;
     public Usuario() {
     }
 
-    public Usuario(String Contrasenna, String Electronico, TipoRol tipoRol, String Cedula, String nombre, String apellido, String apellido2, String telefono, Date FechVenciCOntrasenna) {
+    public Usuario(String Contrasenna, String Electronico, String Cedula, String nombre, String apellido, String apellido2, String telefono, Date FechVenciCOntrasenna) {
         this.Contrasenna = Contrasenna;
         this.Electronico = Electronico;
-        this.tipoRol = tipoRol;
         this.Cedula = Cedula;
         this.nombre = nombre;
         this.apellido = apellido;
         this.apellido2 = apellido2;
         this.telefono = telefono;
-        this.FechVenciCOntrasenna = FechVenciCOntrasenna;
+        this.fechVenciCOntrasenna = FechVenciCOntrasenna;
     }
 
     public String getContrasenna() {
@@ -52,15 +53,6 @@ public class Usuario {
     public void setElectronico(String Electronico) {
         this.Electronico = Electronico;
     }
-
-    public TipoRol getTipoRol() {
-        return tipoRol;
-    }
-
-    public void setTipoRol(TipoRol tipoRol) {
-        this.tipoRol = tipoRol;
-    }
-
     public String getCedula() {
         return Cedula;
     }
@@ -102,11 +94,35 @@ public class Usuario {
     }
 
     public Date getFechVenciCOntrasenna() {
-        return FechVenciCOntrasenna;
+        return fechVenciCOntrasenna;
     }
 
     public void setFechVenciCOntrasenna(Date FechVenciCOntrasenna) {
-        this.FechVenciCOntrasenna = FechVenciCOntrasenna;
+        this.fechVenciCOntrasenna = FechVenciCOntrasenna;
+    }
+
+    public ArrayList<Direccion> getListaDirecciones() {
+        return listaDirecciones;
+    }
+
+    public void setListaDirecciones(ArrayList<Direccion> listaDirecciones) {
+        this.listaDirecciones = listaDirecciones;
+    }
+
+    public ArrayList<Horario> getListaHorarios() {
+        return listaHorarios;
+    }
+
+    public void setListaHorarios(ArrayList<Horario> listaHorarios) {
+        this.listaHorarios = listaHorarios;
+    }
+
+    public ArrayList<TipoRol> getListaRoles() {
+        return listaRoles;
+    }
+
+    public void setListaRoles(ArrayList<TipoRol> listaRoles) {
+        this.listaRoles = listaRoles;
     }
     
     
