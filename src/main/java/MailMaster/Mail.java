@@ -115,32 +115,25 @@ public class Mail {
         Properties prop = null;
         Session session = null;
         MimeMessage message = null;
-        Address fromAddress = null;
-        Address toAddress = null;
 
         prop = new Properties();
         prop.put("mail.smtp.auth", "true");
         prop.put("mail.smtp.starttls.enable", "true");
+        prop.put("mail.smtp.ssl.trust", smtp);
         prop.put("mail.smtp.host", smtp);
         prop.put("mail.smtp.port", port);
+        prop.put("mail.smtp.user", from);
+        prop.put("mail.smtp.clave", password);
 
-        session = Session.getInstance(prop,
-                new Authenticator() {
-            @Override
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(username, password);
-            }
-        });
+        session = Session.getInstance(prop);
 
         message = new MimeMessage(session);
         try {
-            message.setContent(descrp, "text/plain");
             message.setSubject(subject);
-            fromAddress = new InternetAddress(from);
+            message.setText(descrp);
             message.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
-            message.saveChanges();
 
-            Transport transport = session.getTransport("smpt");
+            Transport transport = session.getTransport("smtp");
             transport.connect(this.smtp, this.port, this.username, this.password);
             transport.sendMessage(message, message.getAllRecipients());
             transport.close();
