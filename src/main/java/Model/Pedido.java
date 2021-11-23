@@ -6,37 +6,39 @@
 package Model;
 
 import java.sql.Date;
+import java.util.ArrayList;
 
 /**
  *
  * @author Bryan e Isaac
  */
 public class Pedido {
-    private String IDentificacion;
+    private String ID;
     private Usuario usuario;
     private Date HoraEntrega;
     private Direccion direccion;
     private EstadoPedido estadoPedido;
-    private Despacho despacho;
+    
+    private ArrayList<Producto> listaCarrito;
 
     public Pedido() {
+        listaCarrito = new ArrayList<>();
     }
 
-    public Pedido(String IDentificacion, Usuario usuario, Date HoraEntrega, Direccion direccion, EstadoPedido estadoPedido, Despacho despacho) {
-        this.IDentificacion = IDentificacion;
+    public Pedido(String ID, Usuario usuario, Date HoraEntrega, Direccion direccion, EstadoPedido estadoPedido) {
+        this.ID = ID;
         this.usuario = usuario;
         this.HoraEntrega = HoraEntrega;
         this.direccion = direccion;
         this.estadoPedido = estadoPedido;
-        this.despacho = despacho;
     }
 
     public String getIDentificacion() {
-        return IDentificacion;
+        return ID;
     }
 
-    public void setIDentificacion(String IDentificacion) {
-        this.IDentificacion = IDentificacion;
+    public void setIDentificacion(String ID) {
+        this.ID = ID;
     }
 
     public Usuario getUsuario() {
@@ -71,12 +73,12 @@ public class Pedido {
         this.estadoPedido = estadoPedido;
     }
 
-    public Despacho getDespacho() {
-        return despacho;
+    public ArrayList<Producto> getListaCarrito() {
+        return listaCarrito;
     }
 
-    public void setDespacho(Despacho despacho) {
-        this.despacho = despacho;
+    public void setListaCarrito(ArrayList<Producto> listaCarrito) {
+        this.listaCarrito = listaCarrito;
     }
     
     

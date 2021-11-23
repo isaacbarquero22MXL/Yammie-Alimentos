@@ -30,8 +30,9 @@ public class UsuarioDB {
             AccesoDatos accesoDatos = new AccesoDatos();
 
             //Se crea la sentencia de búsqueda
-            select = "SELECT * from USUARIO where CorreoElectronico='"
-                    + email + "' and contrasenna = '" + contrasenna + "' and logActivo = 1";
+            select = "SELECT u.cedula from USUARIO u, EstadoUsuario e where u.CorreoElectronico='"
+                    + email + "' and u.contrasenna = '" + contrasenna + "' and u.logActivo = 1 and "
+                    + "u.cedula = e.IDUsuario and e.Estado = 'Activo' ";
             //Se ejecuta la sentencia SQL
             ResultSet rsPA = accesoDatos.ejecutaSQLRetornaRS(select);
             //Se llena el arryaList con los proyectos   
@@ -84,6 +85,16 @@ public class UsuarioDB {
 
             insert2.executeUpdate();
             insert2.close();
+            
+            strSQL = "INSERT INTO ESTADOUSUARIO VALUES (?,?,?)";
+            PreparedStatement insert3 = accesoDatos.getDbConn().prepareStatement(strSQL);
+            insert3.setString(1, usuario.getCedula());
+            insert3.setString(2, usuario.getCedula());
+            insert3.setString(3, "Pendiente");
+
+            insert3.executeUpdate();
+            insert3.close();
+            
             accesoDatos.cerrarConexion();
         } catch (SQLException e) {
             throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage(), e.getErrorCode());

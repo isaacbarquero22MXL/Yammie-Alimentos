@@ -85,6 +85,10 @@
     margin-bottom: .5rem;
 }
 
+.dataTable tbody{
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+}
 
 .table_button{
     display: flex;
@@ -152,13 +156,33 @@
     align-self: center;
 }
 
+
+@media screen and (min-width: 576px) {
+    .dataTable tbody {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
 @media screen and (min-width: 767px) {
     .mante_btn-options{
         grid-template-columns: repeat(2, 1fr);
     }
-    
+
     .delete_product-img{
-    width: 325px;
-    padding: 1rem;
+        width: 325px;
+        padding: 1rem;
+    }
+    
+    .dataTable tbody {
+        grid-template-columns: repeat(3, 1fr);
+    }
 }
+
+@media screen and (min-width: 992px) {
+    .dataTable tbody {
+        grid-template-columns: repeat(4, 1fr);
+    }
 }
+
+
+

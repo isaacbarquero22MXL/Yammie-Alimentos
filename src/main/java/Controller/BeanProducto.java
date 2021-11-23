@@ -361,7 +361,5 @@ public class BeanProducto {
         return hilera;
     }
     
-    public void agregaCarrito(Producto pro){
-        listaCarrito.add(pro);
-    }
+    
 }

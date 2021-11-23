@@ -5,19 +5,23 @@ let buttons;
 let addPlus = document.getElementById('add_item');
 let animationDone = 1;
 
-function refreshImages(){
-    images = document.querySelectorAll('.product_img');
-    buttons = document.querySelectorAll('.addCart');
+//function refreshImages(){
+//    images = document.querySelectorAll('.product_img');
+//    buttons = document.querySelectorAll('.addCart');
+//
+//    for (let index = 0; index < images.length; index++) {
+//        buttons[index].addEventListener('click', () => {
+//            imgContainer[0].innerHTML = "<img alt='producto' src='" + images[index].src + "'>";
+//            add();
+//        }) 
+//    }
+//}
 
-    for (let index = 0; index < images.length; index++) {
-        buttons[index].addEventListener('click', () => {
-            imgContainer[0].innerHTML = "<img alt='producto' src='" + images[index].src + "'>";
-            add();
-        }) 
-    }
+function addCartImg(source){
+    imgContainer[0].innerHTML = "<img alt='producto' src='" + source + "'>";
 }
 
-window.onload = refreshImages;
+//window.onload = refreshImages;
 
 function add() {
     if (animationDone == 1) {
@@ -117,4 +121,4 @@ function showFilterPanel() {
 sr.reveal('.section_title');
 sr.reveal('.product_filter');
 sr.reveal('.footer_copy', {origin: 'bottom'});
-sr.reveal('.tableCol', {interval: 100}); 
+sr.reveal('.product_data', {interval: 100}); 

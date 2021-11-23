@@ -139,18 +139,18 @@ public class ProductoDB {
                     + "USUARIOEDITA = ?, FECHAEDITA = ? "
                     + "WHERE ID = ?";
 
-            PreparedStatement insert = accesoDatos.getDbConn().prepareStatement(strSQL);
-            insert.setString(1, producto.getFoto());
-            insert.setInt(2, producto.getCantMinVenta());
-            insert.setDouble(3, producto.getPrecio());
-            insert.setDouble(4, producto.getTipo().getCodigo());
-            insert.setString(5, producto.getDescripcion());
-            insert.setString(6, usuario.getCedula());
-            insert.setDate(7, new Date(Calendar.getInstance().getTime().getTime()));
-            insert.setString(8, producto.getIdentificacion());
+            PreparedStatement update = accesoDatos.getDbConn().prepareStatement(strSQL);
+            update.setString(1, producto.getFoto());
+            update.setInt(2, producto.getCantMinVenta());
+            update.setDouble(3, producto.getPrecio());
+            update.setDouble(4, producto.getTipo().getCodigo());
+            update.setString(5, producto.getDescripcion());
+            update.setString(6, usuario.getCedula());
+            update.setDate(7, new Date(Calendar.getInstance().getTime().getTime()));
+            update.setString(8, producto.getIdentificacion());
 
-            insert.executeUpdate();
-            insert.close();
+            update.executeUpdate();
+            update.close();
             accesoDatos.cerrarConexion();
         } catch (SQLException e) {
             throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage(), e.getErrorCode());

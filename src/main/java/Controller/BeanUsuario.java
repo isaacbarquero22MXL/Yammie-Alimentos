@@ -6,6 +6,7 @@
 package Controller;
 
 import DAO.SNMPExceptions;
+import MailMaster.Mail;
 import Model.Barrio;
 import Model.Canton;
 import Model.Direccion;
@@ -82,10 +83,6 @@ public class BeanUsuario {
     public BeanUsuario() {
         beanDireccion = new BeanDireccion();
         beanHorario = new BeanHorario();
-        usuarioGlobal = new Usuario();
-        usuarioGlobal.setCedula("118010156");
-        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-        session.setAttribute("usuario", usuarioGlobal);
     }
 
     // Métodos
@@ -244,7 +241,7 @@ public class BeanUsuario {
 
     // realiza todas las validaciones del bean usuario, dirección y horario
     // si todo es correcto ira al DB registrará el usuario
-    public String validaCamposRegistro() {
+    public String validaCamposRegistro() throws Exception {
         String resultado = "";
         mensaje = "";
         if (validaCamposUsuario() && validaTelefono()
@@ -262,8 +259,17 @@ public class BeanUsuario {
                         userDB.insertaUsuario(usuario);
                         direccionDB.insertaDireccion(direccion, usuario.getCedula());
                         horarioDB.insertaDireccion(horario, usuario.getCedula());
+                        String fullName = this.nombre + " " + this.apellido + " " + this.apellido2;
+                        String subject = "Registro de cuenta de cliente en Yammie Alimentos";
+                        String message = "Hola, "+ fullName + ". Su cuenta ya casi está lista. Por favor espere dentro de poco"
+                                + " a que un administrador complete su regsitro. De ser así, se notificará con un correo"
+                                + " que su cuenta está lista para ingresar. \n\n\n Yammie.";
+                        Mail mail = new Mail();
+                        mail.setTo(this.correo);
+                        mail.setSubject(subject);
+                        mail.setDescrp(message);
+                        mail.sendEmail();
                         contrasenna = "";
-
                         mensaje = "<p class=\"errorLabel\" style=\"color: #DF9E16\">"
                                 + "El registro ha sido completado. Su cuenta está en espera de aprobación.<p>";
                         resultado = "ingreso";
@@ -272,6 +278,8 @@ public class BeanUsuario {
                     }
                 } catch (SNMPExceptions ex) {
                     mensaje = ex.toString();
+                } catch (Exception e) {
+                    mensaje = e.toString();
                 }
             }
         }

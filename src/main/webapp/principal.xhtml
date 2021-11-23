@@ -2,7 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
         <meta charset="UTF-8"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -151,7 +152,24 @@
                             <i class='bx bx-x'></i>
                         </div>
                         <div class="cart_items">
-
+                            <h:dataTable value="#{beanPedido.listaCarrito}" var="datos" class="tableCart">
+                                <h:column>
+                                    <div class="cart_data">
+                                        <h:graphicImage value="#{datos.foto}" class="product_img"></h:graphicImage>
+                                        <h3>X1</h3>
+                                        <div class="product_data_container">
+                                            <h3><h:outputLabel value="#{datos.descripcion}"></h:outputLabel></h3>
+                                            <div class="product_data-info">
+                                                <h2>₡<h:outputLabel value="#{datos.precio}"></h:outputLabel></h2>
+                                                <h:commandButton image="images/delete.png" class="button addCart"
+                                                                 action="#{beanPedido.quitarCarrito(datos)}">
+                                                    <p:ajax process="@this" update="@this"></p:ajax>
+                                                </h:commandButton>
+                                            </div>
+                                        </div>
+                                    </div>                    
+                                </h:column>
+                            </h:dataTable>
                         </div>
                     </div>
                 </nav>
@@ -166,40 +184,21 @@
                     <div class="product_filter">
                         <h:commandButton type="button" value="Filtro" class="button filter_btn" onclick="showFilterPanel()"></h:commandButton>
                     </div>
-                    <!--============= Aqui se cargará el catálogo de productos ================-->
-                    <!--                    <h:outputLabel class="product_container grid" escape="false"
-                                                       value="#{beanProducto.catalogoProductos()}">
-                                        </h:outputLabel>-->
-                    <h:dataTable value="#{beanProducto.listaProductos}" var="datos" class="dataTable">
-                        <h:column class="tableCol">
-                            <f:facet name="header">Código</f:facet>
-                                #{datos.identificacion}
-                        </h:column>
-                        <h:column class="tableCol">
-                            <f:facet name="header">Descripción</f:facet>
-                                #{datos.descripcion}
-                        </h:column>
-                        <h:column class="tableCol">
-                            <f:facet name="header">Precio ₡</f:facet>
-                                #{datos.precio}
-                        </h:column> 
-<!--                        <h:column>
-                            <f:facet name="header">Cantidad minima de venta</f:facet>
-                                {datos.cantMinVenta}
-                        </h:column>-->
-                        <h:column class="tableCol">
-                            <f:facet name="header">Fotografía</f:facet>
-                            <h:graphicImage value="#{datos.foto}"/>
-                        </h:column>
-                        <h:column class="tableCol">
-                            <f:facet name="header">Tipo Producto</f:facet>
-                                #{datos.tipo.descripcion}
-                        </h:column>  
+                    <h:dataTable value="#{beanProducto.listaProductos}" var="datos" class="product_container grid tableProduct">
                         <h:column>
-                            <div class="table_button">
-                                <h:commandButton class="button" type="submit" image="images/cart.png" value="Agregar Carrito" action="#{beanProducto.agregaCarrito(datos)}" ></h:commandButton>
-                            </div>
-                        </h:column>  
+                            <div class="product_data">
+                                <h:graphicImage value="#{datos.foto}" class="product_img"></h:graphicImage>
+                                <div class="product_data_container">
+                                    <h3><h:outputLabel value="#{datos.descripcion}"></h:outputLabel></h3>
+                                    <div class="product_data-info">
+                                        <h2>₡<h:outputLabel value="#{datos.precio}"></h:outputLabel></h2>
+                                        <h:commandButton image="images/cart.png" class="button addCart" action="#{beanPedido.agregaCarrito(datos)}">
+                                            <p:ajax process="@this" update="@this"></p:ajax>
+                                        </h:commandButton>
+                                    </div>
+                                </div> 
+                            </div>                    
+                        </h:column>
                     </h:dataTable>
                 </section>
             </main>

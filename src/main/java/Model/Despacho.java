@@ -16,15 +16,17 @@ public class Despacho {
     private Date FechaSalida;
     private Date HoraEnvio;
     private MedioEnvio medioenvio;
+    private Factura factura;
 
     public Despacho() {
     }
 
-    public Despacho(String Identificacion, Date FechaSalida, Date HoraEnvio, MedioEnvio medioenvio) {
+    public Despacho(String Identificacion, Date FechaSalida, Date HoraEnvio, MedioEnvio medioenvio, Factura factura) {
         this.Identificacion = Identificacion;
         this.FechaSalida = FechaSalida;
         this.HoraEnvio = HoraEnvio;
         this.medioenvio = medioenvio;
+        this.factura = factura;
     }
 
     public String getIdentificacion() {
