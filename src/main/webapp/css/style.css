@@ -704,6 +704,12 @@ button{
     }
 }
 
+
+/*================= Skecth Particles ==============*/
+canvas {
+    display: block;
+    position: fixed;
+}
 /* ======= DISPOSITIVOS MEDIANOS ========== */
 @media screen and (min-width: 576px) {
     .about_container{

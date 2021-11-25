@@ -1,7 +1,7 @@
 // ================== MUESTRA EL MENU =================
 const navMenu = document.getElementById('nav-menu'),
-    navToggle = document.getElementById('nav-toggle'),
-    navClose = document.getElementById('nav-close')
+        navToggle = document.getElementById('nav-toggle'),
+        navClose = document.getElementById('nav-close')
 
 /*===== MOSTRAR MENU =====*/
 /* Valida si la constante existe */
@@ -20,7 +20,7 @@ if (navClose) {
 }
 
 const navLink = document.querySelectorAll('.nav_link');
-function linkAction(){
+function linkAction() {
     navMenu.classList.remove('show-menu');
 }
 navLink.forEach(n => n.addEventListener('click', linkAction));
@@ -36,15 +36,21 @@ let homeSwiper = new Swiper(".home-swiper", {
 });
 
 // =================== Transición de scroll ============
-function scrollHeader(){
+function scrollHeader() {
     const header = document.getElementById('header');
-    if (this.scrollY >= 50) header.classList.add('scroll-header'); else header.classList.remove('scroll-header');
+    if (this.scrollY >= 50)
+        header.classList.add('scroll-header');
+    else
+        header.classList.remove('scroll-header');
 }
 window.addEventListener('scroll', scrollHeader);
 
-function scrollUp(){
+function scrollUp() {
     const scrollUp = document.getElementById('scroll-up');
-    if (this.scrollY >= 260) scrollUp.classList.add('show-scroll'); else scrollUp.classList.remove('show-scroll');
+    if (this.scrollY >= 260)
+        scrollUp.classList.add('show-scroll');
+    else
+        scrollUp.classList.remove('show-scroll');
 }
 window.addEventListener('scroll', scrollUp);
 
@@ -63,5 +69,7 @@ sr.reveal('.about_company', {origin: 'left'});
 sr.reveal('.about_image', {origin: 'right'});
 sr.reveal('.start', {origin: 'bottom', delay: 500});
 sr.reveal('.footer_copy', {origin: 'bottom'});
+
+
 
 
