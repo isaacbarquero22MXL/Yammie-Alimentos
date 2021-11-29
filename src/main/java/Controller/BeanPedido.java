@@ -12,31 +12,43 @@ import Model.Producto;
 import Model.Usuario;
 import java.sql.Date;
 import java.util.ArrayList;
+import javax.faces.model.ArrayDataModel;
+import javax.faces.model.DataModel;
 import org.primefaces.PrimeFaces;
 
 /**
  *
  * @author User
  */
-
-
 public class BeanPedido {
+
     private String ID;
     private Usuario usuario;
     private Date HoraEntrega;
     private Direccion direccion;
     private EstadoPedido estadoPedido;
-    
+
+    private static int index = 0;
     private static int consecutivo = 1;
     private PedidoDB pedidoDB = new PedidoDB();
     //lista carrito
     private ArrayList<Producto> listaCarrito = new ArrayList<>();
+    
+    private double valorProductos;
+
+    public double getValorProductos() {
+        return valorProductos;
+    }
+
+    public void setValorProductos(double valorProductos) {
+        this.valorProductos = valorProductos;
+    }
 
     
-    public BeanPedido(){
+    public BeanPedido() {
         seteaIDPedido();
     }
-    
+
     public ArrayList<Producto> getListaCarrito() {
         return listaCarrito;
     }
@@ -84,26 +96,45 @@ public class BeanPedido {
     public void setEstadoPedido(EstadoPedido estadoPedido) {
         this.estadoPedido = estadoPedido;
     }
-    
-    public void agregaCarrito(Producto pro){
+
+    public void agregaCarrito(Producto pro) {
         listaCarrito.add(pro);
+        addRemoveAnimation();
         PrimeFaces.current().executeScript("addCartImg('" + pro.getFoto() + "')");
         PrimeFaces.current().executeScript("add()");
+        calculaCosto();
     }
-    
-    public void quitarCarrito(Producto pro){
+
+    public void quitarCarrito(Producto pro) throws InterruptedException {
+        Thread.sleep(1500);
         listaCarrito.remove(pro);
+        addRemoveAnimation();
+        calculaCosto();
     }
-    
-    public void seteaIDPedido(){
+
+    public void addRemoveAnimation() {
+        PrimeFaces.current().executeScript("addRemoveAnimation()");
+    }
+
+    public void seteaIDPedido() {
         try {
             String ID = "PD" + consecutivo;
-            if(pedidoDB.validaIDPedido(ID)){
+            if (pedidoDB.validaIDPedido(ID)) {
                 consecutivo++;
                 seteaIDPedido();
-            }else{
+            } else {
                 this.ID = ID;
             }
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
+    }
+    
+    public void calculaCosto(){
+        double costo = 0;
+        for (Producto producto : listaCarrito) {
+            costo += producto.getPrecio();
+        }
+        
+        this.valorProductos = costo;
     }
 }

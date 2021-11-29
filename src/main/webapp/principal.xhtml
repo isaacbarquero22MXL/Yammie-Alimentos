@@ -26,7 +26,7 @@
         <title>Yammie - Alimentos</title>
     </h:head>
     <h:body>
-        <h:form acceptcharset="UTF-8">
+        <h:form acceptcharset="UTF-8" id="form">
             <canvas id="c"></canvas>
             <header class="header" id="header">
                 <nav class="nav main_container">
@@ -152,8 +152,9 @@
                         <div class="nav_close-cart" id="nav-close-cart">
                             <i class='bx bx-x'></i>
                         </div>
-                        <div class="cart_items">
-                            <h:dataTable value="#{beanPedido.listaCarrito}" var="datos" class="tableCart">
+                        <h:panelGroup id="wrapper" class="cart_items">
+
+                            <h:dataTable id="table" value="#{beanPedido.listaCarrito}" var="datos" class="tableCart">
                                 <h:column>
                                     <div class="cart_data">
                                         <h:graphicImage value="#{datos.foto}" class="product_img"></h:graphicImage>
@@ -162,16 +163,19 @@
                                             <h3><h:outputLabel value="#{datos.descripcion}"></h:outputLabel></h3>
                                             <div class="product_data-info">
                                                 <h2>₡<h:outputLabel value="#{datos.precio}"></h:outputLabel></h2>
-                                                <h:commandButton image="images/delete.png" class="button addCart"
-                                                                 action="#{beanPedido.quitarCarrito(datos)}">
-                                                    <p:ajax process="@this" update="@this"></p:ajax>
+                                                <h:commandButton image="images/delete.png" class="button addCart removeCart">
+                                                    <f:ajax listener="#{beanPedido.quitarCarrito(datos)}" execute="@form" render=":form:wrapper"/>
                                                 </h:commandButton>
                                             </div>
                                         </div>
                                     </div>                    
                                 </h:column>
                             </h:dataTable>
-                        </div>
+                            <div class="costs_container" style="padding-bottom: 3rem">
+                                <h1 class="cost_product">Costo total en productos: ₡<h:outputLabel value="#{beanPedido.valorProductos}"/></h1>
+                            </div>
+                        </h:panelGroup>
+
                     </div>
                 </nav>
             </header>
@@ -185,7 +189,7 @@
                     <div class="product_filter">
                         <h:commandButton type="button" value="Filtro" class="button filter_btn" onclick="showFilterPanel()"></h:commandButton>
                     </div>
-                    <h:dataTable value="#{beanProducto.listaProductos}" var="datos" class="product_container grid tableProduct">
+                    <h:dataTable id="catalago" value="#{beanProducto.listaProductos}" var="datos" class="product_container grid tableProduct">
                         <h:column>
                             <div class="product_data">
                                 <h:graphicImage value="#{datos.foto}" class="product_img"></h:graphicImage>
@@ -193,8 +197,9 @@
                                     <h3><h:outputLabel value="#{datos.descripcion}"></h:outputLabel></h3>
                                     <div class="product_data-info">
                                         <h2>₡<h:outputLabel value="#{datos.precio}"></h:outputLabel></h2>
-                                        <h:commandButton image="images/cart.png" class="button addCart" action="#{beanPedido.agregaCarrito(datos)}">
-                                            <p:ajax process="@this" update="@this"></p:ajax>
+                                        <h:commandButton  image="images/cart.png" class="button addCart" type="submit"
+                                                          action="#{beanPedido.agregaCarrito(datos)}" >
+                                            <f:ajax render=":form:wrapper"/>
                                         </h:commandButton>
                                     </div>
                                 </div> 

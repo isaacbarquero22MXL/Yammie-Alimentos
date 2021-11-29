@@ -310,6 +310,25 @@
     height: auto;
 }
 
+.cart_remove{
+    opacity: 0;
+    animation: removeCart 1s ease-in-out forwards;
+}
+
+@keyframes removeCart{
+    0%{
+        opacity: 1;
+    }
+    75%{
+        transform: scale(1.1);
+        opacity: 0.5;
+        
+    }
+    100%{
+        display: none;
+    }
+}
+
 /* breakpoints */
 
 /* dispositivos pequeños */

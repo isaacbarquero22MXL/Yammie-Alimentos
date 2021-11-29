@@ -34,6 +34,15 @@ function add() {
     }
 }
 
+function addRemoveAnimation(){
+    let cartData = document.querySelectorAll('.removeCart');
+    cartData.forEach(cart => {
+       cart.addEventListener('click', () => {
+          var parent = cart.parentNode.parentNode.parentNode;
+          parent.classList.add('cart_remove'); 
+       });
+    });
+}
 
 // submenu
 

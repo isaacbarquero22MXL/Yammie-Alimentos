@@ -16,6 +16,16 @@ public class Producto {
     private double precio;
     private TipoProducto tipo;
     private String descripcion;
+    
+    private int cartIndex;
+
+    public int getCartIndex() {
+        return cartIndex;
+    }
+
+    public void setCartIndex(int cartIndex) {
+        this.cartIndex = cartIndex;
+    }
 
     public Producto() {
     }
