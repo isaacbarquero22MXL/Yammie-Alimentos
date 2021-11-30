@@ -33,8 +33,36 @@ public class BeanPedido {
     private PedidoDB pedidoDB = new PedidoDB();
     //lista carrito
     private ArrayList<Producto> listaCarrito = new ArrayList<>();
-    
+
     private double valorProductos;
+    private double impuesto;
+    private double total;
+
+    private String confirmItems;
+
+    public String getConfirmItems() {
+        return confirmItems;
+    }
+
+    public void setConfirmItems(String confirmItems) {
+        this.confirmItems = confirmItems;
+    }
+
+    public double getImpuesto() {
+        return impuesto;
+    }
+
+    public void setImpuesto(double impuesto) {
+        this.impuesto = impuesto;
+    }
+
+    public double getTotal() {
+        return total;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
+    }
 
     public double getValorProductos() {
         return valorProductos;
@@ -44,7 +72,6 @@ public class BeanPedido {
         this.valorProductos = valorProductos;
     }
 
-    
     public BeanPedido() {
         seteaIDPedido();
     }
@@ -102,14 +129,14 @@ public class BeanPedido {
         addRemoveAnimation();
         PrimeFaces.current().executeScript("addCartImg('" + pro.getFoto() + "')");
         PrimeFaces.current().executeScript("add()");
-        calculaCosto();
+        total();
     }
 
     public void quitarCarrito(Producto pro) throws InterruptedException {
         Thread.sleep(1500);
         listaCarrito.remove(pro);
         addRemoveAnimation();
-        calculaCosto();
+        total();
     }
 
     public void addRemoveAnimation() {
@@ -128,13 +155,44 @@ public class BeanPedido {
         } catch (Exception e) {
         }
     }
-    
-    public void calculaCosto(){
+
+    public double calculaCosto() {
         double costo = 0;
         for (Producto producto : listaCarrito) {
             costo += producto.getPrecio();
         }
-        
+
         this.valorProductos = costo;
+        return costo;
     }
+
+    public double calculaCostoImpuesto() {
+        this.impuesto = calculaCosto() * 0.15;
+        return impuesto;
+    }
+
+    public double total() {
+        this.total = calculaCosto() + calculaCostoImpuesto();
+        return total;
+    }
+
+    public void showConfirmItems() {
+        String hilera = "<div class=\"confirm_content swiper-slide\">\n"
+                + "<img src=\"images/YammieLogoIcon.png\" alt=\"\" class=\"confirm_img\">\n"
+                + "</div>";
+
+        for (Producto producto : listaCarrito) {
+            hilera += "<div class=\"confirm_content swiper-slide\">"
+                    + "<img src=\"" + producto.getFoto() + "\" alt=\"\" class=\"confirm_img\">"
+                    + "</div>";
+        }
+        this.confirmItems = hilera;
+        PrimeFaces.current().executeScript("showConfirmPanel()");
+    }
+    
+    public void aceptarPedido(){
+        PrimeFaces.current().executeScript("showConfirmPanel()");
+        PrimeFaces.current().executeScript("confirmAnimations()");
+    }
+
 }

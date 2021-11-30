@@ -14,7 +14,9 @@
     --text-color-light: hsl(var(--hue), 5%, 55%);
     --body-color: linear-gradient(90deg, rgba(238,207,109,1) 0%, rgba(213,172,78,1) 40%, rgba(139,98,32,1) 100%);
     --container-color: linear-gradient(180deg, rgba(218,170,109,1) 0%, rgba(201,152,78,1) 40%, rgba(139,60,32,1) 100%);
-    --container-color-2: rgb(187, 136, 49);;
+    --container-color-2: rgb(187, 136, 49);
+    --container-color-3: rgba(187, 136, 49, .6);
+
 
     /* ============= Fuente y Tipografia ============ */
     --body-font: 'Poppins', sans-serif;

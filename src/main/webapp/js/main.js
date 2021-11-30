@@ -35,6 +35,8 @@ let homeSwiper = new Swiper(".home-swiper", {
     },
 });
 
+
+
 // =================== Transición de scroll ============
 function scrollHeader() {
     const header = document.getElementById('header');

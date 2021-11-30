@@ -128,9 +128,11 @@
                                                 <p class="cart_link" onclick="showCartItemPanel()">Ver carrito</p>
                                             </li>
                                             <li class="submenu_item">
-                                                <h:commandLink type="button" value="Confirmar Pedido"
+                                                <h:commandLink value="Confirmar Pedido"
                                                                class="cart_link"
-                                                               rendered="#{beanUsuario.isRol('Cliente')}"></h:commandLink>
+                                                               rendered="#{beanUsuario.isRol('Cliente')}"
+                                                               action="#{beanPedido.showConfirmItems()}">
+                                                </h:commandLink>
                                             </li>
                                         </ul>
                                     </div>
@@ -164,7 +166,9 @@
                                             <div class="product_data-info">
                                                 <h2>₡<h:outputLabel value="#{datos.precio}"></h:outputLabel></h2>
                                                 <h:commandButton image="images/delete.png" class="button addCart removeCart">
-                                                    <f:ajax listener="#{beanPedido.quitarCarrito(datos)}" execute="@form" render=":form:wrapper"/>
+                                                    <f:ajax listener="#{beanPedido.quitarCarrito(datos)}" 
+                                                            execute="@form" 
+                                                            render=":form:wrapper"/>
                                                 </h:commandButton>
                                             </div>
                                         </div>
@@ -175,7 +179,6 @@
                                 <h1 class="cost_product">Costo total en productos: ₡<h:outputLabel value="#{beanPedido.valorProductos}"/></h1>
                             </div>
                         </h:panelGroup>
-
                     </div>
                 </nav>
             </header>
@@ -283,6 +286,7 @@
             </footer>
 
             <!-- =============== Elementos de posicion absoluta ============= -->
+
             <a href="#main" class="scrollup" id="scroll-up">
                 <i class='bx bx-up-arrow-alt scroll-icon'></i>
             </a>
@@ -303,6 +307,33 @@
                     </ul>
                 </div>
             </div>
+            <!--confirmar-->
+            <div class="confirm_main-container">
+                <div class="confirm-close" id="confirm-close" onclick="removeAnimation()">
+                    <i class='bx bx-x'></i>
+                </div>
+                <div class="confirm_container">
+                    <h1>Confirmación Pedido</h1>
+                    <div class="confirm_data swiper confirm-swiper">       
+                        <h:outputLabel class="swiper-wrapper" escape="false"  value="#{beanPedido.confirmItems}">
+
+                        </h:outputLabel>                       
+                    </div>
+                    <div class="confirm_info">
+                        <h2>Cantidad Productos: X<h:outputLabel value="#{beanPedido.listaCarrito.size()}"></h:outputLabel></h2>
+                        <h2>Subtotal: ₡<h:outputLabel value="#{beanPedido.valorProductos}"></h:outputLabel></h2>
+                        <h2>Impuesto: ₡<h:outputLabel value="#{beanPedido.impuesto}"></h:outputLabel></h2>
+                        <h2>Total: ₡<h:outputLabel value="#{beanPedido.total}"></h:outputLabel></h2>
+                        <h:commandButton class="button" value="Aceptar Pedido" action="#{beanPedido.aceptarPedido()}"></h:commandButton>
+                    </div>
+                </div>
+                <div class="accept_container">
+                    <h1>Pedido aceptado</h1>
+                    <img src="images/check.png" alt="" class="check_img"/>
+                </div>
+            </div>
+
+
 
             <!-- Scroll reveal JS -->
             <script src="js/scrollreveal.min.js"></script>

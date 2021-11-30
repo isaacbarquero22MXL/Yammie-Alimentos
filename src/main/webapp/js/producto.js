@@ -17,7 +17,7 @@ let animationDone = 1;
 //    }
 //}
 
-function addCartImg(source){
+function addCartImg(source) {
     imgContainer[0].innerHTML = "<img alt='producto' src='" + source + "'>";
 }
 
@@ -34,13 +34,13 @@ function add() {
     }
 }
 
-function addRemoveAnimation(){
+function addRemoveAnimation() {
     let cartData = document.querySelectorAll('.removeCart');
     cartData.forEach(cart => {
-       cart.addEventListener('click', () => {
-          var parent = cart.parentNode.parentNode.parentNode;
-          parent.classList.add('cart_remove'); 
-       });
+        cart.addEventListener('click', () => {
+            var parent = cart.parentNode.parentNode.parentNode;
+            parent.classList.add('cart_remove');
+        });
     });
 }
 
@@ -53,31 +53,31 @@ let cart = document.querySelectorAll('.cart')[0];
 let userShowed = 0;
 let cartshowed = 0;
 
-function showUserMenu(){
-    if(cartshowed == 1){
+function showUserMenu() {
+    if (cartshowed == 1) {
         showCartMenu();
     }
 
-    if(userShowed == 0){
+    if (userShowed == 0) {
         submenus[0].classList.add('submenu_show');
         itemSubmenu[0].style.width = "100%";
         userShowed = 1;
-    }else{
+    } else {
         submenus[0].classList.remove('submenu_show');
         itemSubmenu[0].style.width = "2rem"
         userShowed = 0;
     }
 }
 
-function showCartMenu(){
-    if(userShowed == 1){
+function showCartMenu() {
+    if (userShowed == 1) {
         showUserMenu();
     }
-    if(cartshowed == 0){
+    if (cartshowed == 0) {
         submenus[1].classList.add('submenu_show');
         itemSubmenu[1].style.width = "100%";
         cartshowed = 1;
-    }else{
+    } else {
         submenus[1].classList.remove('submenu_show');
         itemSubmenu[1].style.width = "2rem"
         cartshowed = 0;
@@ -97,20 +97,20 @@ main.addEventListener('click', () => {
 
 let panelCarrito = document.querySelectorAll('.cart_items-panel');
 let cartClose = document.getElementById('nav-close-cart');
- if(cartClose){
+if (cartClose) {
     cartClose.addEventListener('click', () => {
         panelCarrito[0].classList.remove('show_cart_item')
     })
- }
+}
 
- function showCartItemPanel(){
-     panelCarrito[0].classList.add('show_cart_item');
- }
+function showCartItemPanel() {
+    panelCarrito[0].classList.add('show_cart_item');
+}
 
 let filterClose = document.getElementById('nav-close-filter');
 let panelFilter = document.querySelectorAll('.filter_container');
 
-if(filterClose){
+if (filterClose) {
     filterClose.addEventListener('click', () => {
         panelFilter[0].classList.remove("show_filter");
     })
@@ -121,13 +121,57 @@ function showFilterPanel() {
 }
 
 //  ========= scroll reveal ===========
-// const sr = ScrollReveal({
-//     origin: 'top',
-//     distance: '60px',
-//     duration: 2000,
-//     delay: 300,
-// })
+//const sr = ScrollReveal({
+//    origin: 'top',
+//    distance: '60px',
+//    duration: 2000,
+//    delay: 300,
+//})
 sr.reveal('.section_title');
 sr.reveal('.product_filter');
 sr.reveal('.footer_copy', {origin: 'bottom'});
-sr.reveal('.product_data', {interval: 100}); 
+sr.reveal('.product_data', {interval: 100});
+
+
+let confirmClose = document.querySelectorAll('.confirm-close');
+let panelConfirm = document.querySelectorAll('.confirm_main-container');
+
+
+if (confirmClose) {
+    confirmClose[0].addEventListener('click', () => {
+        panelConfirm[0].classList.remove("show_filter");
+    });
+}
+
+function showConfirmPanel() {
+    panelConfirm[0].classList.add("show_filter");
+}
+
+// ============ Confirm swiper ========= 
+let confirmSwiper = new Swiper(".confirm-swiper", {
+    centeredSlides: true,
+    slidesPerView: 'auto',
+    spaceBetween: 30,
+    loop: 'true',
+    pagination: {
+        el: ".swiper-pagination",
+        clickable: true
+    },
+});
+
+function confirmAnimations() {
+    var panelConfirmed = document.querySelectorAll('.confirm_container')[0];
+    var panelAccepted = document.querySelectorAll('.accept_container')[0];
+    panelConfirmed.classList.add('removeConfirmAnimation');
+    panelAccepted.classList.add('showAcceptAnimation');
+}
+
+function removeAnimation() {
+    setTimeout(() => {
+        var panelConfirmed = document.querySelectorAll('.confirm_container')[0];
+        var panelAccepted = document.querySelectorAll('.accept_container')[0];
+        panelConfirmed.classList.remove('removeConfirmAnimation');
+        panelAccepted.classList.remove('showAcceptAnimation');
+    }, 500);
+}
+
