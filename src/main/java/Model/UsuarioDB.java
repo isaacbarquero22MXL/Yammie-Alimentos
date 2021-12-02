@@ -85,7 +85,7 @@ public class UsuarioDB {
 
             insert2.executeUpdate();
             insert2.close();
-            
+
             strSQL = "INSERT INTO ESTADOUSUARIO VALUES (?,?,?)";
             PreparedStatement insert3 = accesoDatos.getDbConn().prepareStatement(strSQL);
             insert3.setString(1, usuario.getCedula());
@@ -94,7 +94,7 @@ public class UsuarioDB {
 
             insert3.executeUpdate();
             insert3.close();
-            
+
             accesoDatos.cerrarConexion();
         } catch (SQLException e) {
             throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage(), e.getErrorCode());
@@ -113,7 +113,7 @@ public class UsuarioDB {
             //Se intancia la clase de acceso a datos
             AccesoDatos accesoDatos = new AccesoDatos();
 
-            strSQL = "SELECT * FROM USUARIO WHERE CEDULA = '" + cedula + "' or CorreoElectronico = '"+ correo + "' ";
+            strSQL = "SELECT * FROM USUARIO WHERE CEDULA = '" + cedula + "' or CorreoElectronico = '" + correo + "' ";
 
             ResultSet rsPA = accesoDatos.ejecutaSQLRetornaRS(strSQL);
             //Se llena el arryaList con los proyectos   
@@ -132,54 +132,116 @@ public class UsuarioDB {
         }
         return exist;
     }
-     public  Usuario ObtenerInfoUsuario(String Correo,String Contrasenna) throws SNMPExceptions, 
+
+    public Usuario ObtenerInfoUsuario(String Correo, String Contrasenna) throws SNMPExceptions,
             SQLException {
-      String select = "";
-      Usuario usuario = new Usuario();
-          
-          try {
-    
-              //Se instancia la clase de acceso a datos
-              AccesoDatos accesoDatos = new AccesoDatos();  
+        String select = "";
+        Usuario usuario = new Usuario();
 
-              //Se crea la sentencia de búsqueda
-              select = 
-                      "select * from usuario where CorreoElectronico='"+Correo+"' "
-                      + "and contrasenna = '" + Contrasenna+ "' ";
-              //Se ejecuta la sentencia SQL
-              ResultSet rsPA = accesoDatos.ejecutaSQLRetornaRS(select);
-             //Se llena el arryaList con los proyectos   
-              while (rsPA.next()) {
+        try {
 
-                String ContrasennaBD        = rsPA.getString("Contrasenna");
-                String CorreoElectronico    = rsPA.getString("CorreoElectronico");
-                String Cedula               = rsPA.getString("Cedula");
-                String Nombre               = rsPA.getString("nombre");
-                String Apellido             = rsPA.getString("apellido");
-                String Apellido2            = rsPA.getString("apellido2"); 
-                String telefono             = rsPA.getString("telefono");
-                Date   FechaVenciContrasena = rsPA.getDate("FechVenciContrasena");
-                
-                usuario= new Usuario(ContrasennaBD,CorreoElectronico,Cedula,Nombre,Apellido,Apellido2,telefono,FechaVenciContrasena);
-              }
-              rsPA.close();
-              
-          } catch (SQLException e) {
-              throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, 
-                                      e.getMessage(), e.getErrorCode());
-          }catch (Exception e) {
-              throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, 
-                                      e.getMessage());
-          } finally {
-              
-          }
-          return usuario;
-      }
-     
-      
-      
-     
-    
-    
-    
+            //Se instancia la clase de acceso a datos
+            AccesoDatos accesoDatos = new AccesoDatos();
+
+            //Se crea la sentencia de búsqueda
+            select
+                    = "select * from usuario where CorreoElectronico='" + Correo + "' "
+                    + "and contrasenna = '" + Contrasenna + "' ";
+            //Se ejecuta la sentencia SQL
+            ResultSet rsPA = accesoDatos.ejecutaSQLRetornaRS(select);
+            //Se llena el arryaList con los proyectos   
+            while (rsPA.next()) {
+
+                String ContrasennaBD = rsPA.getString("Contrasenna");
+                String CorreoElectronico = rsPA.getString("CorreoElectronico");
+                String Cedula = rsPA.getString("Cedula");
+                String Nombre = rsPA.getString("nombre");
+                String Apellido = rsPA.getString("apellido");
+                String Apellido2 = rsPA.getString("apellido2");
+                String telefono = rsPA.getString("telefono");
+                Date FechaVenciContrasena = rsPA.getDate("FechVenciContrasena");
+
+                usuario = new Usuario(ContrasennaBD, CorreoElectronico, Cedula, Nombre, Apellido, Apellido2, telefono, FechaVenciContrasena);
+            }
+            rsPA.close();
+
+        } catch (SQLException e) {
+            throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION,
+                    e.getMessage(), e.getErrorCode());
+        } catch (Exception e) {
+            throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION,
+                    e.getMessage());
+        } finally {
+
+        }
+        return usuario;
+    }
+
+    public ArrayList<Usuario> usuariosPendiente() throws SNMPExceptions,
+            SQLException {
+        String select = "";
+        ArrayList<Usuario> listaU = new ArrayList<>();
+
+        try {
+
+            //Se instancia la clase de acceso a datos
+            AccesoDatos accesoDatos = new AccesoDatos();
+
+            //Se crea la sentencia de búsqueda
+            select = "select * from Usuario, EstadoUsuario where Usuario.logActivo = 0 and \n"
+                    + "Usuario.Cedula = EstadoUsuario.IDUsuario and \n"
+                    + "EstadoUsuario.Estado = 'Pendiente'";
+            //Se ejecuta la sentencia SQL
+            ResultSet rsPA = accesoDatos.ejecutaSQLRetornaRS(select);
+            //Se llena el arryaList con los proyectos   
+            while (rsPA.next()) {
+                Usuario usuario = ObtenerInfoUsuario(rsPA.getString(2), rsPA.getString(1));
+                listaU.add(usuario);
+            }
+            rsPA.close();
+
+        } catch (SQLException e) {
+            throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION,
+                    e.getMessage(), e.getErrorCode());
+        } catch (Exception e) {
+            throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION,
+                    e.getMessage());
+        } finally {
+
+        }
+        return listaU;
+    }
+
+    public void actualizaEstadoUsuario(String usuario , Usuario userEdita, String estado, int logActivo) throws SNMPExceptions {
+        String strSQL = "";
+        try {
+
+            //Se intancia la clase de acceso a datos
+            AccesoDatos accesoDatos = new AccesoDatos();
+
+            strSQL = "Update Usuario set logActivo = "+logActivo+", usuarioEdita = ?, fechaEdita = ? where cedula = ?";
+            PreparedStatement insert = accesoDatos.getDbConn().prepareStatement(strSQL);
+            insert.setString(1, userEdita.getCedula());
+            insert.setDate(2, new Date(Calendar.getInstance().getTime().getTime()));
+            insert.setString(3, usuario);
+
+            insert.executeUpdate();
+            insert.close();
+            
+            strSQL = "Update EstadoUsuario set Estado = '"+estado+"' where IDUsuario = ?";
+            PreparedStatement insert2 = accesoDatos.getDbConn().prepareStatement(strSQL);
+            insert2.setString(1, usuario);
+            
+            insert2.executeUpdate();
+            insert2.close();
+
+            accesoDatos.cerrarConexion();
+        } catch (SQLException e) {
+            throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage(), e.getErrorCode());
+        } catch (Exception e) {
+            throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());
+        } finally {
+
+        }
+    }
 }

@@ -31,7 +31,7 @@
             <header class="header" id="header">
                 <nav class="nav main_container">
                     <div class="nav_logo">
-                        <a href="index.html">
+                        <a href="index.xhtml">
                             <img src="images/YammieLogo.png" alt="" class="nav_logo-img"/>
                             <span class="snowflake"></span>
                             <span class="snowflake"></span>
@@ -324,6 +324,23 @@
                         <h2>Subtotal: ₡<h:outputLabel value="#{beanPedido.valorProductos}"></h:outputLabel></h2>
                         <h2>Impuesto: ₡<h:outputLabel value="#{beanPedido.impuesto}"></h:outputLabel></h2>
                         <h2>Total: ₡<h:outputLabel value="#{beanPedido.total}"></h:outputLabel></h2>
+                        <div class="personal_data-section">
+                            <h3>Datos de confirmación</h3>
+                            <div class="personal_data">
+                                <div class="personal_info">
+                                    <h4>Dirección</h4>
+                                    <h:selectOneMenu class="input combo" value="#{beanPedido.IDDireccion}">
+                                        <f:selectItems value="#{beanPedido.listaDirecciones}"></f:selectItems>
+                                    </h:selectOneMenu>
+                                </div>
+                                <div class="personal_info">
+                                    <h4>Horarios</h4>
+                                    <h:selectOneMenu class="input combo" value="#{beanPedido.horarioSeleccionado}">
+                                        <f:selectItems value="#{beanPedido.listaHorarios}"></f:selectItems>
+                                    </h:selectOneMenu>
+                                </div>
+                            </div>
+                        </div>
                         <h:commandButton class="button" value="Aceptar Pedido" action="#{beanPedido.aceptarPedido()}"></h:commandButton>
                     </div>
                 </div>

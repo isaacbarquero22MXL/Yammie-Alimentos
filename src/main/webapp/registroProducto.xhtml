@@ -110,7 +110,7 @@
                         </div>
                     </div>
                     <h1 class="tableTitle" id="productTable">Lista Productos</h1>
-                    <h:dataTable value="#{beanProducto.listaProductos}" var="datos" class="dataTable">
+                    <h:dataTable value="#{beanProducto.listaProductos}" var="datos" class="dataTable manteTable">
                         <h:column>
                             <f:facet name="header">ID</f:facet>
                                 #{datos.identificacion}
@@ -124,7 +124,7 @@
                                 #{datos.precio}
                         </h:column> 
                         <h:column>
-                            <f:facet name="header">Cantidad minima de venta</f:facet>
+                            <f:facet name="header">Cantidad</f:facet>
                                 #{datos.cantMinVenta}
                         </h:column>
                         <h:column>
@@ -138,7 +138,7 @@
                         <h:column>
                             <div class="table_button">
                                 <h:commandButton class="tBtn" type="submit" image="images/edit.png" action="#{beanProducto.setearProductoSeleccionado(datos)}" ></h:commandButton>
-                                <h:commandButton class="tBtn" image="images/delete.png" action="#{beanProducto.setearProductoYEjecutarJavaScript(datos)}"></h:commandButton>
+                                <h:commandButton class="tBtn" image="images/deleteBrown.png" action="#{beanProducto.setearProductoYEjecutarJavaScript(datos)}"></h:commandButton>
                             </div>
                         </h:column>  
                     </h:dataTable>

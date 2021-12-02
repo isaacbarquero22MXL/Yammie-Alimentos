@@ -21,7 +21,7 @@
         <title>Yammie - Configuración</title>
     </h:head>
     <h:body>
-        <h:form acceptcharset="UTF-8">
+        <h:form acceptcharset="UTF-8" id="form">
             <main class="section" id="main">
                 <div class="login_logo" onclick="animation()">
                     <img src="images/YammieLogo.png" alt="logo" class="login_logo-img"/>
@@ -83,13 +83,39 @@
                             </div>
                             <div class="login_section">
                                 <div class="login_icon">
-                                    <i class='bx bxs-location-plus'></i>
+                                    <i class='bx bxs-location-plus' ></i>
                                 </div>
                                 <div class="login_inputs">
                                     <h5>Otras Señas</h5>
-                                    <h:inputText value="#{beanUsuario.beanDireccion.otrasSenna}" class="input"></h:inputText>                                </div>
+                                    <h:inputText value="#{beanUsuario.beanDireccion.otrasSenna}" class="input"></h:inputText>
+                                </div>
+                            </div>
+                            <div class="login_section">
+                                <div class="login_icon">
+                                    <i class='bx bxs-location-plus' ></i>
+                                </div>
+                                <div class="login_inputs">
+                                    <h5 class="login_location">Tipo Direccion</h5>
+                                    <h:selectOneMenu value="#{beanUsuario.tipoD}" class="input combo" label="tipoD" id="tipoD">
+                                        <f:selectItem itemValue="Principal"></f:selectItem>
+                                        <f:selectItem itemValue="Entrega"></f:selectItem>
+                                    </h:selectOneMenu>
+                                </div>
                             </div>
                         </div>
+                        <div class="mante_btn action_buttons">
+                            <h:commandButton class="button" title="Agregar Direccion" 
+                                             type="submit" value="Agregar Dirección"
+                                             action="#{beanUsuario.registraNuevaDireccion()}">
+<!--                                <f:ajax render=":form:dir"></f:ajax>-->
+                            </h:commandButton>
+                            <h:commandButton class="button" title="Actualizar Direccion"
+                                             type="submit" value="Actualizar Direción"
+                                             action="#{beanUsuario.actualizaDireccion()}">
+                                <!--<f:ajax render=":form:dir"></f:ajax>-->
+                            </h:commandButton>
+                        </div>
+                        <hr/>
                         <div class="login_form section horario">
                             <div class="login_section">
                                 <div class="login_icon">
@@ -97,37 +123,88 @@
                                 </div>
                                 <div class="login_inputs">
                                     <h5 class="login_location">Horario de Entrega (Desde)</h5>
-                                    <h:selectOneMenu value="#{beanUsuario.inicio}" class="input combo">
-                                        <f:selectItem itemValue="Seleccione"></f:selectItem>
-                                        <f:selectItem itemValue="Lunes 8:00 am"></f:selectItem>
+                                    <h:selectOneMenu value="#{beanUsuario.beanHorario.inicio}" class="input combo">
+                                        <f:selectItems value="#{beanUsuario.beanHorario.listaHorarios()}"></f:selectItems>
                                     </h:selectOneMenu>
                                 </div>
-                            </div><div class="login_section">
+                            </div>
+                            <div class="login_section">
                                 <div class="login_icon">
                                     <i class='bx bxs-location-plus' ></i>
                                 </div>
                                 <div class="login_inputs">
                                     <h5 class="login_location">Horario de Entrega (Hasta)</h5>
-                                    <h:selectOneMenu value="#{beanUsuario.fin}" class="input combo">
-                                        <f:selectItem itemValue="Seleccione"></f:selectItem>
-                                        <f:selectItem itemValue="Lunes 5:00 am"></f:selectItem>
+                                    <h:selectOneMenu value="#{beanUsuario.beanHorario.fin}" class="input combo">
+                                        <f:selectItems value="#{beanUsuario.beanHorario.listaHorarios()}"></f:selectItems>
                                     </h:selectOneMenu>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="login_section">
-                        <h:outputLabel class="errorLabel" value="#{beanUsuario.mensaje}"></h:outputLabel>
+                        <h:outputLabel class="errorLabel" escape="false" value="#{beanUsuario.mensaje}"></h:outputLabel>
                     </div>
-                    <div class="mante_btn">
-                        <h:commandButton class="button" title="Agregar" type="submit" value="Agregar" action="#{beanUsuario.validaUsuarioMante()}"></h:commandButton>
-                        <div class="mante_btn-options">
-                            <h:commandButton title="Editar" class="button" value="Editar"></h:commandButton>
-                            <h:commandButton title="Nuevo" class="button" value="Nuevo" action="#{beanUsuario.deshacerBeansComp()}"></h:commandButton>
-                            <h:commandButton title="Buscar" class="button" value="Buscar"></h:commandButton>
-                            <h:commandButton title="Ayuda" class="button" value="Ayuda"></h:commandButton>
-                        </div>
+                    <div class="mante_btn action_buttons">
+                        <h:commandButton class="button" title="Agregar Horario" type="submit" value="Agregar Horario"
+                                         action="#{beanUsuario.registraNuevoHorario()}">
+                            <!--<f:ajax render=":form:hor"></f:ajax>-->
+                        </h:commandButton>
+                        <h:commandButton class="button" title="Actualizar Horario" type="submit" value="Actualizar Horario"
+                                         action="#{beanUsuario.actualizaHorario()}">
+                            <!--<f:ajax render=":form:hor"></f:ajax>-->
+                        </h:commandButton>
                     </div>
+                    <h1 class="tableTitle" id="productTable">Lista Direcciones</h1>
+                    <h:panelGroup id="dir">
+                        <h:dataTable value="#{beanUsuario.listaDirecciones}" var="datos" class="dataTable manteTable">
+                            <h:column>
+                                <f:facet name="header">Provincia</f:facet>
+                                    #{datos.objetcProv.dsc_provincia}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Canton</f:facet>
+                                    #{datos.objetcCant.dsc_canton}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Distrito</f:facet>
+                                    #{datos.objetcDist.dsc_Distrito}
+                            </h:column> 
+                            <h:column>
+                                <f:facet name="header">Barrio</f:facet>
+                                    #{datos.objetcBar.dsc_barrio}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Otras señas</f:facet>
+                                    #{datos.otrasSennas}
+                            </h:column>
+                            <h:column>
+                                <div class="table_button">
+                                    <h:commandButton class="tBtn" type="submit" image="images/edit.png" action="#{beanUsuario.seteaDireccion(datos)}" ></h:commandButton>
+                                    <h:commandButton class="tBtn" image="images/deleteBrown.png" action="#{beanUsuario.eliminaDireccion(datos)}"></h:commandButton>
+                                </div>
+                            </h:column>  
+                        </h:dataTable>
+                    </h:panelGroup>
+                    <hr/>
+                    <h1 class="tableTitle" id="productTable">Lista Horarios</h1>
+                    <h:panelGroup id="hor">
+                        <h:dataTable value="#{beanUsuario.listaHorarios}" var="datos" class="dataTable manteTable">
+                            <h:column>
+                                <f:facet name="header">Inicio</f:facet>
+                                    #{datos.inicio}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Fin</f:facet>
+                                    #{datos.fin}
+                            </h:column>
+                            <h:column>
+                                <div class="table_button">
+                                    <h:commandButton class="tBtn" type="submit" image="images/edit.png" action="#{beanUsuario.seteaHorarario(datos)}" ></h:commandButton>
+                                    <h:commandButton class="tBtn" image="images/deleteBrown.png" action="#{beanUsuario.eliminaHorario(datos)}"></h:commandButton>
+                                </div>
+                            </h:column>  
+                        </h:dataTable>
+                    </h:panelGroup>
                 </div>
             </main>
             <!-- Scroll reveal JS -->

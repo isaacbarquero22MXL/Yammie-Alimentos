@@ -90,6 +90,10 @@
     grid-template-columns: repeat(1, 1fr);
 }
 
+.manteTable tbody{
+    display: table-row-group;
+}
+
 .table_button{
     display: flex;
 }

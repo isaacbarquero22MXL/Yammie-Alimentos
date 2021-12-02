@@ -43,8 +43,7 @@
                                     <div class="login_inputs">
                                         <h5 class="login_location">Usuario</h5>
                                         <h:selectOneMenu value="#{beanEstadoUsuario.IDUsuario}" class="input combo">
-                                            <f:selectItem itemValue="Seleccione"></f:selectItem>
-                                            <f:selectItem itemValue="118010156- Isaac Barquero Lizano"></f:selectItem>
+                                            <f:selectItems value="#{beanEstadoUsuario.listaPendientes}"></f:selectItems>
                                         </h:selectOneMenu>
                                     </div>
                                 </div>
@@ -72,7 +71,7 @@
                         </div>
                     </div>
                      <div class="login_section">
-                         <h:outputLabel class="errorLabel" value="#{beanEstadoUsuario.mensaje}"></h:outputLabel>
+                         <h:outputLabel class="errorLabel" escape="false" value="#{beanEstadoUsuario.mensaje}"></h:outputLabel>
                     </div>
                     <div class="factura_btn">
                         <h:commandButton class="button" value="Confirmar" type="submit" action="#{beanEstadoUsuario.realizaAccion()}"></h:commandButton>

@@ -15,8 +15,8 @@ import java.util.ArrayList;
 public class Pedido {
     private String ID;
     private Usuario usuario;
-    private Date HoraEntrega;
-    private Direccion direccion;
+    private String HoraEntrega;
+    private int direccion;
     private EstadoPedido estadoPedido;
     
     private ArrayList<Producto> listaCarrito;
@@ -25,7 +25,7 @@ public class Pedido {
         listaCarrito = new ArrayList<>();
     }
 
-    public Pedido(String ID, Usuario usuario, Date HoraEntrega, Direccion direccion, EstadoPedido estadoPedido) {
+    public Pedido(String ID, Usuario usuario, String HoraEntrega, int direccion, EstadoPedido estadoPedido) {
         this.ID = ID;
         this.usuario = usuario;
         this.HoraEntrega = HoraEntrega;
@@ -33,11 +33,11 @@ public class Pedido {
         this.estadoPedido = estadoPedido;
     }
 
-    public String getIDentificacion() {
+    public String getID() {
         return ID;
     }
 
-    public void setIDentificacion(String ID) {
+    public void setID(String ID) {
         this.ID = ID;
     }
 
@@ -49,19 +49,19 @@ public class Pedido {
         this.usuario = usuario;
     }
 
-    public Date getHoraEntrega() {
+    public String getHoraEntrega() {
         return HoraEntrega;
     }
 
-    public void setHoraEntrega(Date HoraEntrega) {
+    public void setHoraEntrega(String HoraEntrega) {
         this.HoraEntrega = HoraEntrega;
     }
 
-    public Direccion getDireccion() {
+    public int getDireccion() {
         return direccion;
     }
 
-    public void setDireccion(Direccion direccion) {
+    public void setDireccion(int direccion) {
         this.direccion = direccion;
     }
 
@@ -80,6 +80,8 @@ public class Pedido {
     public void setListaCarrito(ArrayList<Producto> listaCarrito) {
         this.listaCarrito = listaCarrito;
     }
+
+   
     
     
 }

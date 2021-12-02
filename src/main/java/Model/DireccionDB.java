@@ -261,4 +261,95 @@ public class DireccionDB {
         }
         return ListaDireccion;
     }
+
+    public void actualizaDireccion(Direccion direccion) throws SNMPExceptions {
+        String strSQL = "";
+        try {
+
+            //Se intancia la clase de acceso a datos
+            AccesoDatos accesoDatos = new AccesoDatos();
+
+            strSQL = "Update Direccion set Provincia = ?, Canton = ?, Distrito = ?, Barrio = ?, "
+                    + "otras = ?, TipoDireccion = ? where ID = ?";
+
+            PreparedStatement insert = accesoDatos.getDbConn().prepareStatement(strSQL);
+            insert.setFloat(1, direccion.getProvincia());
+            insert.setFloat(2, direccion.getCanton());
+            insert.setFloat(3, direccion.getDistrito());
+            insert.setFloat(4, direccion.getBarrio());
+            insert.setString(5, direccion.getOtrasSennas());
+            insert.setString(6, direccion.getTipoDireccion());
+            insert.setInt(7, Integer.parseInt(direccion.getID()));
+
+            insert.executeUpdate();
+            insert.close();
+            accesoDatos.cerrarConexion();
+
+        } catch (SQLException e) {
+            throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage(), e.getErrorCode());
+        } catch (Exception e) {
+            throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());
+        } finally {
+
+        }
+    }
+
+    public void eliminaireccion(Direccion direccion) throws SNMPExceptions {
+        String strSQL = "";
+        try {
+
+            //Se intancia la clase de acceso a datos
+            AccesoDatos accesoDatos = new AccesoDatos();
+
+            strSQL = "Delete from Direccion where ID = ?";
+            PreparedStatement insert = accesoDatos.getDbConn().prepareStatement(strSQL);
+            insert.setInt(1, Integer.parseInt(direccion.getID()));
+
+            insert.executeUpdate();
+            insert.close();
+            accesoDatos.cerrarConexion();
+
+        } catch (SQLException e) {
+            throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage(), e.getErrorCode());
+        } catch (Exception e) {
+            throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());
+        } finally {
+
+        }
+    }
+
+    public boolean validaDireccion(Direccion direccion, Usuario user) throws SNMPExceptions {
+        String strSQL = "";
+        boolean exist = false;
+        try {
+
+            //Se intancia la clase de acceso a datos
+            AccesoDatos accesoDatos = new AccesoDatos();
+
+            strSQL = "Select * from Direccion where Provincia = ? and Canton = ? and "
+                    + "Distrito = ? and Barrio = ? and IDUsuario = ?";
+            PreparedStatement insert = accesoDatos.getDbConn().prepareStatement(strSQL);
+            insert.setFloat(1, direccion.getProvincia());
+            insert.setFloat(2, direccion.getCanton());
+            insert.setFloat(3, direccion.getDistrito());
+            insert.setFloat(4, direccion.getBarrio());
+            insert.setString(5, user.getCedula());
+
+            ResultSet rsPA = accesoDatos.ejecutaSQLRetornaRS(insert);
+            if (rsPA.next()) {
+                exist = true;
+            }
+            rsPA.close();
+            insert.close();
+            accesoDatos.cerrarConexion();
+
+        } catch (SQLException e) {
+            throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage(), e.getErrorCode());
+        } catch (Exception e) {
+            throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());
+        } finally {
+
+        }
+        return exist;
+    }
 }

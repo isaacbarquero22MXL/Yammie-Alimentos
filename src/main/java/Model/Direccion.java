@@ -18,6 +18,11 @@ public class Direccion {
     private String tipoDireccion;
     private String otrasSennas;
     
+    private Provincia ObjetcProv;
+    private Canton ObjetcCant;
+    private Distrito ObjetcDist;
+    private Barrio ObjetcBar;
+    
     public Direccion(){
         this.tipoDireccion = "Principal";
     }
@@ -88,4 +93,38 @@ public class Direccion {
     public void setOtrasSennas(String otrasSennas) {
         this.otrasSennas = otrasSennas;
     }
+
+    public Provincia getObjetcProv() {
+        return ObjetcProv;
+    }
+
+    public void setObjetcProv(Provincia ObjetcProv) {
+        this.ObjetcProv = ObjetcProv;
+    }
+
+    public Canton getObjetcCant() {
+        return ObjetcCant;
+    }
+
+    public void setObjetcCant(Canton ObjetcCant) {
+        this.ObjetcCant = ObjetcCant;
+    }
+
+    public Distrito getObjetcDist() {
+        return ObjetcDist;
+    }
+
+    public void setObjetcDist(Distrito ObjetcDist) {
+        this.ObjetcDist = ObjetcDist;
+    }
+
+    public Barrio getObjetcBar() {
+        return ObjetcBar;
+    }
+
+    public void setObjetcBar(Barrio ObjetcBar) {
+        this.ObjetcBar = ObjetcBar;
+    }
+    
+    
 }

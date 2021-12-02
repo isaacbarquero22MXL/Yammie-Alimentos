@@ -19,13 +19,11 @@ import Model.TipoRol;
 import Model.TipoRolDB;
 import Model.Usuario;
 import Model.UsuarioDB;
-import java.io.Console;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.faces.context.ExternalContext;
@@ -78,6 +76,16 @@ public class BeanUsuario {
 
     // Usuario Global
     private Usuario usuarioGlobal;
+
+    // listas mantenimiento
+    private ArrayList<Direccion> listaDirecciones = new ArrayList<>();
+    private ArrayList<Horario> listaHorarios = new ArrayList<>();
+
+    // mantenimiento seleccionado
+    private Direccion direccionSeleccionada = null;
+    private Horario horarioSeleccionado = null;
+
+    private String tipoD;
 
     //Constructor
     public BeanUsuario() {
@@ -236,6 +244,8 @@ public class BeanUsuario {
         beanDireccion.setOtrasSenna("");
         beanHorario.setInicio("");
         beanHorario.setFin("");
+        setearDirecciones();
+        setearHorarios();
         return "horarioDirecciones";
     }
 
@@ -258,10 +268,10 @@ public class BeanUsuario {
 
                         userDB.insertaUsuario(usuario);
                         direccionDB.insertaDireccion(direccion, usuario.getCedula());
-                        horarioDB.insertaDireccion(horario, usuario.getCedula());
+                        horarioDB.insertaHorario(horario, usuario.getCedula());
                         String fullName = this.nombre + " " + this.apellido + " " + this.apellido2;
                         String subject = "Registro de cuenta de cliente en Yammie Alimentos";
-                        String message = "Hola, "+ fullName + ". Su cuenta ya casi está lista. Por favor espere dentro de poco"
+                        String message = "Hola, " + fullName + ". Su cuenta ya casi está lista. Por favor espere dentro de poco"
                                 + " a que un administrador complete su regsitro. De ser así, se notificará con un correo"
                                 + " que su cuenta está lista para ingresar. \n\n\n Yammie.";
                         Mail mail = new Mail();
@@ -388,25 +398,237 @@ public class BeanUsuario {
         return lista;
     }
 
-    public String retornaNombreUser(){
+    public String retornaNombreUser() {
         return this.usuarioGlobal.getNombre() + " " + usuarioGlobal.getApellido()
                 + " " + usuarioGlobal.getApellido2();
     }
-    
-    
-    public boolean isRol(String rol){
+
+    public boolean isRol(String rol) {
         boolean isSet = false;
-        
-       if(rolSeleccionado.equals(rol)){
-           isSet = true;
-       }
-       
-       return isSet;
+
+        if (rolSeleccionado.equals(rol)) {
+            isSet = true;
+        }
+
+        return isSet;
     }
-    
-    
-    
-    
+
+    public void setearDirecciones() {
+        ArrayList<Direccion> lista = new ArrayList<>();
+
+        DireccionDB dDB = new DireccionDB();
+
+        LinkedList<Provincia> listaPro = null;
+        LinkedList<Canton> listaCant = null;
+        LinkedList<Distrito> listaDist = null;
+        LinkedList<Barrio> listaBar = null;
+
+        try {
+            listaPro = dDB.listaProvincias();
+
+            for (Direccion direccion : dDB.ObtenerDirreciones(usuarioGlobal.getCedula())) {
+                Provincia pro = null;
+                Canton cant = null;
+                Distrito dist = null;
+                Barrio bar = null;
+
+                for (Provincia provincia : listaPro) {
+                    if (provincia.getCod_provincia() == direccion.getProvincia()) {
+                        pro = provincia;
+                        break;
+                    }
+                }
+
+                listaCant = dDB.SeleccionarCantonPorProvincia(pro.getCod_provincia());
+
+                for (Canton canton : listaCant) {
+                    if (canton.getCod_canton() == direccion.getCanton()) {
+                        cant = canton;
+                        break;
+                    }
+                }
+
+                listaDist = dDB.SeleccionarDistritoporCanton(pro.getCod_provincia(), cant.getCod_canton());
+
+                for (Distrito distrito : listaDist) {
+                    if (distrito.getCod_distrito() == direccion.getDistrito()) {
+                        dist = distrito;
+                        break;
+                    }
+                }
+
+                listaBar = dDB.SeleccionarBarrioporDistrito(pro.getCod_provincia(),
+                        cant.getCod_canton(),
+                        dist.getCod_distrito());
+
+                for (Barrio barrio : listaBar) {
+                    if (barrio.getCod_barrio() == direccion.getBarrio()) {
+                        bar = barrio;
+                        break;
+                    }
+                }
+
+                direccion.setObjetcProv(pro);
+                direccion.setObjetcCant(cant);
+                direccion.setObjetcDist(dist);
+                direccion.setObjetcBar(bar);
+                lista.add(direccion);
+            }
+        } catch (Exception e) {
+        }
+        this.listaDirecciones = lista;
+        usuarioGlobal.setListaDirecciones(listaDirecciones);
+    }
+
+    public void setearHorarios() {
+        ArrayList<Horario> lista = new ArrayList<>();
+        try {
+            HorarioDB hDB = new HorarioDB();
+            for (Horario horario : hDB.ObtenerHorarios(usuarioGlobal.getCedula())) {
+                lista.add(horario);
+            }
+
+        } catch (Exception e) {
+            mensaje = e.toString();
+        }
+        this.listaHorarios = lista;
+        usuarioGlobal.setListaHorarios(listaHorarios);
+    }
+
+    public void seteaDireccion(Direccion direccion) {
+        this.beanDireccion.setID(direccion.getID());
+        this.beanDireccion.setID_Provincia(direccion.getObjetcProv().getCod_provincia());
+        this.beanDireccion.setID_Canton(direccion.getObjetcCant().getCod_canton());
+        this.beanDireccion.setID_Distrito(direccion.getObjetcDist().getCod_distrito());
+        this.beanDireccion.setID_Barrio(direccion.getObjetcBar().getCod_barrio());
+        this.beanDireccion.setOtrasSenna(direccion.getOtrasSennas());
+        direccionSeleccionada = direccion;
+    }
+
+    public void seteaHorarario(Horario horario) {
+        this.beanHorario.setID(horario.getID());
+        this.beanHorario.setInicio(horario.getInicio());
+        this.beanHorario.setFin(horario.getFin());
+        horarioSeleccionado = horario;
+    }
+
+    public void registraNuevaDireccion() {
+        if (beanDireccion.validaCampos()) {
+            Direccion direccion = retornaDirrecionConstruido();
+            direccion.setTipoDireccion(this.tipoD);
+            try {
+                DireccionDB dDB = new DireccionDB();
+                if (!dDB.validaDireccion(direccion, usuarioGlobal)) {
+                    dDB.insertaDireccion(direccion, usuarioGlobal.getCedula());
+                    mensaje = "<p class=\"errorLabel\" style=\"color: #00FB3C\">"
+                            + "Dirección registrada.<p>";
+                    setearDirecciones();
+                } else {
+                    mensaje = "Ya tienes esta dirección registrada a tu nombre."
+                            + " Actualiza o elimínalo";
+                }
+            } catch (Exception e) {
+                mensaje = e.toString();
+            }
+        } else {
+            mensaje = "Seleccione los campos de dirección a registrar. Consta de provincia, cantón, distrito y barrio. "
+                    + "Las otras señas es opcional.";
+        }
+    }
+
+    public void actualizaDireccion() {
+        if (direccionSeleccionada != null) {
+            String ID = direccionSeleccionada.getID(); //extrae el ID antes de reconstruir el objeto actualizado nuevamente
+            direccionSeleccionada = retornaDirrecionConstruido();
+            direccionSeleccionada.setID(ID);
+            direccionSeleccionada.setTipoDireccion(this.tipoD);
+            try {
+                DireccionDB dDB = new DireccionDB();
+                dDB.actualizaDireccion(direccionSeleccionada);
+                mensaje = "<p class=\"errorLabel\" style=\"color: #00FB3C\">"
+                        + "Dirección actualizada.<p>";
+                setearDirecciones();
+            } catch (Exception e) {
+                mensaje = e.toString();
+            }
+        } else {
+            mensaje = "Seleccione una dirección antes de actualizar.";
+        }
+    }
+
+    public void eliminaDireccion(Direccion dir) {
+        direccionSeleccionada = retornaDirrecionConstruido();
+        try {
+            DireccionDB dDB = new DireccionDB();
+            dDB.eliminaireccion(dir);
+            mensaje = "<p class=\"errorLabel\" style=\"color: #00FB3C\">"
+                    + "Dirección eliminada.<p>";
+            setearDirecciones();
+        } catch (Exception e) {
+            mensaje = e.toString();
+        }
+    }
+
+    public void registraNuevoHorario() {
+        if (beanHorario.validaDatosNulos()) {
+            Horario horario = retornaHorarioConstruido();
+            try {
+                HorarioDB hDB = new HorarioDB();
+                if (!hDB.validaHorario(horario, usuarioGlobal)) {
+                    hDB.insertaHorario(horario, usuarioGlobal.getCedula());
+                    mensaje = "<p class=\"errorLabel\" style=\"color: #00FB3C\">"
+                            + "Horario registrada.<p>";
+                    setearHorarios();
+                } else {
+                    mensaje = "Ya tiene un horario igual registrado a tu nombre. "
+                            + "Actualiza o elimínalo.";
+                }
+            } catch (Exception e) {
+                mensaje = e.toString();
+            }
+        } else {
+            mensaje = "Existen datos faltantes para registrar el horario. Recuerda que no puedes registrar"
+                    + " o actualizar horarios iguales.";
+        }
+    }
+
+    public void actualizaHorario() {
+        if (beanHorario.validaDatosNulos()) {
+            if (horarioSeleccionado != null) {
+                int ID = horarioSeleccionado.getID(); // extrae el ID antes de reconstruir el objeto nuevamente
+                horarioSeleccionado = retornaHorarioConstruido();
+                horarioSeleccionado.setID(ID);
+                try {
+                    HorarioDB hDB = new HorarioDB();
+                    hDB.actualizaHorario(horarioSeleccionado);
+                    mensaje = "<p class=\"errorLabel\" style=\"color: #00FB3C\">"
+                            + "Horario actualizado.<p>";
+                    setearHorarios();
+                } catch (Exception e) {
+                    mensaje = e.toString();
+                }
+            } else {
+                mensaje = "Seleccione un horario antes de actualizar.";
+            }
+        }
+    }
+
+    public void eliminaHorario(Horario hor) {
+        if (horarioSeleccionado != null) {
+            try {
+                HorarioDB hDB = new HorarioDB();
+                hDB.eliminaHorario(hor);
+                mensaje = "<p class=\"errorLabel\" style=\"color: #00FB3C\">"
+                        + "Horario registrada.<p>";
+                setearHorarios();
+            } catch (Exception e) {
+                mensaje = e.toString();
+            }
+        } else {
+            mensaje = "Seleccione un horario antes de eliminar.";
+        }
+    }
+
     // Getters and Setters
     public String getContrasenna() {
         return contrasenna;
@@ -600,5 +822,43 @@ public class BeanUsuario {
         this.usuarioGlobal = usuarioGlobal;
     }
 
-    
+    public ArrayList<Direccion> getListaDirecciones() {
+        return listaDirecciones;
+    }
+
+    public void setListaDirecciones(ArrayList<Direccion> listaDirecciones) {
+        this.listaDirecciones = listaDirecciones;
+    }
+
+    public ArrayList<Horario> getListaHorarios() {
+        return listaHorarios;
+    }
+
+    public void setListaHorarios(ArrayList<Horario> listaHorarios) {
+        this.listaHorarios = listaHorarios;
+    }
+
+    public Direccion getDireccionSeleccionada() {
+        return direccionSeleccionada;
+    }
+
+    public void setDireccionSeleccionada(Direccion direccionSeleccionada) {
+        this.direccionSeleccionada = direccionSeleccionada;
+    }
+
+    public Horario getHorarioSeleccionado() {
+        return horarioSeleccionado;
+    }
+
+    public void setHorarioSeleccionado(Horario horarioSeleccionado) {
+        this.horarioSeleccionado = horarioSeleccionado;
+    }
+
+    public String getTipoD() {
+        return tipoD;
+    }
+
+    public void setTipoD(String tipoD) {
+        this.tipoD = tipoD;
+    }
 }

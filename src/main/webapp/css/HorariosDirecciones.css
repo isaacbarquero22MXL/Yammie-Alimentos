@@ -1,3 +1,7 @@
 .container_two{
     position: initial;
 }
+
+.action_buttons .button{
+    margin: 1rem;
+}

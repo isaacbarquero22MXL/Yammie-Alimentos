@@ -17,7 +17,7 @@ import java.util.ArrayList;
  * @author Bryan e Isaac
  */
 public class HorarioDB {
-     public void insertaDireccion(Horario horario, String usuario) throws SNMPExceptions{
+     public void insertaHorario(Horario horario, String usuario) throws SNMPExceptions{
          String strSQL = "";     
         try {
 
@@ -79,6 +79,88 @@ public class HorarioDB {
           }
           return ListaHorarios;
       }
+      
+      public void actualizaHorario(Horario horario) throws SNMPExceptions{
+         String strSQL = "";     
+        try {
+
+            //Se intancia la clase de acceso a datos
+            AccesoDatos accesoDatos = new AccesoDatos();
+            
+            strSQL = "UPDATE HorarioEntrega SET INICIO = ?, FIN = ? WHERE ID = ?";
+            
+            PreparedStatement insert = accesoDatos.getDbConn().prepareStatement(strSQL);
+            insert.setString(1, horario.getInicio());
+            insert.setString(2, horario.getFin());
+            insert.setInt(3, horario.getID());
+            
+            insert.executeUpdate();
+            insert.close();
+            accesoDatos.cerrarConexion();
+        } catch (SQLException e) {
+            throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage(), e.getErrorCode());
+        } catch (Exception e) {
+            throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());
+        } finally {
+
+        }
+    }
+      
+      public void eliminaHorario(Horario horario) throws SNMPExceptions{
+         String strSQL = "";     
+        try {
+
+            //Se intancia la clase de acceso a datos
+            AccesoDatos accesoDatos = new AccesoDatos();
+            
+            strSQL = "delete from HorarioEntrega where ID = ? ";
+            
+            PreparedStatement insert = accesoDatos.getDbConn().prepareStatement(strSQL);
+            insert.setInt(1, horario.getID());
+            
+            insert.executeUpdate();
+            insert.close();
+            accesoDatos.cerrarConexion();
+        } catch (SQLException e) {
+            throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage(), e.getErrorCode());
+        } catch (Exception e) {
+            throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());
+        } finally {
+
+        }
+    }
+      
+      public boolean validaHorario(Horario horario, Usuario user) throws SNMPExceptions {
+        String strSQL = "";
+        boolean exist = false;
+        try {
+
+            //Se intancia la clase de acceso a datos
+            AccesoDatos accesoDatos = new AccesoDatos();
+
+            strSQL = "Select * from HorarioEntrega where inicio = ? and fin = ? and IDUsuario = ?";
+            PreparedStatement insert = accesoDatos.getDbConn().prepareStatement(strSQL);
+            insert.setString(1, (horario.getInicio()));
+            insert.setString(2, (horario.getFin()));
+            insert.setString(3, (user.getCedula()));
+
+            ResultSet rsPA = accesoDatos.ejecutaSQLRetornaRS(insert);
+            if(rsPA.next()){
+                exist = true;
+            }
+            rsPA.close();
+            insert.close();
+            accesoDatos.cerrarConexion();
+
+        } catch (SQLException e) {
+            throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage(), e.getErrorCode());
+        } catch (Exception e) {
+            throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());
+        } finally {
+
+        }
+        return exist;
+    }
 }
 
 

@@ -5,15 +5,26 @@
  */
 package Controller;
 
+import Model.Barrio;
+import Model.Canton;
 import Model.Direccion;
+import Model.DireccionDB;
+import Model.Distrito;
 import Model.EstadoPedido;
+import Model.Horario;
+import Model.Pedido;
 import Model.PedidoDB;
 import Model.Producto;
+import Model.Provincia;
 import Model.Usuario;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import javax.faces.context.FacesContext;
 import javax.faces.model.ArrayDataModel;
 import javax.faces.model.DataModel;
+import javax.faces.model.SelectItem;
+import javax.servlet.http.HttpSession;
 import org.primefaces.PrimeFaces;
 
 /**
@@ -23,7 +34,6 @@ import org.primefaces.PrimeFaces;
 public class BeanPedido {
 
     private String ID;
-    private Usuario usuario;
     private Date HoraEntrega;
     private Direccion direccion;
     private EstadoPedido estadoPedido;
@@ -39,6 +49,62 @@ public class BeanPedido {
     private double total;
 
     private String confirmItems;
+
+    private Usuario user;
+
+    private ArrayList<SelectItem> listaHorarios = new ArrayList<>();
+    private ArrayList<SelectItem> listaDirecciones = new ArrayList<>();
+
+    private int IDDireccion;
+    private String horarioSeleccionado;
+
+    public BeanPedido() {
+        seteaIDPedido();
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        user = (Usuario) session.getAttribute("usuario");
+        setearHorarios();
+        setearDirecciones();
+    }
+
+    public ArrayList<SelectItem> getListaHorarios() {
+        return listaHorarios;
+    }
+
+    public void setListaHorarios(ArrayList<SelectItem> listaHorarios) {
+        this.listaHorarios = listaHorarios;
+    }
+
+    public ArrayList<SelectItem> getListaDirecciones() {
+        return listaDirecciones;
+    }
+
+    public void setListaDirecciones(ArrayList<SelectItem> listaDirecciones) {
+        this.listaDirecciones = listaDirecciones;
+    }
+
+    public int getIDDireccion() {
+        return IDDireccion;
+    }
+
+    public void setIDDireccion(int IDDireccion) {
+        this.IDDireccion = IDDireccion;
+    }
+
+    public String getHorarioSeleccionado() {
+        return horarioSeleccionado;
+    }
+
+    public void setHorarioSeleccionado(String horarioSeleccionado) {
+        this.horarioSeleccionado = horarioSeleccionado;
+    }
+
+    public Usuario getUser() {
+        return user;
+    }
+
+    public void setUser(Usuario user) {
+        this.user = user;
+    }
 
     public String getConfirmItems() {
         return confirmItems;
@@ -72,10 +138,6 @@ public class BeanPedido {
         this.valorProductos = valorProductos;
     }
 
-    public BeanPedido() {
-        seteaIDPedido();
-    }
-
     public ArrayList<Producto> getListaCarrito() {
         return listaCarrito;
     }
@@ -90,14 +152,6 @@ public class BeanPedido {
 
     public void setID(String ID) {
         this.ID = ID;
-    }
-
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
     }
 
     public Date getHoraEntrega() {
@@ -189,10 +243,103 @@ public class BeanPedido {
         this.confirmItems = hilera;
         PrimeFaces.current().executeScript("showConfirmPanel()");
     }
-    
-    public void aceptarPedido(){
-        PrimeFaces.current().executeScript("showConfirmPanel()");
-        PrimeFaces.current().executeScript("confirmAnimations()");
+
+    public void aceptarPedido() {
+        Pedido pedido = construyePedido();
+        try {
+            pedidoDB.insertaPedido(pedido);
+            listaCarrito = new ArrayList<>();
+            PrimeFaces.current().executeScript("showConfirmPanel()");
+            PrimeFaces.current().executeScript("confirmAnimations()");
+        } catch (Exception e) {
+            PrimeFaces.current().executeScript("alert(\"" + e.toString() + "\")");
+        }
     }
 
+    public Pedido construyePedido() {
+        Pedido pedido = new Pedido();
+        pedido.setID(ID);
+        pedido.setDireccion(IDDireccion);
+        pedido.setEstadoPedido(EstadoPedido.Pendientes);
+        pedido.setHoraEntrega(horarioSeleccionado);
+        pedido.setListaCarrito(listaCarrito);
+        pedido.setUsuario(user);
+        return pedido;
+    }
+
+    public void setearHorarios() {
+        ArrayList<SelectItem> lista = new ArrayList<>();
+
+        for (Horario horario : user.getListaHorarios()) {
+            String descripcion = horario.getInicio() + " - " + horario.getFin();
+            lista.add(new SelectItem(descripcion));
+        }
+
+        this.listaHorarios = lista;
+    }
+
+    public void setearDirecciones() {
+        ArrayList<SelectItem> lista = new ArrayList<>();
+
+        DireccionDB dDB = new DireccionDB();
+
+        LinkedList<Provincia> listaPro = null;
+        LinkedList<Canton> listaCant = null;
+        LinkedList<Distrito> listaDist = null;
+        LinkedList<Barrio> listaBar = null;
+
+        try {
+            listaPro = dDB.listaProvincias();
+
+            for (Direccion direccion : user.getListaDirecciones()) {
+                Provincia pro = null;
+                Canton cant = null;
+                Distrito dist = null;
+                Barrio bar = null;
+
+                for (Provincia provincia : listaPro) {
+                    if (provincia.getCod_provincia() == direccion.getProvincia()) {
+                        pro = provincia;
+                        break;
+                    }
+                }
+
+                listaCant = dDB.SeleccionarCantonPorProvincia(pro.getCod_provincia());
+
+                for (Canton canton : listaCant) {
+                    if (canton.getCod_canton() == direccion.getCanton()) {
+                        cant = canton;
+                        break;
+                    }
+                }
+
+                listaDist = dDB.SeleccionarDistritoporCanton(pro.getCod_provincia(), cant.getCod_canton());
+
+                for (Distrito distrito : listaDist) {
+                    if (distrito.getCod_distrito() == direccion.getDistrito()) {
+                        dist = distrito;
+                        break;
+                    }
+                }
+
+                listaBar = dDB.SeleccionarBarrioporDistrito(pro.getCod_provincia(),
+                        cant.getCod_canton(),
+                        dist.getCod_distrito());
+
+                for (Barrio barrio : listaBar) {
+                    if (barrio.getCod_barrio() == direccion.getBarrio()) {
+                        bar = barrio;
+                        break;
+                    }
+                }
+
+                String direccionFinal = pro.getDsc_provincia() + ", "
+                        + cant.getDsc_canton() + ", " + dist.getDsc_Distrito()
+                        + ", " + bar.getDsc_barrio();
+                lista.add(new SelectItem(Integer.parseInt(direccion.getID()), direccionFinal));
+            }
+        } catch (Exception e) {
+        }
+        this.listaDirecciones = lista;
+    }
 }

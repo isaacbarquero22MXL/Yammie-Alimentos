@@ -451,6 +451,27 @@
     }
 }
 
+.personal_data-section{
+    padding: 1rem;
+}
+
+.personal_data-section h3{
+    margin-bottom: 1rem;
+}
+
+.combo{
+    height: 2rem;
+    bottom: -.1rem;
+    color: var(--container-color-2);
+    font-weight: var(--font-black);
+    border-radius: .5rem;
+    border: none;
+    outline: none;
+    margin: 1rem;
+    width: 70%;
+    text-align: center;
+}
+
 /* breakpoints */
 
 /* dispositivos pequeños */
