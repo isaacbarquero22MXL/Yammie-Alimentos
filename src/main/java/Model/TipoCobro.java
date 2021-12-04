@@ -10,10 +10,10 @@ package Model;
  * @author Bryan e Isaac
  */
 public enum TipoCobro {
-    Efectivo,
-    CuentaPorCobrar{
+    Contado,
+    Credito{
         public String toString(){
-            return "Cuenta por cobrar";
+            return "Crédito";
         }
     };
 }

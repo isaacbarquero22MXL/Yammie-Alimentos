@@ -263,6 +263,6 @@ public class BeanFactura {
     public void cleanFields(){
         this.Descuento = 0;
         this.IDPedido = "0";
-        this.cobro = TipoCobro.Efectivo;
+        this.cobro = TipoCobro.Contado;
     }
 }

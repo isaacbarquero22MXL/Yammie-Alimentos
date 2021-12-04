@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="1000" pageHeight="900" columnWidth="960" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6491ceb4-3210-49a6-bd2a-f1125b5902df">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="fechaDesde" class="java.lang.String"/>
+	<parameter name="fechaHasta" class="java.lang.String"/>
+	<parameter name="filtro" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select * from Pedido where FechaCreacion >= $P{fechaDesde} and FechaCreacion <= $P{fechaHasta} and EstadoPedido = $P{filtro}
+]]>
+	</queryString>
+	<field name="ID" class="java.lang.String"/>
+	<field name="IDCliente" class="java.lang.String"/>
+	<field name="HoraEntrega" class="java.lang.String"/>
+	<field name="EstadoPedido" class="java.lang.String"/>
+	<field name="FechaCreacion" class="java.sql.Timestamp"/>
+	<field name="FechaModificacion" class="java.sql.Timestamp"/>
+	<field name="Usuariocreacion" class="java.lang.String"/>
+	<field name="Usuariomodificacion" class="java.lang.String"/>
+	<field name="IDDireccionEntrega" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="130" splitType="Stretch">
+			<image scaleImage="RetainShape" hAlign="Center" vAlign="Middle">
+				<reportElement mode="Opaque" x="0" y="0" width="123" height="100" backcolor="#B58030" uuid="3a3e81f0-5c9a-4f08-86fd-0877e88e6634"/>
+				<imageExpression><![CDATA["C:\\SmartGit_LocalRepositories\\ProyectoProgra5\\src\\main\\webapp\\images\\YammieLogo.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement mode="Opaque" x="111" y="0" width="849" height="100" forecolor="#FFFFFF" backcolor="#B58030" uuid="46923351-5a82-4f4f-b735-e20d868c9a78"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial Black" size="60" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Reporte de Pedidos]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="125" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="1" y="10" width="61" height="24" forecolor="#FFFFFF" backcolor="#B47F30" uuid="d1fe693c-59f8-4327-a7fe-0efd8fcc83c8"/>
+				<textElement verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Fecha:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement mode="Opaque" x="62" y="10" width="221" height="24" forecolor="#FFFFFF" backcolor="#B47F30" uuid="9b60c00f-7c64-44b8-8785-2b75534ef56a"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="1" y="44" width="125" height="24" forecolor="#FFFFFF" backcolor="#B47F30" uuid="b4a94c9b-b67d-4cf3-b98c-123fdbd32a86"/>
+				<textElement verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Filtro Aplicado:  ]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement mode="Opaque" x="126" y="44" width="262" height="24" forecolor="#FFFFFF" backcolor="#B47F30" uuid="f7ee689f-975d-436c-9024-0a485faae93f"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[ $F{EstadoPedido} ]]></textFieldExpression>
+			</textField>
+			<textField pattern="K:mm a, z">
+				<reportElement mode="Opaque" x="152" y="10" width="236" height="24" forecolor="#FFFFFF" backcolor="#B47F30" uuid="ec6123c5-4245-4694-8033-ae0be01e05cf"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="2" y="79" width="150" height="24" forecolor="#FFFFFF" backcolor="#B47F30" uuid="44cc267d-3215-40a2-af08-b5d3b64cf8ce"/>
+				<textElement verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Rango de fechas:  ]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement mode="Opaque" x="142" y="79" width="174" height="24" forecolor="#FFFFFF" backcolor="#B47F30" uuid="d6d734e1-c3b5-4fa7-bbf3-207103829ae6"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fechaDesde}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="226" y="79" width="17" height="24" forecolor="#FFFFFF" backcolor="#B47F30" uuid="07b41893-484f-4567-983f-5db1455770a0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[/]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement mode="Opaque" x="247" y="79" width="141" height="24" forecolor="#FFFFFF" backcolor="#B47F30" uuid="dce33226-343b-42c2-b474-b9d8aa9d4087"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fechaHasta}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="45" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="61" height="30" forecolor="#FF4100" backcolor="#DEC39B" uuid="c4ef60cb-2fdd-4fcc-9d2b-ac13a82bf2b1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Pedido]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="61" y="0" width="62" height="30" forecolor="#FF4100" backcolor="#DEC39B" uuid="de2c08e6-b759-4330-928c-9322db075d54"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+					<paragraph lineSpacing="Single" spacingAfter="10"/>
+				</textElement>
+				<text><![CDATA[Cliente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="123" y="0" width="197" height="30" forecolor="#FF4100" backcolor="#DEC39B" uuid="01b712e3-5a38-4a51-82a2-1d85728ab4cb"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+					<paragraph lineSpacing="Single" spacingAfter="10"/>
+				</textElement>
+				<text><![CDATA[Hora Entrega]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="320" y="0" width="112" height="30" forecolor="#FF4100" backcolor="#DEC39B" uuid="bc99afc4-eb1d-43f7-a9c0-f03cd6a1d30c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+					<paragraph lineSpacing="Single" spacingAfter="10"/>
+				</textElement>
+				<text><![CDATA[Estado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="432" y="0" width="106" height="30" forecolor="#FF4100" backcolor="#DEC39B" uuid="ace3f1c5-9056-4c5d-9007-86b40552d776"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+					<paragraph lineSpacing="Single" spacingAfter="10"/>
+				</textElement>
+				<text><![CDATA[Creado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="538" y="0" width="102" height="30" forecolor="#FF4100" backcolor="#DEC39B" uuid="e69c75b4-1232-42c4-8f44-7465b8178cb2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+					<paragraph lineSpacing="Single" spacingAfter="10"/>
+				</textElement>
+				<text><![CDATA[Modificado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="638" y="0" width="99" height="30" forecolor="#FF4100" backcolor="#DEC39B" uuid="63a7a2ff-2da9-4006-b6e5-baf75ca1a337"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+					<paragraph lineSpacing="Single" spacingAfter="10"/>
+				</textElement>
+				<text><![CDATA[Registro por]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="737" y="0" width="124" height="30" forecolor="#FF4100" backcolor="#DEC39B" uuid="da55fc90-1d55-49d9-b542-7c0602e1f285"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+					<paragraph lineSpacing="Single" spacingAfter="10"/>
+				</textElement>
+				<text><![CDATA[Modificado por]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="861" y="0" width="99" height="30" forecolor="#FF4100" backcolor="#DEC39B" uuid="0f5f6a4b-fc56-46fd-b2c8-5c5e632d11f1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+					<paragraph lineSpacing="Single" spacingAfter="10"/>
+				</textElement>
+				<text><![CDATA[Dirección ID]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="37" width="960" height="1" forecolor="#B47F30" uuid="a0ef1fab-0053-4c51-8c09-b61c87307a86"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="45" splitType="Stretch">
+			<textField>
+				<reportElement mode="Transparent" x="0" y="0" width="61" height="30" forecolor="#B47F30" backcolor="#B47F30" uuid="34470253-b865-4d6e-ab42-83b6197bb1ba"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ID}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="61" y="0" width="62" height="30" forecolor="#B47F30" backcolor="#B47F30" uuid="cf1de51a-adab-43fd-8b43-85dd6e6c9ed1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+					<paragraph lineSpacing="Single" spacingAfter="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{IDCliente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="123" y="0" width="197" height="30" forecolor="#B47F30" backcolor="#B47F30" uuid="49933d2e-0842-415a-838a-53a6c623e1cd"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+					<paragraph lineSpacing="Single" spacingAfter="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{HoraEntrega}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="320" y="0" width="112" height="30" forecolor="#B47F30" backcolor="#B47F30" uuid="bb96935e-3404-4b5c-94fb-bd45d6f0858e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+					<paragraph lineSpacing="Single" spacingAfter="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{EstadoPedido}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="432" y="0" width="106" height="30" forecolor="#B47F30" backcolor="#B47F30" uuid="eb650999-a9db-4734-86f7-bdac10fa8a9c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+					<paragraph lineSpacing="Single" spacingAfter="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FechaCreacion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="538" y="0" width="102" height="30" forecolor="#B47F30" backcolor="#B47F30" uuid="578a4db8-b671-46ce-9532-0ea4e386ba02"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+					<paragraph lineSpacing="Single" spacingAfter="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FechaModificacion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="638" y="0" width="99" height="30" forecolor="#B47F30" backcolor="#B47F30" uuid="35d60197-f5f6-4373-a2c1-ab34ff482f63"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+					<paragraph lineSpacing="Single" spacingAfter="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Usuariocreacion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="737" y="0" width="124" height="30" forecolor="#B47F30" backcolor="#B47F30" uuid="0252511f-4aa7-4bd8-b0a5-902ce0488051"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+					<paragraph lineSpacing="Single" spacingAfter="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Usuariomodificacion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="861" y="0" width="99" height="30" forecolor="#B47F30" backcolor="#B47F30" uuid="0e6417bd-3d4d-4ac5-9e79-ae0ba782ab8b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+					<paragraph lineSpacing="Single" spacingAfter="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{IDDireccionEntrega}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="37" width="960" height="1" forecolor="#B47F30" uuid="23d62e73-fda3-4d2c-9503-c1d203409129"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="960" height="45" backcolor="#B47F30" uuid="a3c295e7-bdef-43ac-88c3-82d66fb18eeb"/>
+				<text><![CDATA[]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -448,9 +448,10 @@ public class AccesoDatos implements Serializable {
     }
 
 
-    public AccesoDatos() {
+    public AccesoDatos() throws ClassNotFoundException {
         super();
         try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             dbConn = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=SIYF_BD", "sa", "123456");
         } catch (SQLException ex) {
             Logger.getLogger(AccesoDatos.class.getName()).log(Level.SEVERE, null, ex);

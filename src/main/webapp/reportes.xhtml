@@ -2,7 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
         <meta charset="UTF-8"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -39,82 +40,59 @@
                                         <i class='bx bxs-filter-alt' ></i>
                                     </div>
                                     <div class="login_inputs">
-                                        <h5 class="login_location">Filtro</h5>
-                                        <h:selectOneMenu class="input combo">
-                                            <f:selectItem itemValue="Estado de pedidos"></f:selectItem>
-                                             <f:selectItem itemValue="Tipo de venta"></f:selectItem>
+                                        <h5 class="login_location">Fecha desde</h5>
+                                        <h:inputText class="input" value="#{beanReporte.fechaDesde}">
+                                            <f:convertDateTime pattern="dd-MM-yyyy"/>  
+                                        </h:inputText>
+                                    </div>
+                                </div>
+                                <div class="login_section input_filter">
+                                    <div class="login_icon">
+                                        <i class='bx bxs-filter-alt' ></i>
+                                    </div>
+                                    <div class="login_inputs">
+                                        <h5 class="login_location">Fecha Hasta</h5>
+                                        <h:inputText class="input" value="#{beanReporte.fechaHasta}">
+                                            <f:convertDateTime pattern="dd-MM-yyyy"/>  
+                                        </h:inputText>
+                                    </div>
+                                </div>
+                                <div class="login_section input_filter">
+                                    <div class="login_icon">
+                                        <i class='bx bxs-filter-alt' ></i>
+                                    </div>
+                                    <div class="login_inputs">
+                                        <h5 class="login_location">Filtro pedido</h5>
+                                        <h:selectOneMenu class="input combo" value="#{beanReporte.filtroPedido}">
+                                            <f:selectItem itemValue="Pendientes"></f:selectItem>
+                                            <f:selectItem itemValue="En Proceso"></f:selectItem>
+                                            <f:selectItem itemValue="Finalizado"></f:selectItem>
+                                        </h:selectOneMenu>
+                                    </div>
+                                </div>
+                                <div class="reporte_buttons" style="margin-bottom: 2rem;">
+                                    <h:commandButton class="button reporte_btn" 
+                                                     value="Reporte pedidos" 
+                                                     action="#{beanReporte.mostrarReportePedido()}"></h:commandButton>                 
+                                </div>
+                                <div class="login_section input_filter">
+                                    <div class="login_icon">
+                                        <i class='bx bxs-filter-alt' ></i>
+                                    </div>
+                                    <div class="login_inputs">
+                                        <h5 class="login_location">Filtro ventas</h5>
+                                        <h:selectOneMenu class="input combo" value="#{beanReporte.filtroCobro}">
+                                            <f:selectItems value="#{beanReporte.listaCobro()}"></f:selectItems>
                                         </h:selectOneMenu>
                                     </div>
                                 </div>
                                 <div class="reporte_buttons">
-                                    <h:outputLabel class="filter" value="filtro aplicado:"></h:outputLabel>
-                                    <!--<h:commandButton class="button reporte_btn" value="Reporte pedidos"></h:commandButton>-->
-                                    <div class="report_container">
-                                        <h:dataTable class="report_table">
-                                            <h:column>
-                                                <f:facet name="header">ID Pedido</f:facet>
-                                                Pedido 1
-                                                Pedido 2
-                                            </h:column>
-                                            <h:column>
-                                                <f:facet name="header">ID Pedido</f:facet>
-                                                Pendiente
-                                                Entregado
-                                            </h:column>
-                                        </h:dataTable>
-                                        
-                                        <!--======== Ejemplo de la tabla final ========-->
-                                        <table class="report_table">
-                                            <thead>
-                                                <tr>
-                                                    <th>ID Pedido</th>
-                                                    <th>Estado</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>Pedido ejemplo 123</td>
-                                                    <td>Pendiente</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Pedido ejemplo 1234</td>
-                                                    <td>En despacho</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Pedido ejemplo 12345</td>
-                                                    <td>Entregado</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <hr/>
-                                    <!--<h:commandButton class="button reporte_btn" value="Reporte factura por cobro"></h:commandButton>-->
-                                    <div class="report_container">
-                                        
-                                        <!--======== Ejemplo de la tabla final ========-->
-                                        <table class="report_table">
-                                            <thead>
-                                                <tr>
-                                                    <th>ID Factura</th>
-                                                    <th>Cobro</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>Factura ejemplo 123</td>
-                                                    <td>Contado</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Factura ejemplo 1234</td>
-                                                    <td>Credito</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Factura ejemplo 12345</td>
-                                                    <td>Contado</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                    <h:commandButton class="button reporte_btn"
+                                                     value="Reporte ventas"
+                                                     action="#{beanReporte.mostrarReporteCobro()}"></h:commandButton>                 
+                                </div>
+                                <div class="login_section">
+                                    <h:outputLabel class="errorLabel" escape="false" value="#{beanReporte.mensaje}"></h:outputLabel>
                                 </div>
                             </div>
                         </div>
