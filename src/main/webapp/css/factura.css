@@ -59,7 +59,58 @@
     right: 0;
 }
 
+.tableCart tbody tr{
+    background: var(--first-color);
+    display: block;
+    margin: 1rem 0;
+    border-radius: .35rem;
+    padding-bottom: .5rem
+}
 
+.tableCart tbody tr h4{
+    padding: .5rem 0;
+    background: var(--container-color-3);
+    border: 2px dashed;
+    border-radius: .3rem;
+    width: 80%;
+    margin: 0 auto;
+    padding-bottom: .5rem;
+}
+
+.tableCart tbody tr td{
+    display: block;
+}
+
+.costs_container{
+    margin: 3rem 0;
+    background: var(--first-color);
+    border-radius: .5rem;
+}
+
+.costs_container h1{
+    padding: 1rem;
+}
+
+.user_info{
+    background: var(--first-color);
+    padding: 1rem;
+    text-align: center;
+}
+
+.user_info .data{
+    margin: .5rem 0;
+}
+
+.user_info h2{
+    border-bottom: 2px dashed;
+    padding: 2rem 0;
+}
+
+.divisorFact{
+    height: .3rem;
+    background: white;
+    margin-top: 2rem;
+}
 /* breakpoints */
 
 @media screen and (min-width: 767px) {

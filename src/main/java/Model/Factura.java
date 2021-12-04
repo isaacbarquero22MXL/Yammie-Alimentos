@@ -16,13 +16,15 @@ public class Factura {
     private double Impuesto;
     private double CostoEnvio;
     private double TotalNeto;
-    private String Metodo;
+    
+    private Pedido pedido;
+    private TipoCobro Metodo;
     
 
     public Factura() {
     }
 
-    public Factura(String ID, double Descuento, double TotalBruto, double Impuesto, double CostoEnvio, double TotalNeto, String Metodo) {
+    public Factura(String ID, double Descuento, double TotalBruto, double Impuesto, double CostoEnvio, double TotalNeto, TipoCobro Metodo) {
         this.ID = ID;
         this.Descuento = Descuento;
         this.TotalBruto = TotalBruto;
@@ -80,16 +82,28 @@ public class Factura {
         this.TotalNeto = TotalNeto;
     }
 
-    public String getMetodo() {
+    public TipoCobro getMetodo() {
         return Metodo;
     }
 
-    public void setMetodo(String Metodo) {
+    public void setMetodo(TipoCobro Metodo) {
         this.Metodo = Metodo;
+    }
+
+    public Pedido getPedido() {
+        return pedido;
+    }
+
+    public void setPedido(Pedido pedido) {
+        this.pedido = pedido;
     }
     
     
+    public double aplicaDescuento(){
+        return pedido.calculaCosto() * (Descuento / 100.0);
+    }
     
-    
-    
+    public double costoTotal(){
+        return this.TotalNeto = TotalBruto + Impuesto - aplicaDescuento();
+    }
 }

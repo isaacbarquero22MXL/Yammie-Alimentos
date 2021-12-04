@@ -24,7 +24,7 @@
         <title>Yammie - Despacho</title>
     </h:head>
     <h:body onload="showTime()">
-        <h:form acceptcharset="UTF-8">
+        <h:form acceptcharset="UTF-8" id="form">
             <main class="section" id="main">
                 <div class="login_logo" onclick="animation()">
                     <img src="images/YammieLogo.png" alt="logo" class="login_logo-img"/>
@@ -32,7 +32,12 @@
                 <div class="login_content">
                     <a href="principal.xhtml" class="login_back"><i class='bx bx-arrow-back go_back'></i>Regresar</a>
                     <h1 class="login_title">Despacho</h1>
-                    <div class="time" id="time"></div>   
+                    <div class="time" id="time">
+                        <h:outputLabel class="date"></h:outputLabel>
+                        <h:outputLabel class="dateTime"></h:outputLabel>
+                        <h:inputText class="inputDate" value="#{beanDespacho.fechaSalida}" style="opacity: 1; height: 0"/>
+                        <h:inputText class="inputDateTime" value="#{beanDespacho.horaEnvio}" style="opacity: 1; height: 0"/>
+                    </div>   
                     <div class="login_form sign_in section">
                         <div class="login_content-container container_two">
                             <div class="login_form section">
@@ -43,8 +48,10 @@
                                     <div class="login_inputs">
                                         <h5 class="login_location">N° Factura</h5>
                                         <h:selectOneMenu value="#{beanDespacho.IDFactura}" class="input combo">
-                                            <f:selectItem itemValue="Seleccione"></f:selectItem>
-                                            <f:selectItem itemValue="P0001"></f:selectItem>
+                                            <f:selectItems value="#{beanDespacho.itemFactura}"></f:selectItems>
+                                            <f:ajax listener="#{beanDespacho.seteaFacturaSeleccionado()}"
+                                                    render=":form:wrapper :form:wrapper2">
+                                            </f:ajax>
                                         </h:selectOneMenu>
                                     </div>
                                 </div>
@@ -67,13 +74,75 @@
                     </div>
                     <div class="factura_btn">
                         <h:commandButton class="button" value="Realizar Despacho" type="submit" action="#{beanDespacho.realizaDespacho()}"></h:commandButton>
+                        <h:commandButton class="button" value="Detalle pedido" type="button" onclick="showDetails()"></h:commandButton>
                     </div>
                 </div>
             </main>
+            <div class="order_details">
+                <div class="nav_close-details" id="nav-close-details">
+                    <i class='bx bx-x'></i>
+                </div>
+                <h2 class="order_details-title">Detalle</h2>
+                <h:panelGroup id="wrapper2">
+                    <div class="user_info">
+                                    <h2>Cliente: <br/><h:outputLabel class="data" 
+                                                                     value="#{beanDespacho.facturaSeleccionada.pedido.usuario.retornaNombreCompleto()}"
+                                                                     rendered="#{beanDespacho.facturaSeleccionada.pedido.usuario != null}">
+                                        </h:outputLabel></h2>
+                                    <h2>Horario de Entrega: <br/><h:outputLabel class="data"
+                                                                                value="#{beanDespacho.facturaSeleccionada.pedido.horaEntrega}"
+                                                                                rendered="#{beanDespacho.facturaSeleccionada.pedido.usuario != null}">
+                                        </h:outputLabel></h2>
+                                    <h2>Dirección Entrega: <br/><h:outputLabel class="data"
+                                                                               value="#{beanDespacho.facturaSeleccionada.pedido.objectDireccion.obtenerDetalleDireccion()}"
+                                                                               rendered="#{beanDespacho.facturaSeleccionada.pedido.usuario != null}">
+                                        </h:outputLabel></h2>
+                                </div>
+                </h:panelGroup>
+                
+                <div class="details grid">
+                    <h:panelGroup id="wrapper" class="cart_items">
+                        <h:dataTable id="table" value="#{beanDespacho.facturaSeleccionada.pedido.listaCarrito}" var="datos" class="tableCart">
+                            <h:column>
+                                <h:graphicImage class="details-img" value="#{datos.foto}"></h:graphicImage> 
+                                <h4>₡<h:outputLabel value="#{datos.precio}"></h:outputLabel></h4>
+                            </h:column>
+                        </h:dataTable>
+                        <hr class="divisorFact"/>
+                        <div class="costs_container">
+                            <h1 class="cost_product">
+                                Subtotal: ₡
+                                <h:outputLabel value="#{beanDespacho.facturaSeleccionada.pedido.calculaCosto()}"/>
+                            </h1>
+                        </div>
+                        <div class="costs_container">
+                            <h1 class="cost_product">
+                                Impuesto: ₡
+                                <h:outputLabel value="#{beanDespacho.facturaSeleccionada.pedido.calculaCostoImpuesto()}"/>
+                            </h1>
+                        </div>
+                        <div class="costs_container">
+                            <h1 class="cost_product">
+                                Descuento: ₡
+                                <h:outputLabel value="#{beanDespacho.facturaSeleccionada.aplicaDescuento()}"
+                                               rendered="#{beanDespacho.facturaSeleccionada.pedido != null}"/>
+                            </h1>
+                        </div>
+                        <div class="costs_container">
+                            <h1 class="cost_product">
+                                Total: ₡
+                                <h:outputLabel value="#{beanDespacho.facturaSeleccionada.costoTotal()}"
+                                               rendered="#{beanDespacho.facturaSeleccionada.pedido != null}"/>
+                            </h1>
+                        </div>
+                    </h:panelGroup>
+                </div>
+            </div>
             <!-- Scroll reveal JS -->
             <script src="js/scrollreveal.min.js"></script>
             <!-- ingreso JS  -->
             <script src="js/ingreso.js"></script>
+            <script src="js/factura.js"></script>
             <script src="js/despacho.js"></script>
             <script src="js/jquery-3.6.0.min.js"></script>
         </h:form>

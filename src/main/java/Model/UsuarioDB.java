@@ -244,4 +244,34 @@ public class UsuarioDB {
 
         }
     }
+    
+    public Usuario obtenerUsuarioPorCedula(String cedula) throws SNMPExceptions{
+        String select = "";
+        Usuario user = null;
+        try {
+
+            //Se instancia la clase de acceso a datos
+            AccesoDatos accesoDatos = new AccesoDatos();
+
+            //Se crea la sentencia de búsqueda
+            select = "SELECT * from Usuario where cedula = '"+ cedula +"' and logActivo = 1";
+            //Se ejecuta la sentencia SQL
+            ResultSet rsPA = accesoDatos.ejecutaSQLRetornaRS(select);
+            //Se llena el arryaList con los proyectos   
+            while (rsPA.next()) {
+                user = ObtenerInfoUsuario(rsPA.getString(2), rsPA.getString(1));
+            }
+            rsPA.close();
+
+        } catch (SQLException e) {
+            throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION,
+                    e.getMessage(), e.getErrorCode());
+        } catch (Exception e) {
+            throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION,
+                    e.getMessage());
+        } finally {
+
+        }
+        return user;
+    }
 }

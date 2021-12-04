@@ -161,6 +161,34 @@ public class ProductoDB {
         }
     }
     
+    public void actualizaCantidadProducto(Producto producto, String accion) throws SNMPExceptions {
+        String strSQL = "";
+        try {
+
+            //Se intancia la clase de acceso a datos
+            AccesoDatos accesoDatos = new AccesoDatos();
+
+            if(accion.equals("-1")){
+                strSQL = "update Producto set CantMinVenta = CantMinVenta - 1 where ID = ?";
+            }else{
+                strSQL = "update Producto set CantMinVenta = CantMinVenta + 1 where ID = ?";
+            }
+
+            PreparedStatement update = accesoDatos.getDbConn().prepareStatement(strSQL);
+            update.setString(1, producto.getIdentificacion());
+
+            update.executeUpdate();
+            update.close();
+            accesoDatos.cerrarConexion();
+        } catch (SQLException e) {
+            throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage(), e.getErrorCode());
+        } catch (Exception e) {
+            throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());
+        } finally {
+
+        }
+    }
+    
     public void eliminaProducto(Producto producto, Usuario usuario) throws SNMPExceptions {
         String strSQL = "";
         try {

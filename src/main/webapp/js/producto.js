@@ -84,7 +84,7 @@ function showCartMenu() {
     }
 }
 
-let main = document.getElementById('main');
+let main = document.getElementById('c');
 main.addEventListener('click', () => {
     submenus.forEach(menu => menu.classList.remove('submenu_show'));
     itemSubmenu.forEach(item => item.style.width = "1rem");
@@ -94,6 +94,15 @@ main.addEventListener('click', () => {
 
 
 // ======== articulos carrito ======
+let point = document.querySelectorAll('.cart_full');
+
+function addFullCart() {
+    point[0].style.opacity = "1";
+}
+
+function removeFullCart() {
+    point[0].style.opacity = "0";
+}
 
 let panelCarrito = document.querySelectorAll('.cart_items-panel');
 let cartClose = document.getElementById('nav-close-cart');
@@ -105,6 +114,7 @@ if (cartClose) {
 
 function showCartItemPanel() {
     panelCarrito[0].classList.add('show_cart_item');
+    removeFullCart();
 }
 
 let filterClose = document.getElementById('nav-close-filter');

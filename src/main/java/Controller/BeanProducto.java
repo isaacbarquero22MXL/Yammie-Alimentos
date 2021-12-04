@@ -268,6 +268,16 @@ public class BeanProducto {
             Mensaje = e.getMessage();
         }
     }
+    
+    public void refrescaCantidadProdcutos(Producto prod, String accion){
+        ProductoDB proDB = new ProductoDB();
+        try {
+            proDB.actualizaCantidadProducto(prod, accion);
+            this.listaProductos = proDB.listaProductos();
+        } catch (Exception e) {
+            Mensaje = e.getMessage();
+        }
+    }
 
     public void setearProductoSeleccionado(Producto producto) {
         // se setean las propiedades de los input

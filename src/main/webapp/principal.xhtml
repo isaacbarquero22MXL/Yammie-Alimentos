@@ -31,7 +31,8 @@
             <header class="header" id="header">
                 <nav class="nav main_container">
                     <div class="nav_logo">
-                        <a href="index.xhtml">
+                        <h:commandLink action="index.xhtml">
+                            <f:ajax listener="#{beanPedido.devolverProductosYCerrar()}"></f:ajax>
                             <img src="images/YammieLogo.png" alt="" class="nav_logo-img"/>
                             <span class="snowflake"></span>
                             <span class="snowflake"></span>
@@ -39,7 +40,16 @@
                             <span class="snowflake"></span>
                             <span class="snowflake"></span>
                             <span class="snowflake"></span>
-                        </a>
+                        </h:commandLink>
+<!--                        <a href="index.xhtml">
+                            <img src="images/YammieLogo.png" alt="" class="nav_logo-img"/>
+                            <span class="snowflake"></span>
+                            <span class="snowflake"></span>
+                            <span class="snowflake"></span>
+                            <span class="snowflake"></span>
+                            <span class="snowflake"></span>
+                            <span class="snowflake"></span>
+                        </a>-->
                     </div>
                     <div class="nav_menu" id="nav-menu">
                         <ul class="nav_list">
@@ -80,8 +90,7 @@
                                                 <h:commandLink type="button" value="Despacho"
                                                                class="submenu_link" 
                                                                action="despacho"
-                                                               rendered="#{!beanUsuario.isRol('Cliente')}">
-
+                                                               rendered="#{!beanUsuario.isRol('Cliente')}">                                                  
                                                 </h:commandLink>
                                             </li>
                                             <li class="submenu_item">
@@ -112,6 +121,7 @@
                                                 <h:commandLink type="button" value="Cerrar Sesión"
                                                                class="submenu_link"
                                                                action="index">
+                                                    <f:ajax listener="#{beanPedido.devolverProductosYCerrar()}"></f:ajax>
                                                 </h:commandLink>
                                             </li>
                                         </ul>
@@ -120,7 +130,9 @@
                             </li>
                             <li class="nav_item item_submenu">
                                 <div class="cart_container">
-                                    <i class='bx bxs-cart-alt cart' onclick="showCartMenu()"></i>
+                                    <i class='bx bxs-cart-alt cart' onclick="showCartMenu()">
+                                        <div class="cart_full"></div>
+                                    </i>
                                     <div class="submenu submenu_cart">
                                         <h6>Carrito de compra</h6>
                                         <ul class="submenu_list">
@@ -165,10 +177,11 @@
                                             <h3><h:outputLabel value="#{datos.descripcion}"></h:outputLabel></h3>
                                             <div class="product_data-info">
                                                 <h2>₡<h:outputLabel value="#{datos.precio}"></h:outputLabel></h2>
-                                                <h:commandButton image="images/delete.png" class="button addCart removeCart">
-                                                    <f:ajax listener="#{beanPedido.quitarCarrito(datos)}" 
-                                                            execute="@form" 
-                                                            render=":form:wrapper"/>
+                                                <h:commandButton image="images/delete.png" 
+                                                                 class="button addCart removeCart"
+                                                                 action="#{beanPedido.quitarCarrito(datos)}">
+                                                    <f:ajax listener="#{beanProducto.refrescaCantidadProdcutos(datos, '+1')}" 
+                                                            render=":form:wrapper :form:wrapper2"/>
                                                 </h:commandButton>
                                             </div>
                                         </div>
@@ -192,23 +205,28 @@
                     <div class="product_filter">
                         <h:commandButton type="button" value="Filtro" class="button filter_btn" onclick="showFilterPanel()"></h:commandButton>
                     </div>
-                    <h:dataTable id="catalago" value="#{beanProducto.listaProductos}" var="datos" class="product_container grid tableProduct">
-                        <h:column>
-                            <div class="product_data">
-                                <h:graphicImage value="#{datos.foto}" class="product_img"></h:graphicImage>
-                                <div class="product_data_container">
-                                    <h3><h:outputLabel value="#{datos.descripcion}"></h:outputLabel></h3>
-                                    <div class="product_data-info">
-                                        <h2>₡<h:outputLabel value="#{datos.precio}"></h:outputLabel></h2>
-                                        <h:commandButton  image="images/cart.png" class="button addCart" type="submit"
-                                                          action="#{beanPedido.agregaCarrito(datos)}" >
-                                            <f:ajax render=":form:wrapper"/>
-                                        </h:commandButton>
-                                    </div>
-                                </div> 
-                            </div>                    
-                        </h:column>
-                    </h:dataTable>
+                    <h:panelGroup id="wrapper2">
+                        <h:dataTable id="catalago" value="#{beanProducto.listaProductos}" var="datos" class="product_container grid tableProduct">
+                            <h:column>
+                                <div class="product_data">
+                                    <h:graphicImage value="#{datos.foto}" class="product_img"></h:graphicImage>
+                                    <div class="product_data_container">
+                                        <h3><h:outputLabel value="#{datos.descripcion}"></h:outputLabel></h3>
+                                        <h3>Disponible: X<h:outputLabel value="#{datos.cantMinVenta}"></h:outputLabel></h3>
+                                        <div class="product_data-info">
+                                            <h2>₡<h:outputLabel value="#{datos.precio}"></h:outputLabel></h2>
+                                            <h:commandButton  image="images/cart.png" class="button addCart" type="submit"
+                                                              action="#{beanPedido.agregaCarrito(datos)}"
+                                                              rendered="#{beanUsuario.isRol('Cliente')}">
+                                                <f:ajax render=":form:wrapper :form:wrapper2" 
+                                                        listener="#{beanProducto.refrescaCantidadProdcutos(datos, '-1')}"/>
+                                            </h:commandButton>
+                                        </div>
+                                    </div> 
+                                </div>                    
+                            </h:column>
+                        </h:dataTable>
+                    </h:panelGroup>
                 </section>
             </main>
 
@@ -349,7 +367,6 @@
                     <img src="images/check.png" alt="" class="check_img"/>
                 </div>
             </div>
-
 
 
             <!-- Scroll reveal JS -->

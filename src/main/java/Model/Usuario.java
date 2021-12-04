@@ -135,6 +135,8 @@ public class Usuario {
         this.rolSeleccionado = rolSeleccionado;
     }
     
-    
+    public String retornaNombreCompleto(){
+        return this.nombre + " " + this.apellido + " " + apellido2;
+    }
     
 }

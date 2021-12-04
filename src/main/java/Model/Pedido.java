@@ -13,12 +13,15 @@ import java.util.ArrayList;
  * @author Bryan e Isaac
  */
 public class Pedido {
+
     private String ID;
     private Usuario usuario;
     private String HoraEntrega;
     private int direccion;
     private EstadoPedido estadoPedido;
     
+    private Direccion objectDireccion;
+
     private ArrayList<Producto> listaCarrito;
 
     public Pedido() {
@@ -81,7 +84,31 @@ public class Pedido {
         this.listaCarrito = listaCarrito;
     }
 
-   
-    
-    
+    public Direccion getObjectDireccion() {
+        return objectDireccion;
+    }
+
+    public void setObjectDireccion(Direccion objectDireccion) {
+        this.objectDireccion = objectDireccion;
+    }
+
+    public double calculaCosto() {
+        double costo = 0;
+        for (Producto producto : listaCarrito) {
+            costo += producto.getPrecio();
+        }
+
+        return costo;
+    }
+
+    public double calculaCostoImpuesto() {
+        double impuesto = calculaCosto() * 0.15;
+        return impuesto;
+    }
+
+    public double total() {
+        double total = calculaCosto() + calculaCostoImpuesto();
+        return total;
+    }
+
 }

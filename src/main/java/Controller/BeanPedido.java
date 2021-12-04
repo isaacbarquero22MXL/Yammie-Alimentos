@@ -15,6 +15,7 @@ import Model.Horario;
 import Model.Pedido;
 import Model.PedidoDB;
 import Model.Producto;
+import Model.ProductoDB;
 import Model.Provincia;
 import Model.Usuario;
 import java.sql.Date;
@@ -179,11 +180,16 @@ public class BeanPedido {
     }
 
     public void agregaCarrito(Producto pro) {
-        listaCarrito.add(pro);
-        addRemoveAnimation();
-        PrimeFaces.current().executeScript("addCartImg('" + pro.getFoto() + "')");
-        PrimeFaces.current().executeScript("add()");
-        total();
+        if (pro.getCantMinVenta() > 0) {
+            listaCarrito.add(pro);
+            addRemoveAnimation();
+            PrimeFaces.current().executeScript("addCartImg('" + pro.getFoto() + "')");
+            PrimeFaces.current().executeScript("add()");
+            PrimeFaces.current().executeScript("addFullCart()");
+            total();
+        } else {
+            PrimeFaces.current().executeScript("alert(\"Ya no hay de este producto.\")");
+        }
     }
 
     public void quitarCarrito(Producto pro) throws InterruptedException {
@@ -245,14 +251,21 @@ public class BeanPedido {
     }
 
     public void aceptarPedido() {
-        Pedido pedido = construyePedido();
-        try {
-            pedidoDB.insertaPedido(pedido);
-            listaCarrito = new ArrayList<>();
-            PrimeFaces.current().executeScript("showConfirmPanel()");
-            PrimeFaces.current().executeScript("confirmAnimations()");
-        } catch (Exception e) {
-            PrimeFaces.current().executeScript("alert(\"" + e.toString() + "\")");
+        if (listaCarrito.size() != 0) {
+            Pedido pedido = construyePedido();
+            try {
+                pedidoDB.insertaPedido(pedido);
+                listaCarrito = new ArrayList<>();
+                clearFields();
+                PrimeFaces.current().executeScript("showConfirmPanel()");
+                PrimeFaces.current().executeScript("confirmAnimations()");
+                PrimeFaces.current().executeScript("removeFullCart()");
+            } catch (Exception e) {
+                PrimeFaces.current().executeScript("alert(\"" + e.toString() + "\")");
+            }
+        }else{
+            PrimeFaces.current().executeScript("alert(\"No se puede aceptar un pedido "
+                    + "el cual no tenga productos a comprar.\")");
         }
     }
 
@@ -341,5 +354,22 @@ public class BeanPedido {
         } catch (Exception e) {
         }
         this.listaDirecciones = lista;
+    }
+
+    public void devolverProductosYCerrar() {
+        ProductoDB pDB = new ProductoDB();
+        try {
+            for (Producto producto : listaCarrito) {
+                pDB.actualizaCantidadProducto(producto, "+1");
+            }
+            FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        } catch (Exception e) {
+        }
+    }
+    
+    public void clearFields(){
+        this.impuesto = 0;
+        this.total = 0;
+        this.valorProductos = 0;
     }
 }

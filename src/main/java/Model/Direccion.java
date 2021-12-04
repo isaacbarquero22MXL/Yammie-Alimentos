@@ -126,5 +126,16 @@ public class Direccion {
         this.ObjetcBar = ObjetcBar;
     }
     
+    public String obtenerDetalleDireccion(){
+        String hilera = this.ObjetcProv.getDsc_provincia() + ", " +
+                this.ObjetcCant.getDsc_canton() + ", " +
+                this.ObjetcDist.getDsc_Distrito() + ", " +
+                this.ObjetcBar.getDsc_barrio();
+        if(!otrasSennas.equals("")){
+            hilera += ", " + otrasSennas;
+        }
+        
+        return hilera;
+    }
     
 }

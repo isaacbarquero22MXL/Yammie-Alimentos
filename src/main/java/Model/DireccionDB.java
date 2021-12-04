@@ -352,4 +352,69 @@ public class DireccionDB {
         }
         return exist;
     }
+
+    public Direccion obtenerDireccion(int ID) throws SNMPExceptions {
+        String select = "";
+        Direccion direccion = null;
+
+        try {
+
+            //Se instancia la clase de acceso a datos
+            AccesoDatos accesoDatos = new AccesoDatos();
+
+            //Se crea la sentencia de búsqueda
+            select
+                    = "select * from Direccion where ID = " + ID;
+            //Se ejecuta la sentencia SQL
+            ResultSet rsPA = accesoDatos.ejecutaSQLRetornaRS(select);
+            //Se llena el arryaList con los proyectos   
+            while (rsPA.next()) {
+                float provincia = rsPA.getFloat("Provincia");
+                float canton = rsPA.getFloat("Canton");
+                float distrito = rsPA.getFloat("Distrito");
+                float barrio = rsPA.getFloat("Barrio");
+                direccion = new Direccion();
+                for (Provincia prov : listaProvincias()) {
+                    if (provincia == prov.getCod_provincia()) {
+                        direccion.setObjetcProv(prov);
+                        break;
+                    }
+                }
+
+                for (Canton cant : SeleccionarCantonPorProvincia(provincia)) {
+                    if (canton == cant.getCod_canton()) {
+                        direccion.setObjetcCant(cant);
+                        break;
+                    }
+                }
+
+                for (Distrito dist : SeleccionarDistritoporCanton(provincia, canton)) {
+                    if (distrito == dist.getCod_distrito()) {
+                        direccion.setObjetcDist(dist);
+                        break;
+                    }
+                }
+
+                for (Barrio bar : SeleccionarBarrioporDistrito(provincia, canton, distrito)) {
+                    if (barrio == bar.getCod_barrio()) {
+                        direccion.setObjetcBar(bar);
+                        break;
+                    }
+                }
+                direccion.setOtrasSennas(rsPA.getString(6));
+            }
+            
+            rsPA.close();
+
+        } catch (SQLException e) {
+            throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION,
+                    e.getMessage(), e.getErrorCode());
+        } catch (Exception e) {
+            throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION,
+                    e.getMessage());
+        } finally {
+
+        }
+        return direccion;
+    }
 }
