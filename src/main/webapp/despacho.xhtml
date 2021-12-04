@@ -70,7 +70,7 @@
                         </div>
                     </div>
                     <div class="login_section">
-                        <h:outputLabel class="errorLabel" value="#{beanDespacho.mensaje}"></h:outputLabel>
+                        <h:outputLabel class="errorLabel" escape="false" value="#{beanDespacho.mensaje}"></h:outputLabel>
                     </div>
                     <div class="factura_btn">
                         <h:commandButton class="button" value="Realizar Despacho" type="submit" action="#{beanDespacho.realizaDespacho()}"></h:commandButton>

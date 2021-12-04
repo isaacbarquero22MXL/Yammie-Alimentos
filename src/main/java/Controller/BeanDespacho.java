@@ -5,6 +5,7 @@
  */
 package Controller;
 
+import Model.Despacho;
 import Model.DespachoBD;
 import Model.Factura;
 import Model.FacturaDB;
@@ -160,7 +161,17 @@ public class BeanDespacho {
     public void realizaDespacho() {
         mensaje = "";
         if (validaCampos()) {
-            // aqui se llama la DB;
+            Despacho desapcho = construyeDespacho();
+            try {
+                dBD.insertaDespacho(desapcho, user);
+                mensaje = "<p class=\"errorLabel\" style=\"color: #00C32C\">"
+                        + "Se ha realizado el despacho de esta factura.<p>";
+                seteaIDDespacho();
+                refrescaFactura();
+                clearFields();
+            } catch (Exception e) {
+                mensaje = e.toString();
+            }
         }
     }
     
@@ -199,5 +210,20 @@ public class BeanDespacho {
                 break;
             }
         }
+    }
+    
+    public Despacho construyeDespacho(){
+        Despacho despacho = new Despacho();
+        despacho.setIdentificacion(this.ID);
+        despacho.setFechaSalida(FechaSalida);
+        despacho.setHoraEnvio(HoraEnvio);
+        despacho.setMedioenvio(medioenvio);
+        despacho.setFactura(facturaSeleccionada);
+        return despacho;
+    }
+    
+    public void clearFields(){
+        this.medioenvio = MedioEnvio.EnvioDirecto;
+        this.IDFactura = "0";
     }
 }

@@ -72,12 +72,12 @@ public class FacturaDB {
 
             insert.executeUpdate();
             insert.close();
-            
+
             strSQL = "insert into EstadoFactura values (?,?)";
             PreparedStatement insert2 = accesoDatos.getDbConn().prepareStatement(strSQL);
             insert2.setString(1, factura.getID());
             insert2.setString(2, "Procesada");
-            
+
             insert2.executeUpdate();
             insert2.close();
 
@@ -140,5 +140,43 @@ public class FacturaDB {
 
         }
         return lista;
+    }
+
+    public void finalizaFactura(Factura factura, Usuario user) throws SNMPExceptions {
+        String strSQL = "";
+        try {
+
+            //Se intancia la clase de acceso a datos
+            AccesoDatos accesoDatos = new AccesoDatos();
+
+            strSQL = "Update factura set fechaModificacion = ?, Usuariomodificacion = ? "
+                    + " where ID = ?";
+
+            PreparedStatement insert = accesoDatos.getDbConn().prepareStatement(strSQL);
+            insert.setDate(1, new Date(Calendar.getInstance().getTime().getTime()));
+            insert.setString(2, user.getCedula());
+            insert.setString(3, factura.getID());
+
+            insert.executeUpdate();
+            insert.close();
+
+            strSQL = "Update EstadoFactura set Estado = 'Finalizada' where IDFactura = ?";
+            PreparedStatement insert2 = accesoDatos.getDbConn().prepareStatement(strSQL);
+            insert2.setString(1, factura.getID());
+
+            insert2.executeUpdate();
+            insert2.close();
+
+            PedidoDB pDB = new PedidoDB();
+            pDB.actualizaEstadoPedido(factura.getPedido(), user, "Finalizado");
+            
+            accesoDatos.cerrarConexion();
+        } catch (SQLException e) {
+            throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage(), e.getErrorCode());
+        } catch (Exception e) {
+            throw new SNMPExceptions(SNMPExceptions.SQL_EXCEPTION, e.getMessage());
+        } finally {
+
+        }
     }
 }

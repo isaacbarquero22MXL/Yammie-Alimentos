@@ -13,15 +13,15 @@ import java.sql.Date;
  */
 public class Despacho {
     private String Identificacion ;
-    private Date FechaSalida;
-    private Date HoraEnvio;
+    private String FechaSalida;
+    private String HoraEnvio;
     private MedioEnvio medioenvio;
     private Factura factura;
 
     public Despacho() {
     }
 
-    public Despacho(String Identificacion, Date FechaSalida, Date HoraEnvio, MedioEnvio medioenvio, Factura factura) {
+    public Despacho(String Identificacion, String FechaSalida, String HoraEnvio, MedioEnvio medioenvio, Factura factura) {
         this.Identificacion = Identificacion;
         this.FechaSalida = FechaSalida;
         this.HoraEnvio = HoraEnvio;
@@ -37,20 +37,28 @@ public class Despacho {
         this.Identificacion = Identificacion;
     }
 
-    public Date getFechaSalida() {
+    public String getFechaSalida() {
         return FechaSalida;
     }
 
-    public void setFechaSalida(Date FechaSalida) {
+    public void setFechaSalida(String FechaSalida) {
         this.FechaSalida = FechaSalida;
     }
 
-    public Date getHoraEnvio() {
+    public String getHoraEnvio() {
         return HoraEnvio;
     }
 
-    public void setHoraEnvio(Date HoraEnvio) {
+    public void setHoraEnvio(String HoraEnvio) {
         this.HoraEnvio = HoraEnvio;
+    }
+
+    public Factura getFactura() {
+        return factura;
+    }
+
+    public void setFactura(Factura factura) {
+        this.factura = factura;
     }
 
     public MedioEnvio getMedioenvio() {
