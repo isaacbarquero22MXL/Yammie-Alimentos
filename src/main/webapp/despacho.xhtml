@@ -76,6 +76,10 @@
                         <h:commandButton class="button" value="Realizar Despacho" type="submit" action="#{beanDespacho.realizaDespacho()}"></h:commandButton>
                         <h:commandButton class="button" value="Detalle pedido" type="button" onclick="showDetails()"></h:commandButton>
                     </div>
+                    <div class="support">
+                        <a href="" class="support_link">Ayuda
+                            <i class='bx bxs-help-circle support_icon'></i></a>
+                    </div>
                 </div>
             </main>
             <div class="order_details">
@@ -85,21 +89,21 @@
                 <h2 class="order_details-title">Detalle</h2>
                 <h:panelGroup id="wrapper2">
                     <div class="user_info">
-                                    <h2>Cliente: <br/><h:outputLabel class="data" 
-                                                                     value="#{beanDespacho.facturaSeleccionada.pedido.usuario.retornaNombreCompleto()}"
-                                                                     rendered="#{beanDespacho.facturaSeleccionada.pedido.usuario != null}">
-                                        </h:outputLabel></h2>
-                                    <h2>Horario de Entrega: <br/><h:outputLabel class="data"
-                                                                                value="#{beanDespacho.facturaSeleccionada.pedido.horaEntrega}"
-                                                                                rendered="#{beanDespacho.facturaSeleccionada.pedido.usuario != null}">
-                                        </h:outputLabel></h2>
-                                    <h2>Dirección Entrega: <br/><h:outputLabel class="data"
-                                                                               value="#{beanDespacho.facturaSeleccionada.pedido.objectDireccion.obtenerDetalleDireccion()}"
-                                                                               rendered="#{beanDespacho.facturaSeleccionada.pedido.usuario != null}">
-                                        </h:outputLabel></h2>
-                                </div>
+                        <h2>Cliente: <br/><h:outputLabel class="data" 
+                                                         value="#{beanDespacho.facturaSeleccionada.pedido.usuario.retornaNombreCompleto()}"
+                                                         rendered="#{beanDespacho.facturaSeleccionada.pedido.usuario != null}">
+                            </h:outputLabel></h2>
+                        <h2>Horario de Entrega: <br/><h:outputLabel class="data"
+                                                                    value="#{beanDespacho.facturaSeleccionada.pedido.horaEntrega}"
+                                                                    rendered="#{beanDespacho.facturaSeleccionada.pedido.usuario != null}">
+                            </h:outputLabel></h2>
+                        <h2>Dirección Entrega: <br/><h:outputLabel class="data"
+                                                                   value="#{beanDespacho.facturaSeleccionada.pedido.objectDireccion.obtenerDetalleDireccion()}"
+                                                                   rendered="#{beanDespacho.facturaSeleccionada.pedido.usuario != null}">
+                            </h:outputLabel></h2>
+                    </div>
                 </h:panelGroup>
-                
+
                 <div class="details grid">
                     <h:panelGroup id="wrapper" class="cart_items">
                         <h:dataTable id="table" value="#{beanDespacho.facturaSeleccionada.pedido.listaCarrito}" var="datos" class="tableCart">

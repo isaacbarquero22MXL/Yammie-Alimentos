@@ -231,6 +231,14 @@ button{
 .nav_close,
 .nav_toggle{
     color: var(--title-color);
+    cursor: pointer;
+}
+
+.index_close{
+    top: 1rem;
+    right: 1rem;
+    position: absolute;
+    font-size: 3rem;
 }
 
 .nav_toggle{
@@ -706,6 +714,24 @@ button{
     }
 }
 
+/* ======== Help container =========== */
+.support{
+    position: absolute;
+    right: 1.5rem;
+    top: .5rem;
+    font-weight: var(--font-black);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.support_link{
+    color: var(--container-color-2);
+}
+
+.support_icon{
+    font-size: 1rem;
+}
 
 /*================= Skecth Particles ==============*/
 canvas {

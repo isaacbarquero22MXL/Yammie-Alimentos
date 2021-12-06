@@ -144,7 +144,7 @@ public class BeanUsuario {
                             }
                         } else {
                             mensaje = "El correo o contraseña no pertencen"
-                                    + " a ningún usuario registrado. Intenta de nuevo.";
+                                    + " a ningún usuario registrado o activo. Intenta de nuevo.";
                         }
                     } catch (SNMPExceptions ex) {
                         mensaje = ex.toString();
@@ -424,7 +424,7 @@ public class BeanUsuario {
         LinkedList<Barrio> listaBar = null;
 
         try {
-            listaPro = dDB.listaProvincias();
+            listaPro = dDB.listaProvincias(); 
 
             for (Direccion direccion : dDB.ObtenerDirreciones(usuarioGlobal.getCedula())) {
                 Provincia pro = null;

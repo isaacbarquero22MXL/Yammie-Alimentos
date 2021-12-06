@@ -70,11 +70,15 @@
                             </div>
                         </div>
                     </div>
-                     <div class="login_section">
-                         <h:outputLabel class="errorLabel" escape="false" value="#{beanEstadoUsuario.mensaje}"></h:outputLabel>
+                    <div class="login_section">
+                        <h:outputLabel class="errorLabel" escape="false" value="#{beanEstadoUsuario.mensaje}"></h:outputLabel>
                     </div>
                     <div class="factura_btn">
                         <h:commandButton class="button" value="Confirmar" type="submit" action="#{beanEstadoUsuario.realizaAccion()}"></h:commandButton>
+                    </div>
+                    <div class="support">
+                        <a href="" class="support_link">Ayuda
+                            <i class='bx bxs-help-circle support_icon'></i></a>
                     </div>
                 </div>
             </main>

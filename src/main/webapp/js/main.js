@@ -1,5 +1,5 @@
 // ================== MUESTRA EL MENU =================
-const navMenu = document.getElementById('nav-menu'),
+const navMenuBar = document.getElementById('nav-menu'),
         navToggle = document.getElementById('nav-toggle'),
         navClose = document.getElementById('nav-close')
 
@@ -7,7 +7,7 @@ const navMenu = document.getElementById('nav-menu'),
 /* Valida si la constante existe */
 if (navToggle) {
     navToggle.addEventListener('click', () => {
-        navMenu.classList.add('show-menu')
+        navMenuBar.classList.add('show-menu')
     })
 }
 
@@ -15,13 +15,13 @@ if (navToggle) {
 /* Valida si la constante existe */
 if (navClose) {
     navClose.addEventListener('click', () => {
-        navMenu.classList.remove('show-menu')
+        navMenuBar.classList.remove('show-menu')
     })
 }
 
 const navLink = document.querySelectorAll('.nav_link');
 function linkAction() {
-    navMenu.classList.remove('show-menu');
+    navMenuBar.classList.remove('show-menu');
 }
 navLink.forEach(n => n.addEventListener('click', linkAction));
 
