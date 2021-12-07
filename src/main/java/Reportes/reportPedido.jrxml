@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="1000" pageHeight="900" columnWidth="960" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6491ceb4-3210-49a6-bd2a-f1125b5902df">
 	<property name="ireport.zoom" value="1.0"/>
-	<property name="ireport.x" value="0"/>
+	<property name="ireport.x" value="101"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="fechaDesde" class="java.lang.String"/>
 	<parameter name="fechaHasta" class="java.lang.String"/>
 	<parameter name="filtro" class="java.lang.String"/>
 	<queryString>
-		<![CDATA[select * from Pedido where FechaCreacion >= $P{fechaDesde} and FechaCreacion <= $P{fechaHasta} and EstadoPedido = $P{filtro}
-]]>
+		<![CDATA[select * from Pedido where FechaCreacion >= $P{fechaDesde} and FechaCreacion <= $P{fechaHasta} and EstadoPedido = $P{filtro}]]>
 	</queryString>
 	<field name="ID" class="java.lang.String"/>
 	<field name="IDCliente" class="java.lang.String"/>
@@ -65,7 +64,7 @@
 				<textElement textAlignment="Justified" verticalAlignment="Middle">
 					<font size="16" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[ $F{EstadoPedido} ]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{EstadoPedido}]]></textFieldExpression>
 			</textField>
 			<textField pattern="K:mm a, z">
 				<reportElement mode="Opaque" x="152" y="10" width="236" height="24" forecolor="#FFFFFF" backcolor="#B47F30" uuid="ec6123c5-4245-4694-8033-ae0be01e05cf"/>
@@ -218,7 +217,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{EstadoPedido}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField pattern="dd/MM/yyyy">
 				<reportElement mode="Transparent" x="432" y="0" width="106" height="30" forecolor="#B47F30" backcolor="#B47F30" uuid="eb650999-a9db-4734-86f7-bdac10fa8a9c"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
@@ -226,7 +225,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{FechaCreacion}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField pattern="dd/MM/yyyy">
 				<reportElement mode="Transparent" x="538" y="0" width="102" height="30" forecolor="#B47F30" backcolor="#B47F30" uuid="578a4db8-b671-46ce-9532-0ea4e386ba02"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12" isBold="true"/>

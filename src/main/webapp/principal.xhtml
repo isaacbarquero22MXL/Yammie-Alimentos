@@ -41,15 +41,15 @@
                             <span class="snowflake"></span>
                             <span class="snowflake"></span>
                         </h:commandLink>
-<!--                        <a href="index.xhtml">
-                            <img src="images/YammieLogo.png" alt="" class="nav_logo-img"/>
-                            <span class="snowflake"></span>
-                            <span class="snowflake"></span>
-                            <span class="snowflake"></span>
-                            <span class="snowflake"></span>
-                            <span class="snowflake"></span>
-                            <span class="snowflake"></span>
-                        </a>-->
+                        <!--                        <a href="index.xhtml">
+                                                    <img src="images/YammieLogo.png" alt="" class="nav_logo-img"/>
+                                                    <span class="snowflake"></span>
+                                                    <span class="snowflake"></span>
+                                                    <span class="snowflake"></span>
+                                                    <span class="snowflake"></span>
+                                                    <span class="snowflake"></span>
+                                                    <span class="snowflake"></span>
+                                                </a>-->
                     </div>
                     <div class="nav_menu" id="nav-menu">
                         <ul class="nav_list">
@@ -82,8 +82,8 @@
                                             <li class="submenu_item">
                                                 <h:commandLink type="button" value="Registro Productos" 
                                                                class="submenu_link"
-                                                               action="registroProducto"
-                                                               rendered="#{!beanUsuario.isRol('Cliente')}">                                                                  
+                                                               action="#{beanProducto.redirigeMantenimientoProducto()}"
+                                                               rendered="#{!beanUsuario.isRol('Cliente')}">
                                                 </h:commandLink>
                                             </li>
                                             <li class="submenu_item">
@@ -275,7 +275,7 @@
                                 <a href="#" class="footer_link">Salir</a>
                             </li>
                             <li>
-                                <a href="#" class="footer_link">Ayuda</a>
+                                <a href="PDF/Manual de Ayuda .pdf" download="Manual de Ayuda .pdf" class="footer_link">Ayuda</a>
                             </li>
                             <li>
                                 <a href="#" class="footer_link">Productos</a>
@@ -317,11 +317,45 @@
                 <div class="filter_data">
                     <h1>Filtros</h1>
                     <ul class="filter_list">
-                        <li class="item_filter">Todos</li>
-                        <li class="item_filter">Frituras</li>
-                        <li class="item_filter">Bebidas</li>
-                        <li class="item_filter">Pastas</li>
-                        <li class="item_filter">Repostería</li>
+                        <li class="item_filter">
+                            <h:commandButton value="Todos"
+                                             action="#{beanProducto.muestraCatalogoFiltrado('Todos')}">
+                                <!--<f:ajax render=":form:wrapper2"></f:ajax>-->
+                            </h:commandButton>
+                        </li>
+                        <li class="item_filter">
+                            <h:commandButton value="Frituras"
+                                             action="#{beanProducto.muestraCatalogoFiltrado('Frituras')}">
+                                <!--<f:ajax render=":form:wrapper2"></f:ajax>-->
+                            </h:commandButton>
+                        </li>
+                        <li class="item_filter">
+                             <h:commandButton value="Bebidas"
+                                         action="#{beanProducto.muestraCatalogoFiltrado('Bebidas')}">
+                            <!--<f:ajax render=":form:wrapper2"></f:ajax>-->
+                        </h:commandButton>
+                        </li>
+                        <li class="item_filter">
+                             <h:commandButton value="Pastas"
+                                         action="#{beanProducto.muestraCatalogoFiltrado('Pastas')}">
+                            <!--<f:ajax render=":form:wrapper2"></f:ajax>-->
+                        </h:commandButton>
+                        </li>
+                        <li class="item_filter">
+                            <h:commandButton value="Postres"
+                                         action="#{beanProducto.muestraCatalogoFiltrado('Postres')}">
+                            <!--<f:ajax render=":form:wrapper2"></f:ajax>-->
+                        </h:commandButton></li>
+                        <li class="item_filter">
+                            <h:commandButton value="Ensaladas"
+                                         action="#{beanProducto.muestraCatalogoFiltrado('Ensaladas')}">
+                            <!--<f:ajax render=":form:wrapper2"></f:ajax>-->
+                        </h:commandButton></li>
+                        <li class="item_filter">
+                            <h:commandButton value="Almuerzo"
+                                         action="#{beanProducto.muestraCatalogoFiltrado('Almuerzos')}">
+                            <!--<f:ajax render=":form:wrapper2"></f:ajax>-->
+                        </h:commandButton></li>
                     </ul>
                 </div>
             </div>

@@ -8,9 +8,7 @@
 	<parameter name="filtro" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[select p.ID, p.IDCliente, p.EstadoPedido, f.metodoPago, f.TotalNeto, p.FechaCreacion from Pedido p, Factura f
-where f.metodoPago = $P{filtro} and f.IDPedido = p.ID and p.FechaCreacion >= $P{fechaDesde} and p.FechaCreacion <= $P{fechaHasta}
-
-]]>
+where f.metodoPago = $P{filtro} and f.IDPedido = p.ID and p.FechaCreacion >= $P{fechaDesde} and p.FechaCreacion <= $P{fechaHasta}]]>
 	</queryString>
 	<field name="ID" class="java.lang.String"/>
 	<field name="IDCliente" class="java.lang.String"/>
@@ -201,7 +199,7 @@ where f.metodoPago = $P{filtro} and f.IDPedido = p.ID and p.FechaCreacion >= $P{
 				</textElement>
 				<textFieldExpression><![CDATA[$F{TotalNeto}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField pattern="dd/MM/yyyy">
 				<reportElement mode="Transparent" x="472" y="0" width="138" height="30" forecolor="#B47F30" backcolor="#B47F30" uuid="35d60197-f5f6-4373-a2c1-ab34ff482f63"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12" isBold="true"/>

@@ -105,7 +105,8 @@
                             <h:commandButton class="button updateBtn" value="Actualizar Producto" type="submit" action="#{beanProducto.actualizaProducto()}"></h:commandButton>
                         </div>
                         <div class="mante_btn-options">
-                            <h:commandButton class="button" title="Ayuda" type="button" value="Ayuda"></h:commandButton>
+                            <a href="PDF/Manual de Ayuda .pdf" download="Manual de Ayuda .pdf" class="button">Ayuda</a>
+                            <!--<h:commandButton class="button" title="Ayuda" type="button" value="Ayuda"></h:commandButton>-->
                             <h:commandButton class="button" title="Nuevo" value="Nuevo" action="#{beanProducto.cleanProduct()}"></h:commandButton>
                         </div>
                     </div>
@@ -143,7 +144,7 @@
                         </h:column>  
                     </h:dataTable>
                     <div class="support">
-                        <a href="" class="support_link">Ayuda
+                        <a href="PDF/Manual de Ayuda .pdf" download="Manual de Ayuda .pdf" class="support_link">Ayuda
                             <i class='bx bxs-help-circle support_icon'></i></a>
                     </div>
                 </div>

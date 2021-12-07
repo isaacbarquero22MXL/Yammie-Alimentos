@@ -315,10 +315,18 @@
 .item_filter{
     margin: 1rem 0;
     cursor: pointer;
-    transition: .3s;
 }
 
-.item_filter:hover{
+.item_filter input{
+    border: none;
+    background: none;
+    color: white;
+    font-size: 1.5rem;
+    transition: .3s;
+    cursor: pointer;
+}
+
+.item_filter input:hover{
     color: hsl(var(--hue), 4%, 70%);
     transform: scale(1.2);
 }

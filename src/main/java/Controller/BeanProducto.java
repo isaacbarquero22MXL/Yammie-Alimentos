@@ -154,8 +154,6 @@ public class BeanProducto {
         this.listaCarrito = listaCarrito;
     }
 
-    
-   
     // Métodos 
     public boolean VerificarCampos() {
         boolean isValid = true;
@@ -268,8 +266,8 @@ public class BeanProducto {
             Mensaje = e.getMessage();
         }
     }
-    
-    public void refrescaCantidadProdcutos(Producto prod, String accion){
+
+    public void refrescaCantidadProdcutos(Producto prod, String accion) {
         ProductoDB proDB = new ProductoDB();
         try {
             proDB.actualizaCantidadProducto(prod, accion);
@@ -341,8 +339,8 @@ public class BeanProducto {
             Mensaje = e.getMessage();
         }
     }
-    
-    public void cleanProduct(){
+
+    public void cleanProduct() {
         this.identificacion = "";
         this.cantMinVenta = 0;
         this.descripcion = "";
@@ -352,10 +350,10 @@ public class BeanProducto {
         this.path = "";
         productoSelected = null;
     }
-    
-    public String catalogoProductos(){
+
+    public String catalogoProductos() {
         String hilera = "";
-        
+
         for (Producto producto : listaProductos) {
             hilera += "<div class=\"product_data\">"
                     + "<img src=\"" + producto.getFoto() + "\" alt=\"papas\" class=\"product_img\">"
@@ -363,13 +361,33 @@ public class BeanProducto {
                     + " <h3>" + producto.getDescripcion() + "</h3>"
                     + "<div class=\"product_data-info\">"
                     + "<h2>₡" + producto.getPrecio() + "</h2>"
-                    + "<h:commandButton value=\"Agregar\" action=\"#{beanProducto.agregaCarrito("+ producto +")}\" class=\"button addCart\">Agregar<i class='bx bxs-cart-alt'></i></h:commandButton>"
+                    + "<h:commandButton value=\"Agregar\" action=\"#{beanProducto.agregaCarrito(" + producto + ")}\" class=\"button addCart\">Agregar<i class='bx bxs-cart-alt'></i></h:commandButton>"
                     + "</div>"
                     + "</div>"
                     + "</div>";
         }
         return hilera;
     }
+
+    public void muestraCatalogoFiltrado(String filtro) {
+        refrescaListaProductos();
+        ArrayList<Producto> listaFiltrada = new ArrayList<>();
+
+        if (filtro.equals("Todos")) {
+            listaFiltrada = listaProductos;
+        } else {
+            for (Producto producto : listaProductos) {
+                if (producto.getTipo().toString().equals(filtro)) {
+                    listaFiltrada.add(producto);
+                }
+            }
+        }
+        
+        listaProductos = listaFiltrada;
+    }
     
-    
+    public String redirigeMantenimientoProducto(){
+        refrescaListaProductos();
+        return "registroProducto";
+    }
 }
